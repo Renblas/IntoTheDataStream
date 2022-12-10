@@ -14,6 +14,6 @@ class GameObject {
         this.img = config.img || "noImage";
     }
     draw() {
-        camera.drawImg(this.img, this.pos, this.size);
+        cameraObj.drawImg(this.img, this.pos, this.size);
     }
 }

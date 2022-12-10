@@ -5,6 +5,7 @@
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
 
+// call once, starts loading process for listed assets
 function loadAssets() {
     for (var i = 0; i < GlobalLoadArray.length; i++) {
         var filePath = GlobalLoadArray[i]; // full file path
@@ -34,4 +35,9 @@ function loadAssets() {
             GlobalImageObject[fileName].src = filePath;
         }
     }
+}
+
+// checks if assets are loaded
+function checkIsLoaded() {
+	return loadedCounter == GlobalLoadArray.length; 
 }

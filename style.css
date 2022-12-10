@@ -1,9 +1,19 @@
 body {
     margin: 0;
     padding: 0;
+    align-content: center;
 }
 
 canvas {
     margin: 0;
     padding: 0;
+
+    image-rendering: pixelated;
+    width: 512 * 2;
+    height: 288 * 2;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

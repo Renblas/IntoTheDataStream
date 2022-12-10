@@ -10,6 +10,6 @@ class Camera {
     }
     drawImg(img, pos, size) {
         var img = GlobalImageObject[img];
-        ctx.drawImage(img, pos.x, pos.y, size.x, size.y);
+        ctx.drawImage(img, pos.x, pos.y, 32, 32);
     }
 }

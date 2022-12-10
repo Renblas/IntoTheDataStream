@@ -14,7 +14,6 @@ var deltaTimeFixed; // USE THIS IN ALL PHYSICS CALCS, given deltaTime from p5js 
 var textSize_Const; // USE WHEN SETTING SIZE OF ALL TEXT, standardizes text size accross resolutions
 var imgSize_Const; // above but for images
 
-var isLoaded = false; // are all of the game assets loaded
 const GlobalLoadArray = [
     // put file paths of all items to be loaded here
     "img/bullet.png",
@@ -26,7 +25,7 @@ const GlobalLoadArray = [
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
-var camera;
+var cameraObj;
 var testGameObject;
 
 /*
@@ -34,7 +33,7 @@ var testGameObject;
  *  - called once after page is loaded, from p5js library
  */
 function setup() {
-    createCanvas(windowWidth, windowWidth * (9 / 16)); // creates p5js canvas in 16:9 ratio
+    createCanvas(512, 288); // creates p5js canvas in 16:9 ratio
 
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
     ctx = canvas.getContext("2d");
@@ -47,12 +46,14 @@ function setup() {
     angleMode(DEGREES);
 
     // test code
-    camera = new Camera();
+    cameraObj = new Camera();
 
     testGameObject = new GameObject({
         img: "player",
         pos: new Vec2(30, 40),
     });
+
+    loadAssets();
 }
 
 /*
@@ -60,6 +61,14 @@ function setup() {
  *  - called x times per second, from p5js library
  */
 function draw() {
+    background(200);
+
+    if (!checkIsLoaded()) {
+        textSize(16 * textSize_Const);
+        text("loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets", 10, 40);
+        return;
+    }
+
     // do physics update x times
     deltaTimeFixed = deltaTime / 1000 / (UPS / FPS);
     for (let i = 0; i < UPS / FPS; i++) {
@@ -75,10 +84,8 @@ function draw() {
  *  - draws current game state to screen
  */
 function drawGame() {
-    background(200);
-
     textSize(16 * textSize_Const);
-    text("Hello World", 10, 60);
+    text("Drawing Game", 10, 200);
 
     testGameObject.draw();
 }
