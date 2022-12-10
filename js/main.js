@@ -26,6 +26,9 @@ const GlobalLoadArray = [
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
+var camera;
+var testGameObject;
+
 /*
  *  Setup Function
  *  - called once after page is loaded, from p5js library
@@ -42,6 +45,14 @@ function setup() {
     frameRate(FPS);
 
     angleMode(DEGREES);
+
+    // test code
+    camera = new Camera();
+
+    testGameObject = new GameObject({
+        img: "player",
+        pos: new Vec2(30, 40),
+    });
 }
 
 /*
@@ -68,6 +79,8 @@ function drawGame() {
 
     textSize(16 * textSize_Const);
     text("Hello World", 10, 60);
+
+    testGameObject.draw();
 }
 
 /*

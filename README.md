@@ -27,4 +27,6 @@ Used for making kewl buttons
 
 ## Reference
 
-All angles are in DEGREES
+All angles are in DEGREES; also make sure you account for negative angles
+
+use "deltaTimeFixed" NOT deltaTime
