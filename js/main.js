@@ -54,7 +54,7 @@ function setup() {
 
     testGameObject = new GameObject({
         img: "player",
-        pos: new Vec2(30, 40),
+        pos: new Vec2(1, 1),
     });
 
     loadAssets();
