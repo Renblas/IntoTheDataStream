@@ -37,6 +37,8 @@ function setup() {
 
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
     ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+
 
     textSize_Const = height / 200;
     imgSize_Const = height / 200;
