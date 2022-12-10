@@ -1,12 +1,12 @@
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0%;
+    padding: 0%;
     align-content: center;
 }
 
 canvas {
-    margin: 0;
-    padding: 0;
+    margin: 0%;
+    padding: 0%;
 
     image-rendering: pixelated;
     width: 512 * 2;

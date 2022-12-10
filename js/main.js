@@ -39,6 +39,8 @@ function setup() {
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
 
+    canvas.style.cssText = "";
+
 
     textSize_Const = height / 200;
     imgSize_Const = height / 200;
