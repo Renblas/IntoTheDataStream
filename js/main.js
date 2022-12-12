@@ -27,6 +27,7 @@ const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
 var cameraObj;
 var world;
+var player;
 var testGameObject;
 
 /*
@@ -65,7 +66,7 @@ function draw() {
     }
 
     if (!inGame) {
-        initNewGame(testMap1);
+        initNewGame("testMap1");
 
         inGame = true;
     }
@@ -85,7 +86,7 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: map });
+    world = new World({ map: testMap1 });
     //player = new Player();
     cameraObj = new Camera();
 

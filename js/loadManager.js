@@ -3,6 +3,8 @@
  *  By: Caleb
  */
 
+var attachedFile;
+
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
 
 // call once, starts loading process for listed assets
@@ -20,18 +22,14 @@ function loadAssets() {
             var jsFile = document.createElement("script");
             jsFile.onload = function () {
                 loadedCounter += 1;
-                DEBUG_ENABLED && console.log(this.src + " is loaded...");
             };
-            DEBUG_ENABLED && console.log(fileName + " loading started");
             jsFile.src = filePath;
             document.getElementsByTagName("body")[0].appendChild(jsFile);
         } else if (fileExtension === "png" || fileExtension === "jpg") {
             GlobalImageObject[fileName] = new Image();
             GlobalImageObject[fileName].onload = function () {
                 loadedCounter += 1;
-                DEBUG_ENABLED && console.log(this.src + " is loaded...");
             };
-            DEBUG_ENABLED && console.log(fileName + " loading started");
             GlobalImageObject[fileName].src = filePath;
         }
     }
@@ -39,5 +37,5 @@ function loadAssets() {
 
 // checks if assets are loaded
 function checkIsLoaded() {
-	return loadedCounter == GlobalLoadArray.length; 
+    return loadedCounter == GlobalLoadArray.length;
 }
