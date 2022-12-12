@@ -37,7 +37,7 @@ function setup() {
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
-    canvas.style.cssText = "";
+    //canvas.style.cssText = "";
 
     frameRate(FPS);
 
