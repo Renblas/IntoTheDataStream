@@ -72,10 +72,8 @@ function draw() {
     }
 
     // do physics update x times
-    deltaTimeFixed = deltaTime / 1000 / (UPS / FPS);
-    for (let i = 0; i < UPS / FPS; i++) {
-        updateGame();
-    }
+    deltaTimeFixed = (deltaTime / 1000);
+    updateGame();
 
     // draw Game Once
     drawGame();
@@ -87,14 +85,8 @@ function draw() {
  */
 function initNewGame(map) {
     world = new World({ map: testMap1 });
-    //player = new Player();
+    player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
-
-    testGameObject = new GameObject({
-        pos: new Vec2(1, 1),
-        size: new Vec2(1, 1),
-        img: "enemy",
-    });
 }
 
 /*
@@ -106,11 +98,13 @@ function drawGame() {
     text("Drawing Game", 10, 200);
 
     world.draw();
-    testGameObject.draw();
+    player.draw();
 }
 
 /*
  *  Update Game Function
  *  - update game state, mainly for physics
  */
-function updateGame() {}
+function updateGame() {
+    player.update();
+}
