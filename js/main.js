@@ -11,6 +11,8 @@ const FPS = 30; // draw frames per second
 const UPS = 30; // physics updates per second, MULTIPLE OF 30 ONLY!!
 var deltaTimeFixed; // USE THIS IN ALL PHYSICS CALCS, given deltaTime from p5js but /1000 and adjusted for more physics frames per sec
 
+var inGame = false;
+
 const GlobalLoadArray = [
     // put file paths of all items to be loaded here
     "img/bullet.png",
@@ -18,7 +20,7 @@ const GlobalLoadArray = [
     "img/floor.png",
     "img/player.png",
     "img/wall.png",
-    "js/maps/testMap1.js"
+    "js/maps/testMap1.js",
 ];
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
@@ -40,16 +42,7 @@ function setup() {
     //canvas.style.cssText = "";
 
     frameRate(FPS);
-
     angleMode(DEGREES);
-
-    // test code
-    cameraObj = new Camera();
-
-    testGameObject = new GameObject({
-        img: "player",
-        pos: new Vec2(1, 1),
-    });
 
     loadAssets();
 }
@@ -64,21 +57,17 @@ function draw() {
     if (!checkIsLoaded()) {
         textSize(16);
         text(
-            "loaded " +
-                loadedCounter +
-                " / " +
-                GlobalLoadArray.length +
-                " assets",
+            "loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets",
             10,
             40
         );
         return;
     }
 
-    if (!world) {
-        world = new World({
-            map: testMap1,
-        });
+    if (!inGame) {
+        initNewGame(testMap1);
+
+        inGame = true;
     }
 
     // do physics update x times
@@ -92,6 +81,22 @@ function draw() {
 }
 
 /*
+ *  Initialize New Game
+ *  - start new game
+ */
+function initNewGame(map) {
+    world = new World({ map: map });
+    //player = new Player();
+    cameraObj = new Camera();
+
+    testGameObject = new GameObject({
+        pos: new Vec2(1, 1),
+        size: new Vec2(1, 1),
+        img: "enemy",
+    });
+}
+
+/*
  *  Draw Game Function
  *  - draws current game state to screen
  */
@@ -101,7 +106,6 @@ function drawGame() {
 
     world.draw();
     testGameObject.draw();
-    
 }
 
 /*
