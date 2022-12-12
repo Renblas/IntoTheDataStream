@@ -18,6 +18,7 @@ const GlobalLoadArray = [
     "img/floor.png",
     "img/player.png",
     "img/wall.png",
+    "js/maps/testMap1.js"
 ];
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
@@ -43,7 +44,6 @@ function setup() {
     angleMode(DEGREES);
 
     // test code
-    world = new World();
     cameraObj = new Camera();
 
     testGameObject = new GameObject({
@@ -75,6 +75,12 @@ function draw() {
         return;
     }
 
+    if (!world) {
+        world = new World({
+            map: testMap1,
+        });
+    }
+
     // do physics update x times
     deltaTimeFixed = deltaTime / 1000 / (UPS / FPS);
     for (let i = 0; i < UPS / FPS; i++) {
@@ -93,7 +99,9 @@ function drawGame() {
     textSize(16);
     text("Drawing Game", 10, 200);
 
+    world.draw();
     testGameObject.draw();
+    
 }
 
 /*

@@ -9,8 +9,8 @@ canvas {
     padding: 0%;
 
     image-rendering: pixelated;
-    width: 512 * 2;
-    height: 288 * 2;
+    width: 512 * 1;
+    height: 288 * 1;
 
     position: absolute;
     top: 50%;
