@@ -11,7 +11,9 @@ const FPS = 30; // draw frames per second
 const UPS = 30; // physics updates per second, MULTIPLE OF 30 ONLY!!
 var deltaTimeFixed; // USE THIS IN ALL PHYSICS CALCS, given deltaTime from p5js but /1000 and adjusted for more physics frames per sec
 
+var menuState = "game";
 var inGame = false;
+var gameIsPaused = false;
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
@@ -55,21 +57,38 @@ function draw() {
             10,
             40
         );
+        // TODO Loading Screen
         return;
     }
 
-    if (!inGame) {
-        initNewGame("testMap1");
+    if (menuState == "game") {
+        // init new game if not already in one
+        if (!inGame) {
+            initNewGame("testMap1");
+            inGame = true;
+        }
 
-        inGame = true;
+        if (deltaTime >= 250) {
+            // if large lag, (from going to other screen), pause game
+            gameIsPaused = true;
+            return;
+        }
+
+        // if game is not paused
+        if (gameIsPaused) {
+            // if is paused
+            drawGame();
+            menu__Pause.draw();
+            return;
+        }
+
+        // Do physics update
+        deltaTimeFixed = deltaTime / 1000;
+        updateGame();
+
+        // draw Game
+        drawGame();
     }
-
-    // do physics update x times
-    deltaTimeFixed = (deltaTime / 1000);
-    updateGame();
-
-    // draw Game Once
-    drawGame();
 }
 
 /*
@@ -87,9 +106,6 @@ function initNewGame(map) {
  *  - draws current game state to screen
  */
 function drawGame() {
-    textSize(16);
-    text("Drawing Game", 10, 200);
-
     world.draw();
     player.draw();
 }

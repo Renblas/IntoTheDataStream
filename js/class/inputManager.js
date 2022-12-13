@@ -28,15 +28,18 @@ class Key {
 class InputManager {
     constructor() {
         // WASD Keys
-        this.moveUpKey = new Key(87);
-        this.moveDownKey = new Key(83);
-        this.moveLeftKey = new Key(65);
-        this.moveRightKey = new Key(68);
+        this.moveUpKey = new Key("w");
+        this.moveDownKey = new Key("s");
+        this.moveLeftKey = new Key("a");
+        this.moveRightKey = new Key("d");
 
-        //
+        // player move vector
         this.playerMoveVec = new Vec2(0, 0);
+
+        this.escapeKey = new Key("Escape")
     }
     update() {
+        // update Key state for player movement
         this.moveUpKey.update();
         this.moveDownKey.update();
         this.moveLeftKey.update();
@@ -50,11 +53,13 @@ class InputManager {
         this.playerMoveVec.y += this.moveDownKey.smoothFloat;
 
         this.playerMoveVec.normalize();
+
+        // escape key stuff
     }
 }
 
 function keyPressed() {
-    switch (keyCode) {
+    switch (key) {
         case inputManager.moveDownKey.keyCode:
             inputManager.moveDownKey.pressed();
             break;
@@ -67,6 +72,11 @@ function keyPressed() {
         case inputManager.moveRightKey.keyCode:
             inputManager.moveRightKey.pressed();
             break;
+        case inputManager.escapeKey.keyCode:
+            if (menuState == "game") {
+                gameIsPaused = !gameIsPaused;
+            }
+            break;
 
         default:
             break;
@@ -74,7 +84,7 @@ function keyPressed() {
 }
 
 function keyReleased() {
-    switch (keyCode) {
+    switch (key) {
         case inputManager.moveDownKey.keyCode:
             inputManager.moveDownKey.released();
             break;
@@ -87,7 +97,7 @@ function keyReleased() {
         case inputManager.moveRightKey.keyCode:
             inputManager.moveRightKey.released();
             break;
-
+        
         default:
             break;
     }
