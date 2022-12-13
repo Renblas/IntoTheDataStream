@@ -3,7 +3,15 @@
  *  By: Caleb
  */
 
-var attachedFile;
+const GlobalLoadArray = [
+    // put file paths of all items to be loaded here
+    "img/bullet.png",
+    "img/enemy.png",
+    "img/floor.png",
+    "img/player.png",
+    "img/wall.png",
+    "js/maps/testMap1.js",
+];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
 

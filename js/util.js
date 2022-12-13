@@ -21,4 +21,16 @@ class Vec2 {
         // return direction of vector in degrees
         return atan2(this.y, this.x);
     }
+    normalize() {
+        var magnitude = this.mag();
+        if (!magnitude) {
+            return;
+        }
+        this.x = this.x / magnitude;
+        this.y = this.y / magnitude;
+    }
+    set(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }

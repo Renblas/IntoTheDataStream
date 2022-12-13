@@ -13,19 +13,10 @@ var deltaTimeFixed; // USE THIS IN ALL PHYSICS CALCS, given deltaTime from p5js 
 
 var inGame = false;
 
-const GlobalLoadArray = [
-    // put file paths of all items to be loaded here
-    "img/bullet.png",
-    "img/enemy.png",
-    "img/floor.png",
-    "img/player.png",
-    "img/wall.png",
-    "js/maps/testMap1.js",
-];
-
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
 var cameraObj;
+var inputManager;
 var world;
 var player;
 var testGameObject;
@@ -46,6 +37,8 @@ function setup() {
     angleMode(DEGREES);
 
     loadAssets();
+
+    inputManager = new InputManager();
 }
 
 /*
@@ -106,5 +99,6 @@ function drawGame() {
  *  - update game state, mainly for physics
  */
 function updateGame() {
+    inputManager.update();
     player.update();
 }

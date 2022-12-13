@@ -1,6 +1,6 @@
 /*
  *  Player Class
- *  By: Caleb
+ *  By: Caleb, Givens
  */
 class Player {
     constructor(pos) {
@@ -16,17 +16,10 @@ class Player {
         cameraObj.drawImg(this.img, this.pos, this.size);
     }
     update() {
-        if (keyIsDown(65)) {
-            this.pos.x -= this.moveSpeed * deltaTimeFixed;
-        }
-        if (keyIsDown(68)) {
-            this.pos.x += this.moveSpeed * deltaTimeFixed;
-        }
-        if (keyIsDown(83)) {
-            this.pos.y += this.moveSpeed * deltaTimeFixed;
-        }
-        if (keyIsDown(87)) {
-            this.pos.y -= this.moveSpeed * deltaTimeFixed;
-        }
+        this.move();
+    }
+    move() {
+        this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
+        this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
     }
 }

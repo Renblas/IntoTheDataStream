@@ -12,6 +12,7 @@ class GameObject {
         this.size = config.size || new Vec2(1, 1); // use declared size or default to 1, 1 tile
         
         this.img = config.img || "noImage";
+        this.collidable = false;
     }
     draw() {
         cameraObj.drawImg(this.img, this.pos, this.size);
