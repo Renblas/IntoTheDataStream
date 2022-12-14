@@ -76,8 +76,6 @@ class InputManager {
         if (this.playerMoveVec.mag() > 1) {
             this.playerMoveVec.normalize();
         }
-
-        // escape key stuff
     }
 }
 

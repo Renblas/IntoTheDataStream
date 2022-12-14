@@ -5,11 +5,21 @@
 
 const GlobalLoadArray = [
     // put file paths of all items to be loaded here
+    "lib/p5.collide2d.js",
+
+    "js/class/camera.js",
+    "js/class/gameobject.js",
+    "js/class/player.js",
+    "js/class/world.js",
+
+    "js/menu/menuPause.js",
+
     "img/bullet.png",
     "img/enemy.png",
     "img/floor.png",
     "img/player.png",
     "img/wall.png",
+
     "js/maps/testMap1.js",
 ];
 

@@ -11,7 +11,7 @@ const FPS = 30; // draw frames per second
 const UPS = 30; // physics updates per second, MULTIPLE OF 30 ONLY!!
 var deltaTimeFixed = 0; // USE THIS IN ALL PHYSICS CALCS, given deltaTime from p5js but /1000 and adjusted for more physics frames per sec
 
-var menuState = "game";
+var menuState = "main";
 var inGame = false;
 var gameIsPaused = false;
 
@@ -49,6 +49,11 @@ function setup() {
  */
 function draw() {
     background(200);
+
+    if (menuState == "main") {
+        menu__Main.draw();
+        return;
+    }
 
     if (!checkIsLoaded()) {
         textSize(16);
@@ -88,6 +93,8 @@ function draw() {
 
         // draw Game
         drawGame();
+
+        return;
     }
 }
 
