@@ -106,6 +106,8 @@ function initNewGame(map) {
  *  - draws current game state to screen
  */
 function drawGame() {
+    cameraObj.update();
+
     world.draw();
     player.draw();
 }
