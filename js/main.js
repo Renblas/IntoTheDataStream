@@ -15,6 +15,8 @@ var menuState = "main";
 var inGame = false;
 var gameIsPaused = false;
 
+var minLoadingScreenTime = 0.25;
+
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
 var cameraObj;
@@ -38,8 +40,6 @@ function setup() {
     frameRate(FPS);
     angleMode(DEGREES);
 
-    loadAssets();
-
     inputManager = new InputManager();
 }
 
@@ -55,7 +55,9 @@ function draw() {
         return;
     }
 
-    if (!checkIsLoaded()) {
+    if (!checkIsLoaded() || minLoadingScreenTime > 0) {
+        background(255, 200, 200);
+        textAlign(LEFT, TOP);
         textSize(16);
         text(
             "loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets",
@@ -63,6 +65,8 @@ function draw() {
             40
         );
         // TODO Loading Screen
+
+        minLoadingScreenTime -= deltaTime / 1000;
         return;
     }
 

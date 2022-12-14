@@ -23,6 +23,7 @@ var menu__Main = {
         this.buttonMain.textSize = 36; //Size of the text (integer)
         this.buttonMain.onPress = function () {
             menuState = "game";
+            loadAssets();
         };
 
         this.initialized = true;
