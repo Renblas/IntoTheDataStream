@@ -8,13 +8,34 @@ class Key {
     constructor(keyCode) {
         this.keyCode = keyCode;
         this.isPressed = false;
+
+        this.timeHeld = 0;
+        this.maxMoveTime = 0.25;
+
         this.smoothFloat = 0;
     }
     update() {
         if (this.isPressed) {
-            this.smoothFloat = 1;
+            var num;
+            if (this.timeHeld < this.maxMoveTime) {
+                this.timeHeld += deltaTimeFixed;
+                num = sqrt(this.timeHeld / this.maxMoveTime);
+                if (num > 1) num = 1;
+            } else {
+                num = 1;
+            }
+            this.smoothFloat = num;
         } else {
-            this.smoothFloat = 0;
+            var num = 0;
+            if (this.timeHeld > 0) {
+                this.timeHeld -= deltaTimeFixed;
+                num = sqrt(this.timeHeld / this.maxMoveTime);
+                if (!num) num = 0;
+            } else {
+                this.timeHeld = 0;
+            }
+
+            this.smoothFloat = num;
         }
     }
     pressed() {
@@ -36,7 +57,7 @@ class InputManager {
         // player move vector
         this.playerMoveVec = new Vec2(0, 0);
 
-        this.escapeKey = new Key("Escape")
+        this.escapeKey = new Key("Escape");
     }
     update() {
         // update Key state for player movement
@@ -52,7 +73,9 @@ class InputManager {
         this.playerMoveVec.y -= this.moveUpKey.smoothFloat;
         this.playerMoveVec.y += this.moveDownKey.smoothFloat;
 
-        this.playerMoveVec.normalize();
+        if (this.playerMoveVec.mag() > 1) {
+            this.playerMoveVec.normalize();
+        }
 
         // escape key stuff
     }
@@ -97,7 +120,7 @@ function keyReleased() {
         case inputManager.moveRightKey.keyCode:
             inputManager.moveRightKey.released();
             break;
-        
+
         default:
             break;
     }
