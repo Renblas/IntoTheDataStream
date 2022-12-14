@@ -33,4 +33,7 @@ class Vec2 {
         this.x = x;
         this.y = y;
     }
+    toString() {
+        return "(" + round(this.x, 1) + ", " + round(this.y, 1) + ")";
+    }
 }

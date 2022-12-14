@@ -13,6 +13,7 @@ const GlobalLoadArray = [
     "js/class/world.js",
 
     "js/menu/menuPause.js",
+    "js/menu/gameUI.js",
 
     "img/bullet.png",
     "img/enemy.png",

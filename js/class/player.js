@@ -4,7 +4,7 @@
  */
 class Player {
     constructor(pos) {
-        this.pos = pos;
+        this.pos = new Vec2(pos.x, pos.y);
         this.size = new Vec2(1, 1);
         this.angle = 0;
 

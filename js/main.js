@@ -2,7 +2,7 @@
  *  Global Variables
  */
 
-const DEBUG_ENABLED = false; // whether to enable print statements
+const DEBUG_ENABLED = true; // whether to enable print statements
 
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
@@ -121,6 +121,8 @@ function drawGame() {
 
     world.draw();
     player.draw();
+
+    game_ui.draw();
 }
 
 /*
