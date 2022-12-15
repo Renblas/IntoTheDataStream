@@ -125,17 +125,24 @@ function keyReleased() {
 }
 
 function mouseWheel(e) {
+    if (!e.delta) return;
 
-    if (!gameIsPaused) {
-        cameraObj.zoom -= (1 / (deltaTime)) * (e.delta / abs(e.delta));
+    if (!gameIsPaused && menuState == "game") {
+        cameraObj.zoomRaw -= (1 / (deltaTime)) * (e.delta / abs(e.delta));
 
-        if (cameraObj.zoom > cameraObj.maxZoom) {
-            cameraObj.zoom = cameraObj.maxZoom;
+        if (cameraObj.zoomRaw > cameraObj.maxZoom) {
+            cameraObj.zoomRaw = cameraObj.maxZoom;
         }
-        if (cameraObj.zoom < cameraObj.minZoom) {
-            cameraObj.zoom = cameraObj.minZoom;
+        if (cameraObj.zoomRaw < cameraObj.minZoom) {
+            cameraObj.zoomRaw = cameraObj.minZoom;
         }
+
+        cameraObj.zoom = round(cameraObj.zoomRaw, 2);
     }
 
     return false;
+}
+
+function mousePressed() {
+    print("mouse pressed")
 }

@@ -12,6 +12,7 @@ class Camera {
         this.minZoom = 0.5;
         this.maxZoom = 2;
         this.defaultZoom = 1;
+        this.zoomRaw = 1;
         this.zoom = this.defaultZoom;
     }
     drawImg(img, pos, size) {
@@ -32,16 +33,14 @@ class Camera {
         if (!img) {
             img = GlobalImageObject["default"];
         }
-        var x =
-            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom;
-        var y =
-            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom;
-
-        ctx.translate(x, y);
+        var x = ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom;
+        var y = ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom;
+        var changeXY = 16 * this.zoom;
+        ctx.translate(x + changeXY, y + changeXY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
-        ctx.drawImage(img, 0, 0, 32 * size.x * this.zoom, 32 * size.y * this.zoom);
+        ctx.drawImage(img, -changeXY, -changeXY, 32 * size.x * this.zoom, 32 * size.y * this.zoom);
         ctx.rotate(radians(rotation) - Math.PI / 2.0);
-        ctx.translate(-x, -y);
+        ctx.translate(-(x + changeXY), -(y + changeXY));
     }
     drawImgUI(img, pos, size) {
         var img = GlobalImageObject[img];
