@@ -54,6 +54,7 @@ function setup() {
  */
 function draw() {
     background(100);
+    deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
         menu__Main.draw();
@@ -97,7 +98,6 @@ function draw() {
         }
 
         // Do physics update
-        deltaTimeFixed = deltaTime / 1000;
         updateGame();
 
         // draw Game

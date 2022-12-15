@@ -123,3 +123,19 @@ function keyReleased() {
             break;
     }
 }
+
+function mouseWheel(e) {
+
+    if (!gameIsPaused) {
+        cameraObj.zoom -= (1 / (deltaTime)) * (e.delta / abs(e.delta));
+
+        if (cameraObj.zoom > cameraObj.maxZoom) {
+            cameraObj.zoom = cameraObj.maxZoom;
+        }
+        if (cameraObj.zoom < cameraObj.minZoom) {
+            cameraObj.zoom = cameraObj.minZoom;
+        }
+    }
+
+    return false;
+}

@@ -15,10 +15,10 @@ class World {
     }
     draw() {
 
-        var minX = floor(cameraObj.pos.x - 8);
-        var maxX = ceil(cameraObj.pos.x + 8);
-        var minY = floor(cameraObj.pos.y - 4.5);
-        var maxY = ceil(cameraObj.pos.y + 4.5);
+        var minX = floor(cameraObj.pos.x - (8/cameraObj.zoom));
+        var maxX = ceil(cameraObj.pos.x + (8/cameraObj.zoom));
+        var minY = floor(cameraObj.pos.y - (4.5/cameraObj.zoom));
+        var maxY = ceil(cameraObj.pos.y + (4.5/cameraObj.zoom));
 
        
         for (let i = minY; i < maxY; i++) {
@@ -81,4 +81,8 @@ class Wall {
     draw() {
         cameraObj.drawImg(this.img, this.pos, this.size);
     }
+}
+
+class Door {
+    //TODO
 }

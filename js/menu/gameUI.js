@@ -20,9 +20,11 @@ var game_ui = {
         if (DEBUG_ENABLED) {
             textAlign(LEFT, TOP);
             textSize(12);
+            text("Player: " + player.pos.toString(), 4, 4);
+            text("deltaTime: " + round(1/deltaTimeFixed, 0) + " ms", 4, 20);
 
-            text("Player: " + player.pos.toString(), 10, 14);
-            text("deltaTime: " + deltaTime + " ms", 10, 30);
+            textAlign(RIGHT)
+            text("x" + round(cameraObj.zoom, 1), 508, 4)
         }
     },
 };
