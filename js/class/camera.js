@@ -16,19 +16,39 @@ class Camera {
     }
     drawImg(img, pos, size) {
         var img = GlobalImageObject[img];
+        if (!img) {
+            img = GlobalImageObject["default"];
+        }
         ctx.drawImage(
             img,
-            ((pos.x - (this.pos.x - (8/this.zoom)) - size.x / 2) * 32 + 16) * this.zoom,
-            ((pos.y - (this.pos.y - (4.5/this.zoom)) - size.y / 2) * 32 + 16) * this.zoom,
-            (32 * size.x) * this.zoom,
-            (32 * size.y) * this.zoom
+            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom,
+            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom,
+            32 * size.x * this.zoom,
+            32 * size.y * this.zoom
         );
+    }
+    drawImgRotate(img, pos, size, rotation) {
+        var img = GlobalImageObject[img];
+        if (!img) {
+            img = GlobalImageObject["default"];
+        }
+        var x =
+            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom;
+        var y =
+            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom;
+
+        ctx.translate(x, y);
+        ctx.rotate(-radians(rotation) + Math.PI / 2.0);
+        ctx.drawImage(img, 0, 0, 32 * size.x * this.zoom, 32 * size.y * this.zoom);
+        ctx.rotate(radians(rotation) - Math.PI / 2.0);
+        ctx.translate(-x, -y);
     }
     drawImgUI(img, pos, size) {
         var img = GlobalImageObject[img];
         ctx.drawImage(img, pos.x, pos.y, size.x * 32, size.y * 32);
     }
-    worldToPixel(vec) {// TODO: fix with scaling
+    worldToPixel(vec) {
+        // TODO: fix with scaling
         var x = (vec.x - this.pos.x) * 32;
         var y = (vec.y - this.pos.y) * 32;
         return new Vec2(x, y);

@@ -137,4 +137,6 @@ function drawGame() {
 function updateGame() {
     inputManager.update();
     player.update();
+
+    world.update();
 }

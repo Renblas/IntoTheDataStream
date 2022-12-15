@@ -15,12 +15,15 @@ const GlobalLoadArray = [
     "js/menu/menuPause.js",
     "js/menu/gameUI.js",
 
+    "img/default.png",
     "img/bullet.png",
     "img/enemy.png",
-    "img/floor.png",
     "img/player.png",
-    "img/wall.png",
-    "img/koransGrave.png",
+    "img/tiles/wall.png",
+    "img/tiles/floor.png",
+    "img/tiles/koransGrave.png",
+    "img/tiles/door_base.png",
+    "img/tiles/door_moving.png",
 
     "js/maps/testMap1.js",
 ];

@@ -2,6 +2,7 @@
  *  Contains Miscellaneous functions and classes
  */
 
+
 /*
  *  Vector 2 Class
  *  - takes in x and y, has some useful methods like magnitude and direction

@@ -21,7 +21,7 @@ var game_ui = {
             textAlign(LEFT, TOP);
             textSize(12);
             text("Player: " + player.pos.toString(), 4, 4);
-            text("deltaTime: " + round(1/deltaTimeFixed, 0) + " ms", 4, 20);
+            text("FPS: " + round(1/deltaTimeFixed, 0), 4, 20);
 
             textAlign(RIGHT)
             text("x" + round(cameraObj.zoom, 1), 508, 4)
