@@ -40,15 +40,20 @@ function setup() {
     frameRate(FPS);
     angleMode(DEGREES);
 
+
     inputManager = new InputManager();
 }
+
+/*
+ *  Window Resize Logic
+ */
 
 /*
  *  Draw Function
  *  - called x times per second, from p5js library
  */
 function draw() {
-    background(200);
+    background(100);
 
     if (menuState == "main") {
         menu__Main.draw();
@@ -107,7 +112,7 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: testMap1 });
+    world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
 }

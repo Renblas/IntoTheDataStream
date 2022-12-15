@@ -10,7 +10,7 @@ class Key {
         this.isPressed = false;
 
         this.timeHeld = 0;
-        this.maxMoveTime = 0.25;
+        this.maxMoveTime = 0.15;
 
         this.smoothFloat = 0;
     }
@@ -29,7 +29,7 @@ class Key {
             var num = 0;
             if (this.timeHeld > 0) {
                 this.timeHeld -= deltaTimeFixed;
-                num = sqrt(this.timeHeld / this.maxMoveTime);
+                num = (this.timeHeld / this.maxMoveTime);
                 if (!num) num = 0;
             } else {
                 this.timeHeld = 0;

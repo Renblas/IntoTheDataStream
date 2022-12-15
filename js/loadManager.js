@@ -20,6 +20,7 @@ const GlobalLoadArray = [
     "img/floor.png",
     "img/player.png",
     "img/wall.png",
+    "img/koransGrave.png",
 
     "js/maps/testMap1.js",
 ];
