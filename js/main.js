@@ -25,6 +25,8 @@ var world;
 var player;
 var testGameObject;
 
+const GlobalBulletArray = [];
+
 /*
  *  Setup Function
  *  - called once after page is loaded, from p5js library
@@ -39,7 +41,6 @@ function setup() {
 
     frameRate(FPS);
     angleMode(DEGREES);
-
 
     inputManager = new InputManager();
 }
@@ -65,11 +66,7 @@ function draw() {
         background(255, 200, 200);
         textAlign(LEFT, TOP);
         textSize(16);
-        text(
-            "loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets",
-            10,
-            40
-        );
+        text("loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets", 10, 40);
         // TODO Loading Screen
 
         minLoadingScreenTime -= deltaTime / 1000;
@@ -125,6 +122,11 @@ function drawGame() {
     cameraObj.update();
 
     world.draw();
+
+    GlobalBulletArray.forEach((element) => {
+        element.draw();
+    });
+
     player.draw();
 
     game_ui.draw();
@@ -137,6 +139,10 @@ function drawGame() {
 function updateGame() {
     inputManager.update();
     player.update();
+
+    GlobalBulletArray.forEach((element) => {
+        element.update();
+    });
 
     world.update();
 }

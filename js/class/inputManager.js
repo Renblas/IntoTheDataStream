@@ -142,7 +142,3 @@ function mouseWheel(e) {
 
     return false;
 }
-
-function mousePressed() {
-    print("mouse pressed")
-}

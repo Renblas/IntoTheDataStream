@@ -2,7 +2,6 @@
  *  Contains Miscellaneous functions and classes
  */
 
-
 /*
  *  Vector 2 Class
  *  - takes in x and y, has some useful methods like magnitude and direction
@@ -36,5 +35,12 @@ class Vec2 {
     }
     toString() {
         return "(" + round(this.x, 1) + ", " + round(this.y, 1) + ")";
+    }
+    setComponents(mag, angle) {
+        this.x = cos(angle) * mag;
+        this.y = sin(-angle) * mag;
+    }
+    setAngle(angle) {
+        this.setComponents(this.mag(), angle);
     }
 }

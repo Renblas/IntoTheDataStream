@@ -11,6 +11,7 @@ const GlobalLoadArray = [
     "js/class/gameobject.js",
     "js/class/player.js",
     "js/class/world.js",
+    "js/class/projectile.js",
 
     "js/menu/menuPause.js",
     "js/menu/gameUI.js",

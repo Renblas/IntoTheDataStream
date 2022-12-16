@@ -48,13 +48,13 @@ class Camera {
     }
     worldToPixel(vec) {
         // TODO: fix with scaling
-        var x = (vec.x - this.pos.x) * 32;
-        var y = (vec.y - this.pos.y) * 32;
+        var x = ((vec.x - (this.pos.x - 8 / this.zoom)) * 32 + 16) * this.zoom;
+        var y = ((vec.y - (this.pos.y - 4.5 / this.zoom)) * 32 + 16) * this.zoom;
         return new Vec2(x, y);
     }
     pixelToWorld(vec) {
-        var x = vec.x / 32 + this.pos.x;
-        var y = vec.y / 32 + this.pos.y;
+        var x = (vec.x / this.zoom - 16) / 32 + (this.pos.x - 8 / this.zoom);
+        var y = (vec.y / this.zoom - 16) / 32 + (this.pos.y - 4.5 / this.zoom);
         return new Vec2(x, y);
     }
     update() {
