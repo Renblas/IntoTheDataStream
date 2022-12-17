@@ -11,6 +11,7 @@ const GlobalLoadArray = [
     "js/class/gameobject.js",
     "js/class/player.js",
     "js/class/world.js",
+    "js/class/tile.js",
     "js/class/projectile.js",
 
     "js/menu/menuPause.js",
@@ -26,7 +27,8 @@ const GlobalLoadArray = [
     "img/tiles/door_base.png",
     "img/tiles/door_moving.png",
 
-    "js/maps/testMap1.js",
+    "js/maps/map_testMap1.js",
+    "js/maps/map_miniTest.js"
 ];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length

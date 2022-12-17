@@ -24,6 +24,9 @@ class Player {
     }
     update() {
         this.move();
+        try {
+            world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
+        } catch (e) {}
 
         if (this.fireCooldown < this.fireCooldownMax) {
             this.fireCooldown += deltaTimeFixed;

@@ -17,7 +17,7 @@ var game_ui = {
 
         // draw menu
 
-        if (DEBUG_ENABLED) {
+        if (settings.DEBUG_ENABLED) {
             textAlign(LEFT, TOP);
             textSize(12);
             text("Player: " + player.pos.toString(), 4, 4);

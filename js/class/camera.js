@@ -76,3 +76,14 @@ class Camera {
         }
     }
 }
+
+/*
+ *  Sprite
+ *  - handles image cropping from spritesheets for animations/different image states
+ *  By: Caleb
+ */
+class Sprite {
+    constructor(config) {
+        
+    }
+}
