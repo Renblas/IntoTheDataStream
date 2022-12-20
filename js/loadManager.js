@@ -16,6 +16,7 @@ const GlobalLoadArray = [
 
     "js/menu/menuPause.js",
     "js/menu/gameUI.js",
+    "js/menu/menuSettings.js",
 
     "img/default.png",
     "img/bullet.png",
