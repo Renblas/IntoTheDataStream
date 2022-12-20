@@ -10,6 +10,7 @@ class Tile {
         this.sprite = new Sprite({
             img: "default",
             imgPos: [0, 0],
+            imgConfig: null,
         });
         this.type = "Tile";
         this.neighborTiles = {};
@@ -58,6 +59,8 @@ class Floor extends Tile {
         super(pos);
 
         this.sprite.img = "floor";
+        this.sprite.imgConfig = spriteConfig_Floor;
+
         this.type = "floor";
     }
     revealSelf() {
@@ -78,6 +81,28 @@ class Floor extends Tile {
     }
     determineImage() {
         var a = this.neighborTiles;
+
+        var neighborString = "";
+        neighborString += (!a.up ? "a" : tileImgToString(a.up));
+        neighborString += " " + (!a.rightUp ? "a" : tileImgToString(a.rightUp));
+        neighborString += " " + (!a.right ? "a" : tileImgToString(a.right));
+        neighborString += " " + (!a.rightDown ? "a" : tileImgToString(a.rightDown));
+        neighborString += " " + (!a.down ? "a" : tileImgToString(a.down));
+        neighborString += " " + (!a.leftDown ? "a" : tileImgToString(a.leftDown));
+        neighborString += " " + (!a.left ? "a" : tileImgToString(a.left));
+        neighborString += " " + (!a.leftUp ? "a" : tileImgToString(a.leftUp));
+
+        this.nt = neighborString;
+
+        var possibleImg = Object.keys(this.sprite.imgConfig);
+        for (let i = 0; i < possibleImg.length; i++) {
+            var currentConfig = this.sprite.imgConfig[possibleImg[i]];
+            
+            if (checkNeighborTileStrings(neighborString, currentConfig[1])) {
+                this.sprite.imgPos = currentConfig[0];
+                return;
+            }
+        }
     }
 }
 
