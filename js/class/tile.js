@@ -1,22 +1,58 @@
 /*
- *  Floor Class
- *  - handles logic/drawing for floors
+ *  Tile Class
+ *  - class for handling general tile logic
  *  By: Caleb
  */
-class Floor {
+class Tile {
     constructor(pos) {
         this.pos = pos;
         this.size = new Vec2(1, 1);
-
         this.sprite = new Sprite({
-            img: "floor",
+            img: "default",
+            imgPos: [0, 0],
         });
-        this.isRevealed = false;
+
+        this.neighborTiles = {};
+
+        this.hasInitialized = false;
     }
     draw() {
         if (this.isRevealed || !settings.FOG_OF_WAR) {
             cameraObj.drawImg(this.sprite, this.pos, this.size);
         }
+    }
+    update() {
+        if (!this.hasInitialized) {
+            this.init();
+            this.hasInitialized = true;
+        }
+    }
+    revealSelf() {
+        if (!this.isRevealed) {
+            this.isRevealed = true;
+        }
+    }
+    init() {
+        this.neighborTiles.left = world.getTile(this.pos.x - 1, this.pos.y);
+        this.neighborTiles.right = world.getTile(this.pos.x + 1, this.pos.y);
+        this.neighborTiles.up = world.getTile(this.pos.x, this.pos.y - 1);
+        this.neighborTiles.down = world.getTile(this.pos.x, this.pos.y + 1);
+        this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
+    }
+}
+
+/*
+ *  Floor Class
+ *  - handles logic/drawing for floors
+ *  By: Caleb
+ */
+class Floor extends Tile {
+    constructor(pos) {
+        super(pos);
+
+        this.sprite = new Sprite({
+            img: "floor",
+        });
     }
     revealSelf() {
         if (!this.isRevealed) {
@@ -34,27 +70,33 @@ class Floor {
             } catch (e) {}
         }
     }
+    init() {}
 }
 
 /*
- *  Floor Class
+ *  Walls Class
  *  - handles logic/drawing for walls
  *  By: Caleb
  */
-class Wall {
+class Wall extends Tile {
     constructor(pos) {
-        this.pos = pos;
-        this.size = new Vec2(1, 1);
-        this.img = "wall";
+        super(pos);
+
+        this.sprite.img = "wall";
     }
-    draw() {
-        if (this.isRevealed || !settings.FOG_OF_WAR) {
-            cameraObj.drawImg(this.img, this.pos, this.size);
+    init() {
+        super.init();
+        this.determineImage();
+    }
+    determineImage() {
+        if (this.neighboringTiles.down.img == "floor") {
+            this.sprite.imgPos = [0, 1];
         }
-    }
-    revealSelf() {
-        if (!this.isRevealed) {
-            this.isRevealed = true;
+        if (up && up == "floor") {
+            if (condition) {
+                
+            }
+            this.sprite.imgPos = [0, 0];
         }
     }
 }
