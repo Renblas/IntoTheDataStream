@@ -11,7 +11,7 @@ class Tile {
             img: "default",
             imgPos: [0, 0],
         });
-
+        this.type = "Tile";
         this.neighborTiles = {};
 
         this.hasInitialized = false;
@@ -38,7 +38,10 @@ class Tile {
         this.neighborTiles.up = world.getTile(this.pos.x, this.pos.y - 1);
         this.neighborTiles.down = world.getTile(this.pos.x, this.pos.y + 1);
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
+
+        this.determineImage();
     }
+    determineImage() {}
 }
 
 /*
@@ -50,9 +53,8 @@ class Floor extends Tile {
     constructor(pos) {
         super(pos);
 
-        this.sprite = new Sprite({
-            img: "floor",
-        });
+        this.sprite.img = "floor";
+        this.type = "floor";
     }
     revealSelf() {
         if (!this.isRevealed) {
@@ -83,20 +85,57 @@ class Wall extends Tile {
         super(pos);
 
         this.sprite.img = "wall";
-    }
-    init() {
-        super.init();
-        this.determineImage();
+        this.type = "wall";
     }
     determineImage() {
-        if (this.neighboringTiles.down.img == "floor") {
-            this.sprite.imgPos = [0, 1];
-        }
-        if (up && up == "floor") {
-            if (condition) {
-                
+        var a = this.neighborTiles;
+
+        // sides not exist
+        if (!a.down) {
+            if (!a.left) {
+                this.sprite.imgPos = [1, 2];
+                return;
             }
-            this.sprite.imgPos = [0, 0];
+            if (!a.right) {
+                this.sprite.imgPos = [3, 2];
+                return;
+            }
+            this.sprite.imgPos = [2, 2];
+            return;
+        }
+        if (!a.up) {
+            if (!a.left) {
+                this.sprite.imgPos = [1, 0];
+                return;
+            }
+            if (!a.right) {
+                this.sprite.imgPos = [3, 0];
+                return;
+            }
+            this.sprite.imgPos = [2, 0];
+            return;
+        }
+        if (!a.left) {
+            this.sprite.imgPos = [1, 1];
+            return;
+        }
+        if (!a.right) {
+            this.sprite.imgPos = [3, 1];
+            return;
+        }
+
+        // Check sides for floor
+        if (a.down && a.down.type != "wall") {
+            this.sprite.imgPos = [0, 1];
+            return;
+        }
+        if (a.up && a.up.type != "wall") {
+            if (a.down2 && a.down2.img != "wall") {
+                this.sprite.imgPos = [0, 0];
+                return;
+            }
+            this.sprite.imgPos = [2, 0];
+            return;
         }
     }
 }
