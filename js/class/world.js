@@ -46,21 +46,22 @@ class World {
         }
     }
     getTile(x, y) {
-        try {
-            return this.array[y][x];
-        } catch (e) {
-            return null;
+        if (x >= 0 && y >= 0) {
+            if (y < this.array.length && x < this.array[y].length) {
+                return this.array[y][x];   
+            }
         }
+        return null;
     }
     loadMap() {
         // Populate Array
         for (let i = 0; i < this.map.stringArray.length; i++) {
-            string = this.map.stringArray[i];
+            string = split(this.map.stringArray[i], " ");
             this.array[i] = [];
             for (let j = 0; j < string.length; j++) {
                 const char = string[j];
                 switch (char) {
-                    case ".":
+                    case "F":
                         this.array[i][j] = new Floor(new Vec2(j, i), "floor");
                         break;
 
@@ -68,7 +69,7 @@ class World {
                         this.array[i][j] = new Floor(new Vec2(j, i), "koransGrave");
                         break;
 
-                    case "=":
+                    case "W":
                         this.array[i][j] = new Wall(new Vec2(j, i));
                         break;
 

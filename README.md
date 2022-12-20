@@ -37,3 +37,5 @@ use "deltaTimeFixed" NOT deltaTime
 - set to 512 to 288 pixels
 - essentially 16 tiles wide and 9 tiles high with 32 pixels per tile (our images are currently 32 pixels so this works great)
 - can upscale to bigger screens with css
+
+### Tiles

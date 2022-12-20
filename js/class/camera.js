@@ -15,21 +15,25 @@ class Camera {
         this.zoomRaw = 1;
         this.zoom = this.defaultZoom;
     }
-    drawImg(img, pos, size) {
-        var img = GlobalImageObject[img];
+    drawImg(sprite, pos, size) {
+        var img = GlobalImageObject[sprite.img];
         if (!img) {
             img = GlobalImageObject["default"];
         }
         ctx.drawImage(
             img,
+            sprite.imgPos[0] * 32,
+            sprite.imgPos[1] * 32,
+            32,
+            32,
             ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom,
             ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom,
             32 * size.x * this.zoom,
             32 * size.y * this.zoom
         );
     }
-    drawImgRotate(img, pos, size, rotation) {
-        var img = GlobalImageObject[img];
+    drawImgRotate(sprite, pos, size, rotation) {
+        var img = GlobalImageObject[sprite.img];
         if (!img) {
             img = GlobalImageObject["default"];
         }
@@ -38,7 +42,17 @@ class Camera {
         var changeXY = 16 * this.zoom;
         ctx.translate(x + changeXY, y + changeXY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
-        ctx.drawImage(img, -changeXY, -changeXY, 32 * size.x * this.zoom, 32 * size.y * this.zoom);
+        ctx.drawImage(
+            img,
+            sprite.imgPos[0] * 32,
+            sprite.imgPos[1] * 32,
+            32,
+            32,
+            -changeXY,
+            -changeXY,
+            32 * size.x * this.zoom,
+            32 * size.y * this.zoom
+        );
         ctx.rotate(radians(rotation) - Math.PI / 2.0);
         ctx.translate(-(x + changeXY), -(y + changeXY));
     }
@@ -84,6 +98,7 @@ class Camera {
  */
 class Sprite {
     constructor(config) {
-        
+        this.img = config.img || "default";
+        this.imgPos = config.imgPos || [0, 0];
     }
 }

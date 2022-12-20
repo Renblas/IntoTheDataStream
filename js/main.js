@@ -4,7 +4,7 @@
 
 var settings = {
     DEBUG_ENABLED: true,
-    FOG_OF_WAR: true,
+    FOG_OF_WAR: false,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
@@ -56,7 +56,7 @@ function setup() {
  *  - called x times per second, from p5js library
  */
 function draw() {
-    background(100);
+    background(0);
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
@@ -111,7 +111,7 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: map_test1 });
+    world = new World({ map: map_miniTest });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
 }
@@ -126,10 +126,10 @@ function drawGame() {
     world.draw();
 
     GlobalBulletArray.forEach((element) => {
-        element.draw();
+        //element.draw();
     });
 
-    player.draw();
+    //player.draw();
 
     game_ui.draw();
 }

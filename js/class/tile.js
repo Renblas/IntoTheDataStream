@@ -4,15 +4,18 @@
  *  By: Caleb
  */
 class Floor {
-    constructor(pos, img) {
+    constructor(pos) {
         this.pos = pos;
         this.size = new Vec2(1, 1);
-        this.img = img;
+
+        this.sprite = new Sprite({
+            img: "floor",
+        });
         this.isRevealed = false;
     }
     draw() {
         if (this.isRevealed || !settings.FOG_OF_WAR) {
-            cameraObj.drawImg(this.img, this.pos, this.size);
+            cameraObj.drawImg(this.sprite, this.pos, this.size);
         }
     }
     revealSelf() {
