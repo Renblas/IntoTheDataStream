@@ -76,7 +76,9 @@ class Floor extends Tile {
             } catch (e) {}
         }
     }
-    init() {}
+    determineImage() {
+        var a = this.neighborTiles;
+    }
 }
 
 /*
@@ -94,35 +96,92 @@ class Wall extends Tile {
     determineImage() {
         var a = this.neighborTiles;
 
-        var l = (a.left.sprite.img || "void") == "wall";
-        var r = (a.right.sprite.img || "void") == "wall";
-        var u = (a.up.sprite.img || "void") == "wall";
-        var d = (a.down.sprite.img || "void") == "wall";
-        var ld = (a.leftDown.sprite.img || "void") == "wall";
-        var rd = (a.rightDown.sprite.img || "void") == "wall";
-        var lu = (a.leftUp.sprite.img || "void") == "wall";
-        var ru = (a.rightUp.sprite.img || "void") == "wall";
-        var d2 = (a.down2.sprite.img || "void") == "wall";
+        var l = (a.left ? a.left.sprite.img : "void") == "wall";
+        var r = (a.right ? a.right.sprite.img : "void") == "wall";
+        var u = (a.up ? a.up.sprite.img : "void") == "wall";
+        var d = (a.down ? a.down.sprite.img : "void") == "wall";
+        var ld = (a.leftDown ? a.leftDown.sprite.img : "void") == "wall";
+        var rd = (a.rightDown ? a.rightDown.sprite.img : "void") == "wall";
+        var lu = (a.leftUp ? a.leftUp.sprite.img : "void") == "wall";
+        var ru = (a.rightUp ? a.rightUp.sprite.img : "void") == "wall";
+        var d2 = (a.down2 ? a.down2.sprite.img : "void") == "wall";
 
         if (!d) {
             this.sprite.imgPos = [0, 1];
             return;
         }
         if (!d2) {
+            // connected to wall face
             if (!u) {
+                // and up is a floor
                 if (!l) {
+                    // and left is a floor
                     if (!r) {
-                        this.sprite.imgPos = [0, 1];
+                        // and right is a floor
+                        this.sprite.imgPos = [0, 0];
                         return;
                     }
-                    this.sprite.imgPos = [0, 1];
+                    this.sprite.imgPos = [7, 2];
                     return;
                 }
-                this.sprite.imgPos = [0, 1];
+                if (!r) {
+                    // and right is a floor
+                    this.sprite.imgPos = [8, 2];
+                    return;
+                }
+                this.sprite.imgPos = [8, 1];
                 return;
             }
+            if (!l) {
+                if (!r) {
+                    this.sprite.imgPos = [7, 1];
+                    return;
+                }
+                this.sprite.imgPos = [1, 2];
+                return;
+            }
+            if (!r) {
+                this.sprite.imgPos = [3, 2];
+                return;
+            }
+            this.sprite.imgPos = [2, 2];
+            return;
         }
-
+        // not connected to wall face
+        if (!u) {
+            // and up is a floor
+            if (!l) {
+                // and left is a floor
+                if (!r) {
+                    // and right is a floor
+                    this.sprite.imgPos = [7, 0];
+                    return;
+                }
+                this.sprite.imgPos = [1, 0];
+                return;
+            }
+            if (!r) {
+                // and right is a floor
+                this.sprite.imgPos = [3, 0];
+                return;
+            }
+            this.sprite.imgPos = [2, 0];
+            return;
+        }
+        if (!l) {
+            if (!r) {
+                this.sprite.imgPos = [7, 1];
+                return;
+            }
+            this.sprite.imgPos = [1, 1];
+            return;
+        }
+        if (!r) {
+            this.sprite.imgPos = [3, 1];
+            return;
+        }
+        this.sprite.imgPos = [2, 1];
+        return;
     }
 }
 

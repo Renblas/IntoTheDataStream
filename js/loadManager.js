@@ -8,6 +8,7 @@ const GlobalLoadArray = [
     "lib/p5.collide2d.js",
 
     "js/class/camera.js",
+    "js/class/sprite.js",
     "js/class/gameobject.js",
     "js/class/player.js",
     "js/class/world.js",
