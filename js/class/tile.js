@@ -37,6 +37,10 @@ class Tile {
         this.neighborTiles.right = world.getTile(this.pos.x + 1, this.pos.y);
         this.neighborTiles.up = world.getTile(this.pos.x, this.pos.y - 1);
         this.neighborTiles.down = world.getTile(this.pos.x, this.pos.y + 1);
+        this.neighborTiles.leftDown = world.getTile(this.pos.x - 1, this.pos.y + 1);
+        this.neighborTiles.leftUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
+        this.neighborTiles.rightDown = world.getTile(this.pos.x + 1, this.pos.y + 1);
+        this.neighborTiles.rightUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
 
         this.determineImage();
@@ -90,53 +94,25 @@ class Wall extends Tile {
     determineImage() {
         var a = this.neighborTiles;
 
-        // sides not exist
-        if (!a.down) {
-            if (!a.left) {
-                this.sprite.imgPos = [1, 2];
-                return;
-            }
-            if (!a.right) {
-                this.sprite.imgPos = [3, 2];
-                return;
-            }
-            this.sprite.imgPos = [2, 2];
-            return;
-        }
-        if (!a.up) {
-            if (!a.left) {
-                this.sprite.imgPos = [1, 0];
-                return;
-            }
-            if (!a.right) {
-                this.sprite.imgPos = [3, 0];
-                return;
-            }
-            this.sprite.imgPos = [2, 0];
-            return;
-        }
-        if (!a.left) {
-            this.sprite.imgPos = [1, 1];
-            return;
-        }
-        if (!a.right) {
-            this.sprite.imgPos = [3, 1];
-            return;
-        }
+        var l = (a.left && a.left.img) || "void" == "wall";
+        var r = (a.right.img || "void") == "wall";
+        var u = (a.up.img || "void") == "wall";
+        var d = (a.down.img || "void") == "wall";
+        var ld = (a.leftDown.img || "void") == "wall";
+        var rd = (a.rightDown.img || "void") == "wall";
+        var lu = (a.leftUp.img || "void") == "wall";
+        var ru = (a.rightUp.img || "void") == "wall";
+        var d2 = (a.down2.img || "void") == "wall";
 
-        // Check sides for floor
-        if (a.down && a.down.type != "wall") {
+        if (!d) {
             this.sprite.imgPos = [0, 1];
             return;
         }
-        if (a.up && a.up.type != "wall") {
-            if (a.down2 && a.down2.img != "wall") {
-                this.sprite.imgPos = [0, 0];
-                return;
+        if (!d2) {
+            if (!u) {
             }
-            this.sprite.imgPos = [2, 0];
-            return;
         }
+
     }
 }
 

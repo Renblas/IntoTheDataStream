@@ -9,7 +9,10 @@ class Player {
         this.angle = 0;
         this.moveSpeed = 4;
 
-        this.img = "player";
+        this.sprite = new Sprite({
+            img: "player",
+            imgPos: [0, 0],
+        });
 
         this.standaredBullet = {
             speed: 6,
@@ -20,7 +23,7 @@ class Player {
         this.fireCooldownMax = 0.25;
     }
     draw() {
-        cameraObj.drawImg(this.img, this.pos, this.size);
+        cameraObj.drawImg(this.sprite, this.pos, this.size);
     }
     update() {
         this.move();

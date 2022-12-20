@@ -129,7 +129,7 @@ function drawGame() {
         //element.draw();
     });
 
-    //player.draw();
+    player.draw();
 
     game_ui.draw();
 }
