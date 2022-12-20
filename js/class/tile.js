@@ -94,15 +94,15 @@ class Wall extends Tile {
     determineImage() {
         var a = this.neighborTiles;
 
-        var l = (a.left && a.left.img) || "void" == "wall";
-        var r = (a.right.img || "void") == "wall";
-        var u = (a.up.img || "void") == "wall";
-        var d = (a.down.img || "void") == "wall";
-        var ld = (a.leftDown.img || "void") == "wall";
-        var rd = (a.rightDown.img || "void") == "wall";
-        var lu = (a.leftUp.img || "void") == "wall";
-        var ru = (a.rightUp.img || "void") == "wall";
-        var d2 = (a.down2.img || "void") == "wall";
+        var l = (a.left.sprite.img || "void") == "wall";
+        var r = (a.right.sprite.img || "void") == "wall";
+        var u = (a.up.sprite.img || "void") == "wall";
+        var d = (a.down.sprite.img || "void") == "wall";
+        var ld = (a.leftDown.sprite.img || "void") == "wall";
+        var rd = (a.rightDown.sprite.img || "void") == "wall";
+        var lu = (a.leftUp.sprite.img || "void") == "wall";
+        var ru = (a.rightUp.sprite.img || "void") == "wall";
+        var d2 = (a.down2.sprite.img || "void") == "wall";
 
         if (!d) {
             this.sprite.imgPos = [0, 1];
@@ -110,6 +110,16 @@ class Wall extends Tile {
         }
         if (!d2) {
             if (!u) {
+                if (!l) {
+                    if (!r) {
+                        this.sprite.imgPos = [0, 1];
+                        return;
+                    }
+                    this.sprite.imgPos = [0, 1];
+                    return;
+                }
+                this.sprite.imgPos = [0, 1];
+                return;
             }
         }
 
