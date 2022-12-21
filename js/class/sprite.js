@@ -74,12 +74,20 @@ var spriteConfig_Wall = {
     rightUpCornerTip: [[4, 2], "w f w w w w w w"],
     rightDownCornerTip: [[4, 0], "w w w f w w w w"],
 
+    verticalShaft: [[8, 1], "f a w a f a w a"],
+    horizontalShaft: [[8, 0], "w a f a w a f a"],
+
+    upEndCap: [[7, 0], "f a f a w a f a"],
+    downEndCap: [[7, 1], "w a f a f a f a"],
+    leftEndCap: [[7, 2], "f a w a f a f a"],
+    rightEndCap: [[8, 2], "f a f a f a w a"],
+
     leftUpCorner: [[1, 0], "f a w a w a f a"],
     leftDownCorner: [[1, 2], "w a w a f a f a"],
     rightUpCorner: [[3, 0], "f a f a w a w a"],
     rightDownCorner: [[3, 2], "w a f a f a w a"],
 
-    center: [[2, 1], "w w w w w w w w"],
+    center: [[2, 1], "w a w a w a w a"],
     leftWall: [[1, 1], "w a w a w a f a"],
     rightWall: [[3, 1], "w a f a w a w a"],
     upWall: [[2, 0], "f a w a w a w a"],

@@ -73,17 +73,18 @@ class Tile {
     }
     determineImage() {
         var a = this.neighborTiles;
-        var antiChar = this.sprite.char == "f" ? "w" : "f";
+        var pre_antiChar = this.sprite.char == "f" ? "w" : "f";
+        var antiChar = this.type == "wall" ? "w" : antiChar;
 
         var neighborString = "";
-        neighborString += !a.up ? antiChar : tileImgToString(a.up, antiChar);
-        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp, antiChar));
-        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right, antiChar));
-        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown, antiChar));
-        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down, antiChar));
-        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown, antiChar));
-        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left, antiChar));
-        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp, antiChar));
+        neighborString += !a.up ? antiChar : tileImgToString(a.up, pre_antiChar);
+        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp, pre_antiChar));
+        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right, pre_antiChar));
+        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown, pre_antiChar));
+        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down, pre_antiChar));
+        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown, pre_antiChar));
+        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left, pre_antiChar));
+        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp, pre_antiChar));
 
         // Special Rules for Walls
         if (this.sprite.char == "w") {
@@ -143,100 +144,10 @@ class Wall extends Tile {
 
         this.type = "wall";
     }
-    /*determineImage() {
-        var a = this.neighborTiles;
-
-        var l = (a.left ? a.left.sprite.img : "void") == "wall";
-        var r = (a.right ? a.right.sprite.img : "void") == "wall";
-        var u = (a.up ? a.up.sprite.img : "void") == "wall";
-        var d = (a.down ? a.down.sprite.img : "void") == "wall";
-        var ld = (a.leftDown ? a.leftDown.sprite.img : "void") == "wall";
-        var rd = (a.rightDown ? a.rightDown.sprite.img : "void") == "wall";
-        var lu = (a.leftUp ? a.leftUp.sprite.img : "void") == "wall";
-        var ru = (a.rightUp ? a.rightUp.sprite.img : "void") == "wall";
-        var d2 = (a.down2 ? a.down2.sprite.img : "void") == "wall";
-
-        if (!d) {
-            this.sprite.imgPos = [0, 1];
-            return;
-        }
-        if (!d2) {
-            // connected to wall face
-            if (!u) {
-                // and up is a floor
-                if (!l) {
-                    // and left is a floor
-                    if (!r) {
-                        // and right is a floor
-                        this.sprite.imgPos = [0, 0];
-                        return;
-                    }
-                    this.sprite.imgPos = [7, 2];
-                    return;
-                }
-                if (!r) {
-                    // and right is a floor
-                    this.sprite.imgPos = [8, 2];
-                    return;
-                }
-                this.sprite.imgPos = [8, 1];
-                return;
-            }
-            if (!l) {
-                if (!r) {
-                    this.sprite.imgPos = [7, 1];
-                    return;
-                }
-                this.sprite.imgPos = [1, 2];
-                return;
-            }
-            if (!r) {
-                this.sprite.imgPos = [3, 2];
-                return;
-            }
-            this.sprite.imgPos = [2, 2];
-            return;
-        }
-        // not connected to wall face
-        if (!u) {
-            // and up is a floor
-            if (!l) {
-                // and left is a floor
-                if (!r) {
-                    // and right is a floor
-                    this.sprite.imgPos = [7, 0];
-                    return;
-                }
-                this.sprite.imgPos = [1, 0];
-                return;
-            }
-            if (!r) {
-                // and right is a floor
-                this.sprite.imgPos = [3, 0];
-                return;
-            }
-            this.sprite.imgPos = [2, 0];
-            return;
-        }
-        if (!l) {
-            if (!r) {
-                this.sprite.imgPos = [7, 1];
-                return;
-            }
-            this.sprite.imgPos = [1, 1];
-            return;
-        }
-        if (!r) {
-            this.sprite.imgPos = [3, 1];
-            return;
-        }
-        this.sprite.imgPos = [2, 1];
-        return;
-    }*/
 }
 
 /*
- *  Floor Class
+ *  Door Class
  *  - handles logic/drawing for Doors
  *  By: Caleb
  */

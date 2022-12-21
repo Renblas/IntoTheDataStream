@@ -57,7 +57,7 @@ function setup() {
  *  - called x times per second, from p5js library
  */
 function draw() {
-    background(0);
+    background("#383638");
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
