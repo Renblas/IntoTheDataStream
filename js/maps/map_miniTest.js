@@ -1,15 +1,15 @@
 var map_miniTest = {
     objectType: "map",
-    startingPlayerPos: { x: 0, y: 0 },
+    startingPlayerPos: { x: 0, y: 4 },
 
     stringArray: [
-        "W W W W W W W W W",
-        "W W W W W W W W W",
-        "W W W W W W W W W",
-        "W W F F F F F W W",
-        "F F F F F F F W W",
-        "F F F F F F F W W",
-        "W W W W W W W W W",
-        "W W W W W W W W W",
+        "w w w w w w w w",
+        "w w w w w w w w",
+        "w w f f f f w w",
+        "f f f f f f w w",
+        "f f f f f f w w",
+        "w w f f f f w w",
+        "w w w w w w w w",
+        "w w w w w w w w",
     ],
 };

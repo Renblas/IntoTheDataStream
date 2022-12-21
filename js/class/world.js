@@ -45,6 +45,17 @@ class World {
             } catch (e) {}
         }
     }
+    init() {
+        for (let i = 0; i < this.array.length; i++) {
+            try {
+                for (let j = 0; j < this.array[i].length; j++) {
+                    try {
+                        this.array[i][j].init();
+                    } catch (e) {}
+                }
+            } catch (e) {}
+        }
+    }
     getTile(x, y) {
         if (x >= 0 && y >= 0) {
             if (y < this.array.length && x < this.array[y].length) {
@@ -61,7 +72,7 @@ class World {
             for (let j = 0; j < string.length; j++) {
                 const char = string[j];
                 switch (char) {
-                    case "F":
+                    case "f":
                         this.array[i][j] = new Floor(new Vec2(j, i), "floor");
                         break;
 
@@ -69,7 +80,7 @@ class World {
                         this.array[i][j] = new Floor(new Vec2(j, i), "koransGrave");
                         break;
 
-                    case "W":
+                    case "w":
                         this.array[i][j] = new Wall(new Vec2(j, i));
                         break;
 

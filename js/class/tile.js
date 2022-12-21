@@ -26,11 +26,6 @@ class Tile {
         }
     }
     update() {
-        if (!this.hasInitialized) {
-            this.init();
-            this.hasInitialized = true;
-            return;
-        }
         if (!this.hasDeterminedImage) {
             this.determineImage();
             this.hasDeterminedImage = true;
@@ -38,8 +33,21 @@ class Tile {
         }
     }
     revealSelf() {
-        if (!this.isRevealed) {
+        if (this.hasInitialized && !this.isRevealed) {
             this.isRevealed = true;
+
+            if (this.type == "floor" || this.isWallFace) {
+                try {
+                    world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
+                    world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
+                    world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
+                    world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
+                } catch (e) {}
+            }
         }
     }
     init() {
@@ -60,6 +68,8 @@ class Tile {
                 this.isWallFace = false;
             }
         }
+
+        this.hasInitialized = true;
     }
     determineImage() {
         var a = this.neighborTiles;
@@ -115,22 +125,6 @@ class Floor extends Tile {
         this.sprite.char = "f";
 
         this.type = "floor";
-    }
-    revealSelf() {
-        if (!this.isRevealed) {
-            this.isRevealed = true;
-
-            try {
-                world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
-                world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
-                world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
-                world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
-            } catch (e) {}
-        }
     }
 }
 
