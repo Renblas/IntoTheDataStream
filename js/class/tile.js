@@ -16,16 +16,25 @@ class Tile {
         this.neighborTiles = {};
 
         this.hasInitialized = false;
+        this.hasDeterminedImage = false;
     }
     draw() {
-        if (this.isRevealed || !settings.FOG_OF_WAR) {
-            cameraObj.drawImg(this.sprite, this.pos, this.size);
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
+            }
         }
     }
     update() {
         if (!this.hasInitialized) {
             this.init();
             this.hasInitialized = true;
+            return;
+        }
+        if (!this.hasDeterminedImage) {
+            this.determineImage();
+            this.hasDeterminedImage = true;
+            return;
         }
     }
     revealSelf() {
@@ -39,14 +48,57 @@ class Tile {
         this.neighborTiles.up = world.getTile(this.pos.x, this.pos.y - 1);
         this.neighborTiles.down = world.getTile(this.pos.x, this.pos.y + 1);
         this.neighborTiles.leftDown = world.getTile(this.pos.x - 1, this.pos.y + 1);
-        this.neighborTiles.leftUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
+        this.neighborTiles.leftUp = world.getTile(this.pos.x - 1, this.pos.y - 1);
         this.neighborTiles.rightDown = world.getTile(this.pos.x + 1, this.pos.y + 1);
         this.neighborTiles.rightUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
 
-        this.determineImage();
+        if (this.sprite.img == "wall") {
+            if (this.neighborTiles.down && this.neighborTiles.down.sprite.img == "floor") {
+                this.isWallFace = true;
+            } else {
+                this.isWallFace = false;
+            }
+        }
     }
-    determineImage() {}
+    determineImage() {
+        var a = this.neighborTiles;
+        var antiChar = this.sprite.char == "f" ? "w" : "f";
+
+        var neighborString = "";
+        neighborString += !a.up ? antiChar : tileImgToString(a.up, antiChar);
+        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp, antiChar));
+        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right, antiChar));
+        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown, antiChar));
+        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down, antiChar));
+        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown, antiChar));
+        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left, antiChar));
+        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp, antiChar));
+
+        // Special Rules for Walls
+        if (this.sprite.char == "w") {
+            if (a.down && a.down.sprite.img == "floor") {
+                this.sprite.imgPos = [0, 1];
+                return;
+            }
+
+            if (a.down2 && a.down2.sprite.img == "floor") {
+                neighborString = neighborString.replaceAt(8, "f");
+            }
+        }
+
+        this.nt = neighborString;
+
+        // Main Global Rules
+        var possibleImg = Object.keys(this.sprite.imgConfig);
+        for (let i = 0; i < possibleImg.length; i++) {
+            var currentConfig = this.sprite.imgConfig[possibleImg[i]];
+            if (checkNeighborTileStrings(neighborString, currentConfig[1])) {
+                this.sprite.imgPos = currentConfig[0];
+                return;
+            }
+        }
+    }
 }
 
 /*
@@ -60,6 +112,7 @@ class Floor extends Tile {
 
         this.sprite.img = "floor";
         this.sprite.imgConfig = spriteConfig_Floor;
+        this.sprite.char = "f";
 
         this.type = "floor";
     }
@@ -79,31 +132,6 @@ class Floor extends Tile {
             } catch (e) {}
         }
     }
-    determineImage() {
-        var a = this.neighborTiles;
-
-        var neighborString = "";
-        neighborString += (!a.up ? "a" : tileImgToString(a.up));
-        neighborString += " " + (!a.rightUp ? "a" : tileImgToString(a.rightUp));
-        neighborString += " " + (!a.right ? "a" : tileImgToString(a.right));
-        neighborString += " " + (!a.rightDown ? "a" : tileImgToString(a.rightDown));
-        neighborString += " " + (!a.down ? "a" : tileImgToString(a.down));
-        neighborString += " " + (!a.leftDown ? "a" : tileImgToString(a.leftDown));
-        neighborString += " " + (!a.left ? "a" : tileImgToString(a.left));
-        neighborString += " " + (!a.leftUp ? "a" : tileImgToString(a.leftUp));
-
-        this.nt = neighborString;
-
-        var possibleImg = Object.keys(this.sprite.imgConfig);
-        for (let i = 0; i < possibleImg.length; i++) {
-            var currentConfig = this.sprite.imgConfig[possibleImg[i]];
-            
-            if (checkNeighborTileStrings(neighborString, currentConfig[1])) {
-                this.sprite.imgPos = currentConfig[0];
-                return;
-            }
-        }
-    }
 }
 
 /*
@@ -116,9 +144,12 @@ class Wall extends Tile {
         super(pos);
 
         this.sprite.img = "wall";
+        this.sprite.imgConfig = spriteConfig_Wall;
+        this.sprite.char = "w";
+
         this.type = "wall";
     }
-    determineImage() {
+    /*determineImage() {
         var a = this.neighborTiles;
 
         var l = (a.left ? a.left.sprite.img : "void") == "wall";
@@ -207,7 +238,7 @@ class Wall extends Tile {
         }
         this.sprite.imgPos = [2, 1];
         return;
-    }
+    }*/
 }
 
 /*

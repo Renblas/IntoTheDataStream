@@ -7,13 +7,18 @@ class Sprite {
     constructor(config) {
         this.img = config.img || "default";
         this.imgPos = config.imgPos || [0, 0];
+        this.imgSize = new Vec2(32, 32);
     }
 }
 
 /*
  *  - converts neibhbor tiles obj into string
  */
-function tileImgToString(input) {
+function tileImgToString(input, antiChar) {
+    if (input.sprite.img == "wall" && input.isWallFace) {
+        return antiChar;
+    }
+
     switch (input.sprite.img) {
         case "wall":
             return "w";
@@ -35,9 +40,12 @@ function checkNeighborTileStrings(objString, toTestString) {
     testArr = split(toTestString, " ");
 
     for (let i = 0; i < objArr.length; i++) {
-        if (objArr[i] == testArr[i] || testArr[i] == "a") {
-            continue;
-        } else {
+        var o = objArr[i];
+        var t = testArr[i];
+
+        var isEqual = o == t;
+
+        if (!(isEqual || t == "a")) {
             return false;
         }
     }
@@ -60,28 +68,34 @@ function checkNeighborTileStrings(objString, toTestString) {
  *  By: Caleb
  */
 
-var spriteConfig_wall = {
-    center: [[2, 1], "f f f f f f f f"],
-    leftWall: [[1, 1], "f a f a f a w a"],
-    rightWall: [[3, 1], "f a w a f a f a"],
-    upWall: [[2, 0], "w a f a f a f a"],
-    downWall: [[2, 2], "f a f a w a f a"],
+var spriteConfig_Wall = {
+    leftUpCornerTip: [[6, 2], "w w w w w w w f"],
+    leftDownCornerTip: [[6, 0], "w w w w w f w w"],
+    rightUpCornerTip: [[4, 2], "w f w w w w w w"],
+    rightDownCornerTip: [[4, 0], "w w w f w w w w"],
 
-    leftUpCorner: [[1, 0], "w a f a f a w a"],
-    leftDownCorner: [[1, 2], "f a f a w a w a"],
-    rightUpCorner: [[3, 0], "w a w a f a f a"],
-    rightDownCorner: [[3, 2], "f a w a w a f a"],
+    leftUpCorner: [[1, 0], "f a w a w a f a"],
+    leftDownCorner: [[1, 2], "w a w a f a f a"],
+    rightUpCorner: [[3, 0], "f a f a w a w a"],
+    rightDownCorner: [[3, 2], "w a f a f a w a"],
+
+    center: [[2, 1], "w w w w w w w w"],
+    leftWall: [[1, 1], "w a w a w a f a"],
+    rightWall: [[3, 1], "w a f a w a w a"],
+    upWall: [[2, 0], "f a w a w a w a"],
+    downWall: [[2, 2], "w a w a f a w a"],
 };
 
 var spriteConfig_Floor = {
-    center: [[2, 1], "f f f f f f f f"],
-    leftWall: [[1, 1], "f a f a f a w a"],
-    rightWall: [[3, 1], "f a w a f a f a"],
-    upWall: [[2, 0], "w a f a f a f a"],
-    downWall: [[2, 2], "f a f a w a f a"],
+    center: [[2, 1], "f a f a f a f a"],
 
     leftUpCorner: [[1, 0], "w a f a f a w a"],
     leftDownCorner: [[1, 2], "f a f a w a w a"],
     rightUpCorner: [[3, 0], "w a w a f a f a"],
     rightDownCorner: [[3, 2], "f a w a w a f a"],
+
+    leftWall: [[1, 1], "f a f a f a w a"],
+    rightWall: [[3, 1], "f a w a f a f a"],
+    upWall: [[2, 0], "w a f a f a f a"],
+    downWall: [[2, 2], "f a f a w a f a"],
 };

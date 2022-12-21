@@ -44,10 +44,10 @@ class Camera {
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
         ctx.drawImage(
             img,
-            sprite.imgPos[0] * 32,
-            sprite.imgPos[1] * 32,
-            32,
-            32,
+            sprite.imgPos[0] * sprite.imgSize.x,
+            sprite.imgPos[1] * sprite.imgSize.y,
+            sprite.imgSize.x,
+            sprite.imgSize.y,
             -changeXY,
             -changeXY,
             32 * size.x * this.zoom,
@@ -90,4 +90,3 @@ class Camera {
         }
     }
 }
-
