@@ -22,14 +22,14 @@ class Camera {
         }
         ctx.drawImage(
             img,
-            sprite.imgPos[0] * 32,
-            sprite.imgPos[1] * 32,
-            32,
-            32,
-            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom,
-            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom,
-            32 * size.x * this.zoom,
-            32 * size.y * this.zoom
+            sprite.imgPos[0] * sprite.imgSize.x,
+            sprite.imgPos[1] * sprite.imgSize.y,
+            sprite.imgSize.x,
+            sprite.imgSize.y,
+            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16 + sprite.imgOffset.x) * this.zoom,
+            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16 + sprite.imgOffset.y) * this.zoom,
+            sprite.imgSize.x * size.x * this.zoom,
+            sprite.imgSize.y * size.y * this.zoom
         );
     }
     drawImgRotate(sprite, pos, size, rotation) {

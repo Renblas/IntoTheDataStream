@@ -17,7 +17,7 @@ class World {
         var minX = floor(cameraObj.pos.x - 8 / cameraObj.zoom);
         var maxX = ceil(cameraObj.pos.x + 8 / cameraObj.zoom);
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
-        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom);
+        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
         for (let i = minY; i < maxY; i++) {
             try {
@@ -33,7 +33,7 @@ class World {
         var minX = floor(cameraObj.pos.x - 8 / cameraObj.zoom);
         var maxX = ceil(cameraObj.pos.x + 8 / cameraObj.zoom);
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
-        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom);
+        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
         for (let i = minY; i < maxY; i++) {
             try {

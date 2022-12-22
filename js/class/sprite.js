@@ -7,17 +7,15 @@ class Sprite {
     constructor(config) {
         this.img = config.img || "default";
         this.imgPos = config.imgPos || [0, 0];
-        this.imgSize = new Vec2(32, 32);
+        this.imgSize = config.imgSize || new Vec2(32, 32);
+        this.imgOffset = config.imgOffset || new Vec2(0, 0);
     }
 }
 
 /*
  *  - converts neibhbor tiles obj into string
  */
-function tileImgToString(input, antiChar) {
-    if (input.sprite.img == "wall" && input.isWallFace) {
-        return antiChar;
-    }
+function tileImgToString(input) {
 
     switch (input.sprite.img) {
         case "wall":

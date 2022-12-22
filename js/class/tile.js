@@ -77,26 +77,16 @@ class Tile {
         var antiChar = this.type == "wall" ? "w" : antiChar;
 
         var neighborString = "";
-        neighborString += !a.up ? antiChar : tileImgToString(a.up, pre_antiChar);
-        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp, pre_antiChar));
-        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right, pre_antiChar));
-        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown, pre_antiChar));
-        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down, pre_antiChar));
-        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown, pre_antiChar));
-        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left, pre_antiChar));
-        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp, pre_antiChar));
+        neighborString += !a.up ? antiChar : tileImgToString(a.up);
+        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp));
+        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right));
+        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown));
+        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down));
+        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown));
+        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left));
+        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp));
 
         // Special Rules for Walls
-        if (this.sprite.char == "w") {
-            if (a.down && a.down.sprite.img == "floor") {
-                this.sprite.imgPos = [0, 1];
-                return;
-            }
-
-            if (a.down2 && a.down2.sprite.img == "floor") {
-                neighborString = neighborString.replaceAt(8, "f");
-            }
-        }
 
         this.nt = neighborString;
 
@@ -140,9 +130,28 @@ class Wall extends Tile {
 
         this.sprite.img = "wall";
         this.sprite.imgConfig = spriteConfig_Wall;
-        this.sprite.char = "w";
+        this.sprite.char = "w"; 
+        this.sprite.imgOffset = new Vec2(0, -22);
+
+        this.spriteWallFace = new Sprite({
+            img: "wall",
+            imgConfig: null,
+            char: "w",
+            imgOffset: new Vec2(0, 0),
+            imgPos: [0, 1],
+        })
 
         this.type = "wall";
+    }
+    draw() {
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                if (this.isWallFace) {
+                    cameraObj.drawImg(this.spriteWallFace, this.pos, this.size)
+                }
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
+            }
+        }
     }
 }
 
@@ -151,54 +160,21 @@ class Wall extends Tile {
  *  - handles logic/drawing for Doors
  *  By: Caleb
  */
-class Door {
+class Door extends Tile {
     constructor(pos) {
-        this.pos = pos;
+        super(pos);
+
         this.posAdjust = new Vec2(pos.x - 0.5, pos.y - 0.5);
         this.size = new Vec2(1, 1);
-        this.imgFloor = "floor";
-        this.img = "door_base";
-        this.imgMoving = "door_moving";
+
+        this.sprite.img = "door";
 
         this.direction = 90;
 
         this.playerDetectionRange = 1;
         this.isOpen = false;
-
-        this.hasInitialized = false;
-    }
-    init() {
-        // find door
-        if (world.array[this.pos.y][this.pos.x - 1].img == "wall") {
-            this.direction = 90;
-        } else if (world.array[this.pos.y + 1][this.pos.x].img == "wall") {
-            this.direction = 180;
-        } else if (world.array[this.pos.y][this.pos.x + 1].img == "wall") {
-            this.direction = 270;
-        } else if (world.array[this.pos.y - 1][this.pos.x].img == "wall") {
-            this.direction = 0;
-        } else {
-            print("no wall found");
-            this.direction = 0;
-        }
-
-        if (world.array[this.pos.y][this.pos.x - 1].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y][this.pos.x - 1];
-        } else if (world.array[this.pos.y + 1][this.pos.x].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y + 1][this.pos.x];
-        } else if (world.array[this.pos.y][this.pos.x + 1].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y][this.pos.x + 1];
-        } else if (world.array[this.pos.y - 1][this.pos.x].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y - 1][this.pos.x];
-        }
-
-        this.hasInitialized = true;
     }
     update() {
-        if (!this.hasInitialized) {
-            this.init();
-        }
-
         var playerDist = dist(player.pos.x, player.pos.y, this.pos.x, this.pos.y);
         if (playerDist < this.playerDetectionRange && !this.isOpen) {
             this.open();
@@ -209,14 +185,16 @@ class Door {
         }
     }
     draw() {
-        if (this.isRevealed || !settings.FOG_OF_WAR) {
-            if (this.isOpen) {
-                cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
-            } else {
-                cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                cameraObj.drawImgRotate(this.imgMoving, this.pos, this.size, this.direction);
-                cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                if (this.isOpen) {
+                    cameraObj.drawImg(this.imgFloor, this.pos, this.size);
+                    cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
+                } else {
+                    cameraObj.drawImg(this.imgFloor, this.pos, this.size);
+                    cameraObj.drawImgRotate(this.imgMoving, this.pos, this.size, this.direction);
+                    cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
+                }
             }
         }
     }

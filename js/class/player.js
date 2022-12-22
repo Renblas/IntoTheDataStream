@@ -7,7 +7,7 @@ class Player {
         this.pos = new Vec2(pos.x, pos.y);
         this.size = new Vec2(1, 1);
         this.angle = 0;
-        this.moveSpeed = 2;
+        this.moveSpeed = 4;
 
         this.sprite = new Sprite({
             img: "player",
