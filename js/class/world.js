@@ -10,7 +10,8 @@ class World {
         this.map = config.map || testMap1;
 
         this.array = [[]];
-
+        this.sizeX = 0;
+        this.sizeY = 0;
         this.loadMap();
     }
     draw() {
@@ -24,9 +25,9 @@ class World {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].draw();
-                    } catch (e) {}
+                    } catch (e) { }
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
     }
     update() {
@@ -40,9 +41,9 @@ class World {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].update();
-                    } catch (e) {}
+                    } catch (e) { }
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
     }
     init() {
@@ -51,9 +52,9 @@ class World {
                 for (let j = 0; j < this.array[i].length; j++) {
                     try {
                         this.array[i][j].init();
-                    } catch (e) {}
+                    } catch (e) { }
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
     }
     getTile(x, y) {
@@ -68,8 +69,10 @@ class World {
         // Populate Array
         for (let i = 0; i < this.map.stringArray.length; i++) {
             string = split(this.map.stringArray[i], " ");
+            this.sizeY++;
             this.array[i] = [];
             for (let j = 0; j < string.length; j++) {
+                this.sizeX++;
                 const char = string[j];
                 switch (char) {
                     case "f":

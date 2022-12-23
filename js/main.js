@@ -5,7 +5,7 @@
 //Yo wassup
 var settings = {
     DEBUG_ENABLED: true,
-    FOG_OF_WAR: false,
+    FOG_OF_WAR: true,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
@@ -27,7 +27,7 @@ var inputManager;
 var world;
 var player;
 var testGameObject;
-
+var mapSize;
 const GlobalBulletArray = [];
 
 /*
@@ -112,7 +112,7 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: map_test1 });
+    world = new World({ map: map_miniTest });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
 
@@ -127,6 +127,7 @@ function drawGame() {
     cameraObj.update();
 
     world.draw();
+    player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
     GlobalBulletArray.forEach((element) => {
         //element.draw();
@@ -151,3 +152,15 @@ function updateGame() {
 
     world.update();
 }
+//test
+p5.prototype.collideRectRect = function (x, y, w, h, x2, y2, w2, h2) {
+    //2d
+    //add in a thing to detect rectMode CENTER
+    if (x + w >= x2 &&    // r1 right edge past r2 left
+        x <= x2 + w2 &&    // r1 left edge past r2 right
+        y + h >= y2 &&    // r1 top edge past r2 bottom
+        y <= y2 + h2) {    // r1 bottom edge past r2 top
+        return true;
+    }
+    return false;
+};
