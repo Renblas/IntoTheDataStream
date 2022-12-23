@@ -5,7 +5,7 @@
 //Yo wassup
 var settings = {
     DEBUG_ENABLED: true,
-    FOG_OF_WAR: false,
+    FOG_OF_WAR: true,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above

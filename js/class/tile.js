@@ -27,7 +27,7 @@ class Tile {
     }
     update() {
         if (!this.hasDeterminedImage) {
-            this.determineImage();
+            this.determineImage(this.sprite);
             this.hasDeterminedImage = true;
             return;
         }
@@ -36,7 +36,7 @@ class Tile {
         if (this.hasInitialized && !this.isRevealed) {
             this.isRevealed = true;
 
-            if (this.type == "floor" || this.isWallFace) {
+            if (this.type == "floor") {
                 try {
                     world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
                     world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
@@ -62,7 +62,7 @@ class Tile {
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
 
         if (this.sprite.img == "wall") {
-            if (this.neighborTiles.down && this.neighborTiles.down.sprite.img == "floor") {
+            if (this.neighborTiles.down && this.neighborTiles.down.sprite.img != "wall") {
                 this.isWallFace = true;
             } else {
                 this.isWallFace = false;
@@ -71,10 +71,10 @@ class Tile {
 
         this.hasInitialized = true;
     }
-    determineImage() {
+    determineImage(sprite) {
         var a = this.neighborTiles;
-        var pre_antiChar = this.sprite.char == "f" ? "w" : "f";
-        var antiChar = this.type == "wall" ? "w" : antiChar;
+        var pre_antiChar = sprite.char == "f" ? "w" : "f";
+        var antiChar = sprite.char == "w" ? "w" : antiChar;
 
         var neighborString = "";
         neighborString += !a.up ? antiChar : tileImgToString(a.up);
@@ -91,11 +91,11 @@ class Tile {
         this.nt = neighborString;
 
         // Main Global Rules
-        var possibleImg = Object.keys(this.sprite.imgConfig);
+        var possibleImg = Object.keys(sprite.imgConfig);
         for (let i = 0; i < possibleImg.length; i++) {
-            var currentConfig = this.sprite.imgConfig[possibleImg[i]];
+            var currentConfig = sprite.imgConfig[possibleImg[i]];
             if (checkNeighborTileStrings(neighborString, currentConfig[1])) {
-                this.sprite.imgPos = currentConfig[0];
+                sprite.imgPos = currentConfig[0];
                 return;
             }
         }
@@ -173,6 +173,8 @@ class Door extends Tile {
         this.spriteDoorFloor = new Sprite({
             img: "door",
             imgPos: [0, 1],
+            char: "f",
+            imgConfig: spriteConfig_DoorFloor,
         });
 
         this.playerDetectionRange = 1.5;
@@ -184,7 +186,8 @@ class Door extends Tile {
     }
     update() {
         if (!this.hasDeterminedImage) {
-            this.determineImage();
+            this.determineImage(this.sprite);
+            //this.determineImage(this.spriteDoorFloor);
             this.hasDeterminedImage = true;
             return;
         }
@@ -196,6 +199,10 @@ class Door extends Tile {
             } else {
                 this.currentOpenTime = this.maxOpenTime;
                 this.isOpen = true;
+                this.neighborTiles.up.revealSelf();
+                this.neighborTiles.down.revealSelf();
+                this.neighborTiles.left.revealSelf();
+                this.neighborTiles.right.revealSelf();
             }
         } else if (playerDist > this.playerDetectionRange) {
             if (this.currentOpenTime > 0 && this.isOpen) {

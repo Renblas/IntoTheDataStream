@@ -5,9 +5,9 @@
 class Player {
     constructor(pos) {
         this.pos = new Vec2(pos.x, pos.y);
-        this.size = new Vec2(0.75, 0.75);
+        this.size = new Vec2(0.5, 0.5);
         this.angle = 0;
-        this.moveSpeed = 4;
+        this.moveSpeed = 3;
 
         this.sprite = new Sprite({
             img: "player",

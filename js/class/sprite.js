@@ -91,8 +91,6 @@ var spriteConfig_Wall = {
     downWall: [[2, 2], "w a w a f a w a"],
 };
 
-var spriteConfig_Door = {};
-
 var spriteConfig_Floor = {
     center: [[2, 1], "f a f a f a f a"],
 
@@ -107,4 +105,14 @@ var spriteConfig_Floor = {
     rightWall: [[3, 1], "f a w a f a f a"],
     upWall: [[2, 0], "w a f a f a f a"],
     downWall: [[2, 2], "f a f a w a f a"],
+};
+
+var spriteConfig_Door = {
+    verticalUnlocked: [[1, 0], "f a w a f a w a"],
+    horizontalUnlocked: [[1, 1], "w a f a w a f a"],
+};
+
+var spriteConfig_DoorFloor = {
+    vertical: [[0, 1], "f a w a f a w a"],
+    horizontal: [[0, 2], "w a f a w a f a"],
 };
