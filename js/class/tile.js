@@ -130,7 +130,7 @@ class Wall extends Tile {
 
         this.sprite.img = "wall";
         this.sprite.imgConfig = spriteConfig_Wall;
-        this.sprite.char = "w"; 
+        this.sprite.char = "w";
         this.sprite.imgOffset = new Vec2(0, -22);
 
         this.spriteWallFace = new Sprite({
@@ -139,7 +139,7 @@ class Wall extends Tile {
             char: "w",
             imgOffset: new Vec2(0, 0),
             imgPos: [0, 1],
-        })
+        });
 
         this.type = "wall";
     }
@@ -147,7 +147,7 @@ class Wall extends Tile {
         if (this.hasDeterminedImage) {
             if (this.isRevealed || !settings.FOG_OF_WAR) {
                 if (this.isWallFace) {
-                    cameraObj.drawImg(this.spriteWallFace, this.pos, this.size)
+                    cameraObj.drawImg(this.spriteWallFace, this.pos, this.size);
                 }
                 cameraObj.drawImg(this.sprite, this.pos, this.size);
             }
@@ -164,37 +164,59 @@ class Door extends Tile {
     constructor(pos) {
         super(pos);
 
-        this.posAdjust = new Vec2(pos.x - 0.5, pos.y - 0.5);
-        this.size = new Vec2(1, 1);
-
         this.sprite.img = "door";
+        this.sprite.imgPos = [1, 0];
+        this.sprite.char = "f";
+        this.sprite.imgConfig = spriteConfig_Door;
+        this.sprite.imgOffset = new Vec2(0, -14);
 
-        this.direction = 90;
+        this.spriteDoorFloor = new Sprite({
+            img: "door",
+            imgPos: [0, 1],
+        });
 
-        this.playerDetectionRange = 1;
+        this.playerDetectionRange = 1.5;
         this.isOpen = false;
+
+        this.maxOpenTime = 0.5;
+        this.currentOpenTime = 0;
+        this.percentOpen = 0;
     }
     update() {
+        if (!this.hasDeterminedImage) {
+            this.determineImage();
+            this.hasDeterminedImage = true;
+            return;
+        }
+
         var playerDist = dist(player.pos.x, player.pos.y, this.pos.x, this.pos.y);
-        if (playerDist < this.playerDetectionRange && !this.isOpen) {
-            this.open();
-            this.connectedDoor.open();
-        } else if (playerDist > this.playerDetectionRange + 1 && this.isOpen) {
-            this.close();
-            this.connectedDoor.close();
+        if (playerDist <= this.playerDetectionRange) {
+            if (this.currentOpenTime < this.maxOpenTime && !this.isOpen) {
+                this.currentOpenTime += deltaTimeFixed;
+            } else {
+                this.currentOpenTime = this.maxOpenTime;
+                this.isOpen = true;
+            }
+        } else if (playerDist > this.playerDetectionRange) {
+            if (this.currentOpenTime > 0 && this.isOpen) {
+                this.currentOpenTime -= deltaTimeFixed;
+            } else {
+                this.currentOpenTime = 0;
+                this.isOpen = false;
+            }
         }
     }
     draw() {
         if (this.hasDeterminedImage) {
             if (this.isRevealed || !settings.FOG_OF_WAR) {
-                if (this.isOpen) {
-                    cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                    cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
-                } else {
-                    cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                    cameraObj.drawImgRotate(this.imgMoving, this.pos, this.size, this.direction);
-                    cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
-                }
+                this.percentOpen = sq(this.currentOpenTime / this.maxOpenTime);
+
+                cameraObj.drawImg(this.spriteDoorFloor, this.pos, this.size);
+
+                this.sprite.imgSize.set(32, 32 * (1 - this.percentOpen));
+                this.sprite.imgOffset.set(0, 32 * this.percentOpen - 14);
+
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
             }
         }
     }

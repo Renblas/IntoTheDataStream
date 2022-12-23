@@ -16,14 +16,13 @@ class Sprite {
  *  - converts neibhbor tiles obj into string
  */
 function tileImgToString(input) {
-
     switch (input.sprite.img) {
         case "wall":
             return "w";
         case "floor":
             return "f";
         case "door":
-            return "d";
+            return "f";
         default:
             print("ERROR: Img not recognized");
             break;
@@ -92,6 +91,8 @@ var spriteConfig_Wall = {
     downWall: [[2, 2], "w a w a f a w a"],
 };
 
+var spriteConfig_Door = {};
+
 var spriteConfig_Floor = {
     center: [[2, 1], "f a f a f a f a"],
 
@@ -99,6 +100,8 @@ var spriteConfig_Floor = {
     leftDownCorner: [[1, 2], "f a f a w a w a"],
     rightUpCorner: [[3, 0], "w a w a f a f a"],
     rightDownCorner: [[3, 2], "f a w a w a f a"],
+
+    singleVertical: [[2, 1], "f a w a f a w a"],
 
     leftWall: [[1, 1], "f a f a f a w a"],
     rightWall: [[3, 1], "f a w a f a f a"],
