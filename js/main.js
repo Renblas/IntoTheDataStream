@@ -63,6 +63,13 @@ function draw() {
         menu__Main.draw();
         return;
     }
+    
+     
+    if (menuState == "settings") {
+        menu_Settings.draw();
+        return;
+    }
+    
 
     if (!checkIsLoaded() || minLoadingScreenTime > 0) {
         background(255, 200, 200);
@@ -148,3 +155,6 @@ function updateGame() {
 
     world.update();
 }
+/* Merry Rickmas my friends:
+ https://www.reddit.com/r/RickRolled/comments/zq0i74/last_rickmas/
+ */
