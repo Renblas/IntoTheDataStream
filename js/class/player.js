@@ -5,11 +5,15 @@
 class Player {
     constructor(pos) {
         this.pos = new Vec2(pos.x, pos.y);
-        this.size = new Vec2(1, 1);
+        this.size = new Vec2(0.5, 0.5);
         this.angle = 0;
-        this.moveSpeed = 4;
+        this.moveSpeed = 3;
 
-        this.img = "player";
+        this.sprite = new Sprite({
+            img: "player",
+            imgPos: [0, 0],
+        });
+        this.sprite.imgSize.set(50, 37)
 
         this.standaredBullet = {
             speed: 6,
@@ -20,7 +24,7 @@ class Player {
         this.fireCooldownMax = 0.25;
     }
     draw() {
-        cameraObj.drawImg(this.img, this.pos, this.size);
+        cameraObj.drawImg(this.sprite, this.pos, this.size);
     }
     update() {
         this.move();

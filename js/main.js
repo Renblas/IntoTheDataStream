@@ -2,6 +2,7 @@
  *  Global Variables
  */
 
+//Yo wassup
 var settings = {
     DEBUG_ENABLED: true,
     FOG_OF_WAR: true,
@@ -56,7 +57,7 @@ function setup() {
  *  - called x times per second, from p5js library
  */
 function draw() {
-    background(100);
+    background("#383638"); // color of top of tile "#383638"
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
@@ -121,6 +122,8 @@ function initNewGame(map) {
     world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
+
+    world.init();
 }
 
 /*
@@ -133,7 +136,7 @@ function drawGame() {
     world.draw();
 
     GlobalBulletArray.forEach((element) => {
-        element.draw();
+        //element.draw();
     });
 
     player.draw();

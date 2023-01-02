@@ -8,6 +8,7 @@ const GlobalLoadArray = [
     "lib/p5.collide2d.js",
 
     "js/class/camera.js",
+    "js/class/sprite.js",
     "js/class/gameobject.js",
     "js/class/player.js",
     "js/class/world.js",
@@ -24,8 +25,7 @@ const GlobalLoadArray = [
     "img/tiles/wall.png",
     "img/tiles/floor.png",
     "img/tiles/koransGrave.png",
-    "img/tiles/door_base.png",
-    "img/tiles/door_moving.png",
+    "img/tiles/door.png",
 
     "js/maps/map_testMap1.js",
     "js/maps/map_miniTest.js"

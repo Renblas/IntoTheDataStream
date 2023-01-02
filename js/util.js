@@ -2,6 +2,11 @@
  *  Contains Miscellaneous functions and classes
  */
 
+// string replace at index
+String.prototype.replaceAt = function (index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+};
+
 /*
  *  Vector 2 Class
  *  - takes in x and y, has some useful methods like magnitude and direction
