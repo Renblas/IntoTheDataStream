@@ -1,6 +1,6 @@
 var map_miniTest = {
     objectType: "map",
-    startingPlayerPos: { x: 0, y: 4 },
+    startingPlayerPos: { x: 4, y: 4 },
 
     stringArray: [
         "w w w w w w w w",

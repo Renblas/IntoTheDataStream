@@ -58,18 +58,27 @@ class Player {
         GlobalBulletArray.push(new Projectile(config));
     }
     detectColision() {
+        //this is all for wall collisions
         var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;
         var hitCounter = 0;
+        directionLock.up = false;
+        directionLock.down = false;
+        directionLock.left = false;
+        directionLock.right = false;
         for (var i = intPos.y - 2; i < intPos.y + 3; i++) {
             for (var b = intPos.x - 2; b < intPos.x + 3; b++) {
                 try {
                     if (world.getTile(b, i).type == "wall") {
-                        hit = collideRectRect(this.pos.x + 0.25, this.pos.y + 0.25, 0.5, 0.5, b, i - 0.5, 1, 1.5);
+                        var tileSize = world.getTile(b, i).size;
+                        hit = collideRectRect(this.pos.x + (this.size.x / 2), this.pos.y + (this.size.y / 2), this.size.x, this.size.y, b, i - (tileSize.x / 2), tileSize.x, tileSize.y + (tileSize.y / 2));
+                        if (hit) {
+                            //if (this.pos.x + 0.25 >= b + 1) { directionLock.left = true; }
+                        }
                     } else { hit = false }
+
                     if (hit) { hitCounter += 1; }
-                    if (hitCounter > 0) { console.log(hitCounter); this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
-                    console.log(world.getTile(b, i));
+                    if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
                 } catch (e) { }
             }
         }

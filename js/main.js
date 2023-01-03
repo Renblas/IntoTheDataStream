@@ -28,6 +28,12 @@ var world;
 var player;
 var testGameObject;
 var mapSize;
+var directionLock = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
 const GlobalBulletArray = [];
 
 /*
