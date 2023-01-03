@@ -65,6 +65,13 @@ function draw() {
         return;
     }
 
+
+    if (menuState == "settings") {
+        menu_Settings.draw();
+        return;
+    }
+
+
     if (!checkIsLoaded() || minLoadingScreenTime > 0) {
         background(255, 200, 200);
         textAlign(LEFT, TOP);
@@ -164,3 +171,6 @@ p5.prototype.collideRectRect = function (x, y, w, h, x2, y2, w2, h2) {
     }
     return false;
 };
+/* Merry Rickmas my friends:
+ https://www.reddit.com/r/RickRolled/comments/zq0i74/last_rickmas/
+ */
