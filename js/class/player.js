@@ -2,7 +2,7 @@
  *  Player Class
  *  By: Caleb, Givens
  */
-var hit;
+var collidedWall;
 class Player {
     constructor(pos) {
         this.pos = new Vec2(pos.x, pos.y);
@@ -71,14 +71,11 @@ class Player {
                 try {
                     if (world.getTile(b, i).type == "wall") {
                         var tileSize = world.getTile(b, i).size;
-                        hit = collideRectRect(this.pos.x + (this.size.x / 2), this.pos.y + (this.size.y / 2), this.size.x, this.size.y, b, i - (tileSize.x / 2), tileSize.x, tileSize.y + (tileSize.y / 2));
-                        if (hit) {
-                            //if (this.pos.x + 0.25 >= b + 1) { directionLock.left = true; }
-                        }
-                    } else { hit = false }
+                        collidedWall = collideRectRect(this.pos.x - (this.size.x / 2), this.pos.y - (this.size.y / 2), this.size.x, this.size.y, b - (tileSize.x / 2), i - (tileSize.y / 2), tileSize.x, tileSize.y);
 
-                    if (hit) { hitCounter += 1; }
-                    if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
+                    } else { collidedWall = false; }
+                    if (collidedWall) { hitCounter += 1; }
+                    //if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
                 } catch (e) { }
             }
         }
