@@ -71,7 +71,7 @@ class Player {
                 try {
                     if (world.getTile(b, i).type == "wall") {
                         var tileSize = world.getTile(b, i).size;
-                        hit = collideRectRect(this.pos.x + (this.size.x / 2), this.pos.y + (this.size.y / 2), this.size.x, this.size.y, b, i - (tileSize.x / 2), tileSize.x, tileSize.y + (tileSize.y / 2));
+                        hit = collideRectRect(this.pos.x + (this.size.x / 2), this.pos.y + (this.size.y / 2), this.size.x, this.size.y, b  , i , tileSize.x, tileSize.y );
                         if (hit) {
                             //if (this.pos.x + 0.25 >= b + 1) { directionLock.left = true; }
                         }
