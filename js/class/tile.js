@@ -26,7 +26,7 @@ class Tile {
         }
     }
     update() {
-        if (!this.hasDeterminedImage) {
+        if (this.isRevealed || !settings.FOG_OF_WAR) {
             this.determineImage(this.sprite);
             this.hasDeterminedImage = true;
             return;
@@ -156,10 +156,10 @@ class Wall extends Tile {
 
         if (this.isTopFace) {
             var yDist = this.pos.y - player.pos.y;
-            if (yDist < 2 && yDist > -1) {
+            if (yDist < 2 && yDist > 0) {
                 this.transparentTimer += deltaTimeFixed;
                 if (this.transparentTimer > this.transparentTimerMax) this.transparentTimer = this.transparentTimerMax;
-            } else if (yDist > 3 || yDist < -1) {
+            } else if (yDist > 2.5 || yDist < 0) {
                 this.transparentTimer -= deltaTimeFixed;
                 if (this.transparentTimer < 0) this.transparentTimer = 0;
             }

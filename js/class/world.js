@@ -12,6 +12,9 @@ class World {
         this.array = [[]];
         this.sizeX = 0;
         this.sizeY = 0;
+
+        this.determineImageThisFrame = false;
+
         this.loadMap();
     }
     draw() {
@@ -25,9 +28,9 @@ class World {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].draw();
-                    } catch (e) { }
+                    } catch (e) {}
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
     }
     update() {
@@ -41,9 +44,9 @@ class World {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].update();
-                    } catch (e) { }
+                    } catch (e) {}
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
     }
     init() {
@@ -52,9 +55,9 @@ class World {
                 for (let j = 0; j < this.array[i].length; j++) {
                     try {
                         this.array[i][j].init();
-                    } catch (e) { }
+                    } catch (e) {}
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
     }
     getTile(x, y) {
@@ -89,6 +92,9 @@ class World {
 
                     case "d":
                         this.array[i][j] = new Door(new Vec2(j, i));
+                        break;
+
+                    case ".":
                         break;
 
                     default:
