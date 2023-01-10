@@ -172,7 +172,7 @@ class Wall extends Tile {
         super.init();
 
         // Check if is a top face
-        if (this.neighborTiles.up.type != "wall") {
+        if (this.neighborTiles.up && this.neighborTiles.up.type != "wall") {
             this.isTopFace = true;
         } else {
             this.isTopFace = false;
