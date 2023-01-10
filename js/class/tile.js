@@ -153,6 +153,15 @@ class Wall extends Tile {
             }
         }
     }
+    update() {
+        super.update();
+
+        if (abs(player.pos.y - (this.pos.y - 1)) <= 1) {
+            this.sprite.opacity = 0.25;
+        } else {
+            this.sprite.opacity = 1;
+        }
+    }
 }
 
 /*

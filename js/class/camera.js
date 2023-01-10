@@ -20,6 +20,7 @@ class Camera {
         if (!img) {
             img = GlobalImageObject["default"];
         }
+        ctx.globalAlpha = (sprite.opacity) ? sprite.opacity : 1;
         ctx.drawImage(
             img,
             sprite.imgPos[0] * sprite.imgSize.x,
@@ -31,6 +32,7 @@ class Camera {
             sprite.imgSize.x * size.x * this.zoom,
             sprite.imgSize.y * size.y * this.zoom
         );
+        ctx.globalAlpha = 1;
     }
     drawImgRotate(sprite, pos, size, rotation) {
         var img = GlobalImageObject[sprite.img];

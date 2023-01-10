@@ -125,7 +125,7 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: map_miniTest });
+    world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
 
