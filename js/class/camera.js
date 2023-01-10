@@ -20,17 +20,19 @@ class Camera {
         if (!img) {
             img = GlobalImageObject["default"];
         }
+        ctx.globalAlpha = (sprite.opacity) ? sprite.opacity : 1;
         ctx.drawImage(
             img,
-            sprite.imgPos[0] * 32,
-            sprite.imgPos[1] * 32,
-            32,
-            32,
-            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom,
-            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom,
-            32 * size.x * this.zoom,
-            32 * size.y * this.zoom
+            sprite.imgPos[0] * sprite.imgSize.x,
+            sprite.imgPos[1] * sprite.imgSize.y,
+            sprite.imgSize.x,
+            sprite.imgSize.y,
+            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16 + sprite.imgOffset.x) * this.zoom,
+            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16 + sprite.imgOffset.y) * this.zoom,
+            sprite.imgSize.x * size.x * this.zoom,
+            sprite.imgSize.y * size.y * this.zoom
         );
+        ctx.globalAlpha = 1;
     }
     drawImgRotate(sprite, pos, size, rotation) {
         var img = GlobalImageObject[sprite.img];
@@ -44,10 +46,10 @@ class Camera {
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
         ctx.drawImage(
             img,
-            sprite.imgPos[0] * 32,
-            sprite.imgPos[1] * 32,
-            32,
-            32,
+            sprite.imgPos[0] * sprite.imgSize.x,
+            sprite.imgPos[1] * sprite.imgSize.y,
+            sprite.imgSize.x,
+            sprite.imgSize.y,
             -changeXY,
             -changeXY,
             32 * size.x * this.zoom,
@@ -88,17 +90,5 @@ class Camera {
         if (player.pos.y - this.pos.y <= -this.maxDistToPlayer) {
             this.pos.y = player.pos.y + this.maxDistToPlayer;
         }
-    }
-}
-
-/*
- *  Sprite
- *  - handles image cropping from spritesheets for animations/different image states
- *  By: Caleb
- */
-class Sprite {
-    constructor(config) {
-        this.img = config.img || "default";
-        this.imgPos = config.imgPos || [0, 0];
     }
 }

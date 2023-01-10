@@ -10,45 +10,57 @@ class World {
         this.map = config.map || testMap1;
 
         this.array = [[]];
-
+        this.sizeX = 0;
+        this.sizeY = 0;
         this.loadMap();
     }
     draw() {
         var minX = floor(cameraObj.pos.x - 8 / cameraObj.zoom);
         var maxX = ceil(cameraObj.pos.x + 8 / cameraObj.zoom);
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
-        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom);
+        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
         for (let i = minY; i < maxY; i++) {
             try {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].draw();
-                    } catch (e) {}
+                    } catch (e) { }
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
     }
     update() {
         var minX = floor(cameraObj.pos.x - 8 / cameraObj.zoom);
         var maxX = ceil(cameraObj.pos.x + 8 / cameraObj.zoom);
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
-        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom);
+        var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
         for (let i = minY; i < maxY; i++) {
             try {
                 for (let j = minX; j < maxX; j++) {
                     try {
                         this.array[i][j].update();
-                    } catch (e) {}
+                    } catch (e) { }
                 }
-            } catch (e) {}
+            } catch (e) { }
+        }
+    }
+    init() {
+        for (let i = 0; i < this.array.length; i++) {
+            try {
+                for (let j = 0; j < this.array[i].length; j++) {
+                    try {
+                        this.array[i][j].init();
+                    } catch (e) { }
+                }
+            } catch (e) { }
         }
     }
     getTile(x, y) {
         if (x >= 0 && y >= 0) {
             if (y < this.array.length && x < this.array[y].length) {
-                return this.array[y][x];   
+                return this.array[y][x];
             }
         }
         return null;
@@ -57,11 +69,13 @@ class World {
         // Populate Array
         for (let i = 0; i < this.map.stringArray.length; i++) {
             string = split(this.map.stringArray[i], " ");
+            this.sizeY++;
             this.array[i] = [];
             for (let j = 0; j < string.length; j++) {
+                this.sizeX++;
                 const char = string[j];
                 switch (char) {
-                    case "F":
+                    case "f":
                         this.array[i][j] = new Floor(new Vec2(j, i), "floor");
                         break;
 
@@ -69,7 +83,7 @@ class World {
                         this.array[i][j] = new Floor(new Vec2(j, i), "koransGrave");
                         break;
 
-                    case "W":
+                    case "w":
                         this.array[i][j] = new Wall(new Vec2(j, i));
                         break;
 

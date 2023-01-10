@@ -67,11 +67,10 @@ class InputManager {
         this.moveRightKey.update();
 
         this.playerMoveVec.set(0, 0);
-
-        this.playerMoveVec.x -= this.moveLeftKey.smoothFloat;
-        this.playerMoveVec.x += this.moveRightKey.smoothFloat;
-        this.playerMoveVec.y -= this.moveUpKey.smoothFloat;
-        this.playerMoveVec.y += this.moveDownKey.smoothFloat;
+        if (!directionLock.left) { this.playerMoveVec.x -= this.moveLeftKey.smoothFloat; }
+        if (!directionLock.right) { this.playerMoveVec.x += this.moveRightKey.smoothFloat; }
+        if (!directionLock.up) { this.playerMoveVec.y -= this.moveUpKey.smoothFloat; }
+        if (!directionLock.down) { this.playerMoveVec.y += this.moveDownKey.smoothFloat; }
 
         if (this.playerMoveVec.mag() > 1) {
             this.playerMoveVec.normalize();

@@ -5,7 +5,7 @@
 //Yo wassup
 var settings = {
     DEBUG_ENABLED: true,
-    FOG_OF_WAR: false,
+    FOG_OF_WAR: true,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
@@ -27,7 +27,13 @@ var inputManager;
 var world;
 var player;
 var testGameObject;
-
+var mapSize;
+var directionLock = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
 const GlobalBulletArray = [];
 
 /*
@@ -57,13 +63,20 @@ function setup() {
  *  - called x times per second, from p5js library
  */
 function draw() {
-    background(0);
+    background("#383638"); // color of top of tile "#383638"
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
         menu__Main.draw();
         return;
     }
+
+
+    if (menuState == "settings") {
+        menu_Settings.draw();
+        return;
+    }
+
 
     if (!checkIsLoaded() || minLoadingScreenTime > 0) {
         background(255, 200, 200);
@@ -112,9 +125,11 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    world = new World({ map: map_miniTest });
+    world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
     cameraObj = new Camera();
+
+    world.init();
 }
 
 /*
@@ -125,12 +140,13 @@ function drawGame() {
     cameraObj.update();
 
     world.draw();
+    player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
     GlobalBulletArray.forEach((element) => {
         //element.draw();
     });
 
-    //player.draw();
+    player.draw();
 
     game_ui.draw();
 }
@@ -149,3 +165,18 @@ function updateGame() {
 
     world.update();
 }
+//test
+p5.prototype.collideRectRect = function (x, y, w, h, x2, y2, w2, h2) {
+    //2d
+    //add in a thing to detect rectMode CENTER
+    if (x + w >= x2 &&    // r1 right edge past r2 left
+        x <= x2 + w2 &&    // r1 left edge past r2 right
+        y + h >= y2 &&    // r1 top edge past r2 bottom
+        y <= y2 + h2) {    // r1 bottom edge past r2 top
+        return true;
+    }
+    return false;
+};
+/* Merry Rickmas my friends:
+ https://www.reddit.com/r/RickRolled/comments/zq0i74/last_rickmas/
+ */

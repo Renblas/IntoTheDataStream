@@ -10,26 +10,44 @@ class Tile {
         this.sprite = new Sprite({
             img: "default",
             imgPos: [0, 0],
+            imgConfig: null,
         });
         this.type = "Tile";
         this.neighborTiles = {};
 
         this.hasInitialized = false;
+        this.hasDeterminedImage = false;
     }
     draw() {
-        if (this.isRevealed || !settings.FOG_OF_WAR) {
-            cameraObj.drawImg(this.sprite, this.pos, this.size);
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
+            }
         }
     }
     update() {
-        if (!this.hasInitialized) {
-            this.init();
-            this.hasInitialized = true;
+        if (!this.hasDeterminedImage) {
+            this.determineImage(this.sprite);
+            this.hasDeterminedImage = true;
+            return;
         }
     }
     revealSelf() {
-        if (!this.isRevealed) {
+        if (this.hasInitialized && !this.isRevealed) {
             this.isRevealed = true;
+
+            if (this.type == "floor") {
+                try {
+                    world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
+                    world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
+                    world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
+                    world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
+                    world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
+                } catch (e) {}
+            }
         }
     }
     init() {
@@ -37,11 +55,51 @@ class Tile {
         this.neighborTiles.right = world.getTile(this.pos.x + 1, this.pos.y);
         this.neighborTiles.up = world.getTile(this.pos.x, this.pos.y - 1);
         this.neighborTiles.down = world.getTile(this.pos.x, this.pos.y + 1);
+        this.neighborTiles.leftDown = world.getTile(this.pos.x - 1, this.pos.y + 1);
+        this.neighborTiles.leftUp = world.getTile(this.pos.x - 1, this.pos.y - 1);
+        this.neighborTiles.rightDown = world.getTile(this.pos.x + 1, this.pos.y + 1);
+        this.neighborTiles.rightUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
 
-        this.determineImage();
+        if (this.sprite.img == "wall") {
+            if (this.neighborTiles.down && this.neighborTiles.down.sprite.img != "wall") {
+                this.isWallFace = true;
+            } else {
+                this.isWallFace = false;
+            }
+        }
+
+        this.hasInitialized = true;
     }
-    determineImage() {}
+    determineImage(sprite) {
+        var a = this.neighborTiles;
+        var pre_antiChar = sprite.char == "f" ? "w" : "f";
+        var antiChar = sprite.char == "w" ? "w" : antiChar;
+
+        var neighborString = "";
+        neighborString += !a.up ? antiChar : tileImgToString(a.up);
+        neighborString += " " + (!a.rightUp ? antiChar : tileImgToString(a.rightUp));
+        neighborString += " " + (!a.right ? antiChar : tileImgToString(a.right));
+        neighborString += " " + (!a.rightDown ? antiChar : tileImgToString(a.rightDown));
+        neighborString += " " + (!a.down ? antiChar : tileImgToString(a.down));
+        neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown));
+        neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left));
+        neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp));
+
+        // Special Rules for Walls
+
+        this.nt = neighborString;
+
+        // Main Global Rules
+        var possibleImg = Object.keys(sprite.imgConfig);
+        for (let i = 0; i < possibleImg.length; i++) {
+            var currentConfig = sprite.imgConfig[possibleImg[i]];
+            if (checkNeighborTileStrings(neighborString, currentConfig[1])) {
+                sprite.imgPos = currentConfig[0];
+                return;
+            }
+        }
+    }
 }
 
 /*
@@ -54,25 +112,11 @@ class Floor extends Tile {
         super(pos);
 
         this.sprite.img = "floor";
+        this.sprite.imgConfig = spriteConfig_Floor;
+        this.sprite.char = "f";
+
         this.type = "floor";
     }
-    revealSelf() {
-        if (!this.isRevealed) {
-            this.isRevealed = true;
-
-            try {
-                world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
-                world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
-                world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
-                world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
-                world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
-            } catch (e) {}
-        }
-    }
-    init() {}
 }
 
 /*
@@ -85,132 +129,110 @@ class Wall extends Tile {
         super(pos);
 
         this.sprite.img = "wall";
+        this.sprite.imgConfig = spriteConfig_Wall;
+        this.sprite.char = "w";
+        this.sprite.imgOffset = new Vec2(0, -22);
+
+        this.spriteWallFace = new Sprite({
+            img: "wall",
+            imgConfig: null,
+            char: "w",
+            imgOffset: new Vec2(0, 0),
+            imgPos: [0, 1],
+        });
+
         this.type = "wall";
     }
-    determineImage() {
-        var a = this.neighborTiles;
+    draw() {
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                if (this.isWallFace) {
+                    cameraObj.drawImg(this.spriteWallFace, this.pos, this.size);
+                }
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
+            }
+        }
+    }
+    update() {
+        super.update();
 
-        // sides not exist
-        if (!a.down) {
-            if (!a.left) {
-                this.sprite.imgPos = [1, 2];
-                return;
-            }
-            if (!a.right) {
-                this.sprite.imgPos = [3, 2];
-                return;
-            }
-            this.sprite.imgPos = [2, 2];
-            return;
-        }
-        if (!a.up) {
-            if (!a.left) {
-                this.sprite.imgPos = [1, 0];
-                return;
-            }
-            if (!a.right) {
-                this.sprite.imgPos = [3, 0];
-                return;
-            }
-            this.sprite.imgPos = [2, 0];
-            return;
-        }
-        if (!a.left) {
-            this.sprite.imgPos = [1, 1];
-            return;
-        }
-        if (!a.right) {
-            this.sprite.imgPos = [3, 1];
-            return;
-        }
-
-        // Check sides for floor
-        if (a.down && a.down.type != "wall") {
-            this.sprite.imgPos = [0, 1];
-            return;
-        }
-        if (a.up && a.up.type != "wall") {
-            if (a.down2 && a.down2.img != "wall") {
-                this.sprite.imgPos = [0, 0];
-                return;
-            }
-            this.sprite.imgPos = [2, 0];
-            return;
+        if (abs(player.pos.y - (this.pos.y - 1)) <= 1) {
+            this.sprite.opacity = 0.25;
+        } else {
+            this.sprite.opacity = 1;
         }
     }
 }
 
 /*
- *  Floor Class
+ *  Door Class
  *  - handles logic/drawing for Doors
  *  By: Caleb
  */
-class Door {
+class Door extends Tile {
     constructor(pos) {
-        this.pos = pos;
-        this.posAdjust = new Vec2(pos.x - 0.5, pos.y - 0.5);
-        this.size = new Vec2(1, 1);
-        this.imgFloor = "floor";
-        this.img = "door_base";
-        this.imgMoving = "door_moving";
+        super(pos);
 
-        this.direction = 90;
+        this.sprite.img = "door";
+        this.sprite.imgPos = [1, 0];
+        this.sprite.char = "f";
+        this.sprite.imgConfig = spriteConfig_Door;
+        this.sprite.imgOffset = new Vec2(0, -14);
 
-        this.playerDetectionRange = 1;
+        this.spriteDoorFloor = new Sprite({
+            img: "door",
+            imgPos: [0, 1],
+            char: "f",
+            imgConfig: spriteConfig_DoorFloor,
+        });
+
+        this.playerDetectionRange = 1.5;
         this.isOpen = false;
 
-        this.hasInitialized = false;
-    }
-    init() {
-        // find door
-        if (world.array[this.pos.y][this.pos.x - 1].img == "wall") {
-            this.direction = 90;
-        } else if (world.array[this.pos.y + 1][this.pos.x].img == "wall") {
-            this.direction = 180;
-        } else if (world.array[this.pos.y][this.pos.x + 1].img == "wall") {
-            this.direction = 270;
-        } else if (world.array[this.pos.y - 1][this.pos.x].img == "wall") {
-            this.direction = 0;
-        } else {
-            print("no wall found");
-            this.direction = 0;
-        }
-
-        if (world.array[this.pos.y][this.pos.x - 1].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y][this.pos.x - 1];
-        } else if (world.array[this.pos.y + 1][this.pos.x].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y + 1][this.pos.x];
-        } else if (world.array[this.pos.y][this.pos.x + 1].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y][this.pos.x + 1];
-        } else if (world.array[this.pos.y - 1][this.pos.x].img == "door_base") {
-            this.connectedDoor = world.array[this.pos.y - 1][this.pos.x];
-        }
-
-        this.hasInitialized = true;
+        this.maxOpenTime = 0.5;
+        this.currentOpenTime = 0;
+        this.percentOpen = 0;
     }
     update() {
-        if (!this.hasInitialized) {
-            this.init();
+        if (!this.hasDeterminedImage) {
+            this.determineImage(this.sprite);
+            //this.determineImage(this.spriteDoorFloor);
+            this.hasDeterminedImage = true;
+            return;
         }
 
         var playerDist = dist(player.pos.x, player.pos.y, this.pos.x, this.pos.y);
-        if (playerDist < this.playerDetectionRange && !this.isOpen) {
-            this.open();
-            this.connectedDoor.open();
-        } else if (playerDist > this.playerDetectionRange + 1 && this.isOpen) {
-            this.close();
-            this.connectedDoor.close();
+        if (playerDist <= this.playerDetectionRange) {
+            if (this.currentOpenTime < this.maxOpenTime && !this.isOpen) {
+                this.currentOpenTime += deltaTimeFixed;
+            } else {
+                this.currentOpenTime = this.maxOpenTime;
+                this.isOpen = true;
+                this.neighborTiles.up.revealSelf();
+                this.neighborTiles.down.revealSelf();
+                this.neighborTiles.left.revealSelf();
+                this.neighborTiles.right.revealSelf();
+            }
+        } else if (playerDist > this.playerDetectionRange) {
+            if (this.currentOpenTime > 0 && this.isOpen) {
+                this.currentOpenTime -= deltaTimeFixed;
+            } else {
+                this.currentOpenTime = 0;
+                this.isOpen = false;
+            }
         }
     }
     draw() {
-        if (this.isRevealed || !settings.FOG_OF_WAR) {
-            if (this.isOpen) {
-                cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
-            } else {
-                cameraObj.drawImg(this.imgFloor, this.pos, this.size);
-                cameraObj.drawImgRotate(this.imgMoving, this.pos, this.size, this.direction);
-                cameraObj.drawImgRotate(this.img, this.pos, this.size, this.direction);
+        if (this.hasDeterminedImage) {
+            if (this.isRevealed || !settings.FOG_OF_WAR) {
+                this.percentOpen = sq(this.currentOpenTime / this.maxOpenTime);
+
+                cameraObj.drawImg(this.spriteDoorFloor, this.pos, this.size);
+
+                this.sprite.imgSize.set(32, 32 * (1 - this.percentOpen));
+                this.sprite.imgOffset.set(0, 32 * this.percentOpen - 14);
+
+                cameraObj.drawImg(this.sprite, this.pos, this.size);
             }
         }
     }
