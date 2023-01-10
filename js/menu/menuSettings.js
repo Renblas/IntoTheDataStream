@@ -11,22 +11,20 @@ var menu__Main = {
         this.initialized = true;
         this.buttonSettings = new Clickable();
         this.buttonSettings.resize(50, 50);
-        this.buttonSettings.locate(100, 100)
-    
-    this.buttonSettings.color = "#0000FF"; //Background color of the clickable (hex number as a string)
-    this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
-    this.buttonSettings.strokeWeight = 2; //Stroke width of the clickable (float)
-    this.buttonSettings.stroke = "#000000"; //Border color of the clickable (hex number as a string)
-    this.buttonSettings.text = "Start"; //Text of the clickable (string)
-    this.buttonSettings.textColor = "#808080"; //Color of the text (hex number as a string)
-    this.buttonSettings.textSize = 12; //Size of the text (integer)
-    this.buttonSettings.onPress = function () {
-        menuState = "settings";
-        loadAssets();
-    };
+        this.buttonSettings.locate(100, 100);
 
-   
-},
+        this.buttonSettings.color = "#0000FF"; //Background color of the clickable (hex number as a string)
+        this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
+        this.buttonSettings.strokeWeight = 2; //Stroke width of the clickable (float)
+        this.buttonSettings.stroke = "#000000"; //Border color of the clickable (hex number as a string)
+        this.buttonSettings.text = "Start"; //Text of the clickable (string)
+        this.buttonSettings.textColor = "#808080"; //Color of the text (hex number as a string)
+        this.buttonSettings.textSize = 12; //Size of the text (integer)
+        this.buttonSettings.onPress = function () {
+            menuState = "settings";
+            loadAssets();
+        };
+    },
 
     draw: function () {
         // init if not run before
@@ -37,11 +35,8 @@ var menu__Main = {
         textSize(12);
         text("⚙︎", 100, 100);
 
-
         // draw menu
         rectMode(CORNER);
         this.buttonSettings.draw();
-
-      
     },
 };

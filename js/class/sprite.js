@@ -99,7 +99,8 @@ var spriteConfig_Floor = {
     rightUpCorner: [[3, 0], "w a w a f a f a"],
     rightDownCorner: [[3, 2], "f a w a w a f a"],
 
-    singleVertical: [[2, 1], "f a w a f a w a"],
+    singleVertical: [[5, 0], "f a w a f a w a"],
+    singleHorizontal: [[4, 1], "w a f a w a f a"],
 
     leftWall: [[1, 1], "f a f a f a w a"],
     rightWall: [[3, 1], "f a w a f a f a"],

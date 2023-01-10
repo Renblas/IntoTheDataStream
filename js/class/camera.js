@@ -23,8 +23,8 @@ class Camera {
         ctx.globalAlpha = (sprite.opacity) ? sprite.opacity : 1;
         ctx.drawImage(
             img,
-            sprite.imgPos[0] * sprite.imgSize.x,
-            sprite.imgPos[1] * sprite.imgSize.y,
+            sprite.imgPos[0] * 32,
+            sprite.imgPos[1] * 32,
             sprite.imgSize.x,
             sprite.imgSize.y,
             ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16 + sprite.imgOffset.x) * this.zoom,
