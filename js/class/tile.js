@@ -35,19 +35,9 @@ class Tile {
     revealSelf() {
         if (this.hasInitialized && !this.isRevealed) {
             this.isRevealed = true;
-
-            if (this.type == "floor") {
-                try {
-                    world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
-                    world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
-                    world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
-                    world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
-                    world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
-                    world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
-                    world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
-                    world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
-                } catch (e) {}
-            }
+            return true;
+        } else {
+            return false;
         }
     }
     init() {
@@ -61,19 +51,10 @@ class Tile {
         this.neighborTiles.rightUp = world.getTile(this.pos.x + 1, this.pos.y - 1);
         this.neighborTiles.down2 = world.getTile(this.pos.x, this.pos.y + 2);
 
-        if (this.sprite.img == "wall") {
-            if (this.neighborTiles.down && this.neighborTiles.down.sprite.img != "wall") {
-                this.isWallFace = true;
-            } else {
-                this.isWallFace = false;
-            }
-        }
-
         this.hasInitialized = true;
     }
     determineImage(sprite) {
         var a = this.neighborTiles;
-        var pre_antiChar = sprite.char == "f" ? "w" : "f";
         var antiChar = sprite.char == "w" ? "w" : antiChar;
 
         var neighborString = "";
@@ -85,10 +66,6 @@ class Tile {
         neighborString += " " + (!a.leftDown ? antiChar : tileImgToString(a.leftDown));
         neighborString += " " + (!a.left ? antiChar : tileImgToString(a.left));
         neighborString += " " + (!a.leftUp ? antiChar : tileImgToString(a.leftUp));
-
-        // Special Rules for Walls
-
-        this.nt = neighborString;
 
         // Main Global Rules
         var possibleImg = Object.keys(sprite.imgConfig);
@@ -117,6 +94,20 @@ class Floor extends Tile {
 
         this.type = "floor";
     }
+    revealSelf() {
+        if (super.revealSelf()) {
+            try {
+                world.getTile(this.pos.x - 1, this.pos.y).revealSelf();
+                world.getTile(this.pos.x - 1, this.pos.y - 1).revealSelf();
+                world.getTile(this.pos.x, this.pos.y - 1).revealSelf();
+                world.getTile(this.pos.x + 1, this.pos.y - 1).revealSelf();
+                world.getTile(this.pos.x + 1, this.pos.y).revealSelf();
+                world.getTile(this.pos.x + 1, this.pos.y + 1).revealSelf();
+                world.getTile(this.pos.x, this.pos.y + 1).revealSelf();
+                world.getTile(this.pos.x - 1, this.pos.y + 1).revealSelf();
+            } catch (e) {}
+        }
+    }
 }
 
 /*
@@ -142,6 +133,13 @@ class Wall extends Tile {
         });
 
         this.type = "wall";
+
+        this.isWallFace = false;
+
+        this.isTopFace;
+        this.transparentTimer = 0;
+        this.transparentTimerMax = 0.25;
+        this.minTransparency = 0.25;
     }
     draw() {
         if (this.hasDeterminedImage) {
@@ -156,10 +154,35 @@ class Wall extends Tile {
     update() {
         super.update();
 
-        if (abs(player.pos.y - (this.pos.y - 1)) <= 1) {
-            this.sprite.opacity = 0.25;
+        if (this.isTopFace) {
+            var yDist = this.pos.y - player.pos.y;
+            if (yDist < 2 && yDist > -1) {
+                this.transparentTimer += deltaTimeFixed;
+                if (this.transparentTimer > this.transparentTimerMax) this.transparentTimer = this.transparentTimerMax;
+            } else if (yDist > 3 || yDist < -1) {
+                this.transparentTimer -= deltaTimeFixed;
+                if (this.transparentTimer < 0) this.transparentTimer = 0;
+            }
+
+            this.sprite.opacity =
+                0.75 * ((this.transparentTimerMax - this.transparentTimer) / this.transparentTimerMax) + 0.25;
+        }
+    }
+    init() {
+        super.init();
+
+        // Check if is a top face
+        if (this.neighborTiles.up.type != "wall") {
+            this.isTopFace = true;
         } else {
-            this.sprite.opacity = 1;
+            this.isTopFace = false;
+        }
+
+        // Check if is bottom face
+        if (this.neighborTiles.down && this.neighborTiles.down.sprite.img != "wall") {
+            this.isWallFace = true;
+        } else {
+            this.isWallFace = false;
         }
     }
 }
@@ -196,6 +219,12 @@ class Door extends Tile {
     update() {
         if (!this.hasDeterminedImage) {
             this.determineImage(this.sprite);
+            if (this.sprite.imgPos[0] == 1 && this.sprite.imgPos[1] == 1) {
+                this.horizontal = true;
+            } else {
+                this.horizontal = false;
+            }
+
             //this.determineImage(this.spriteDoorFloor);
             this.hasDeterminedImage = true;
             return;
@@ -230,7 +259,7 @@ class Door extends Tile {
                 cameraObj.drawImg(this.spriteDoorFloor, this.pos, this.size);
 
                 this.sprite.imgSize.set(32, 32 * (1 - this.percentOpen));
-                this.sprite.imgOffset.set(0, 32 * this.percentOpen - 14);
+                this.sprite.imgOffset.set(0, 32 * this.percentOpen - (this.horizontal ? 22 : 14));
 
                 cameraObj.drawImg(this.sprite, this.pos, this.size);
             }
@@ -243,10 +272,5 @@ class Door extends Tile {
     close() {
         this.isOpen = false;
         print("Closing the Door");
-    }
-    revealSelf() {
-        if (!this.isRevealed) {
-            this.isRevealed = true;
-        }
     }
 }
