@@ -3,6 +3,9 @@
 Trello Link:
 https://trello.com/b/CIXTZi2H/into-the-data-stream
 
+Outline Link:
+https://docs.google.com/document/d/1zmEYtWJVfm0cv1ztK-Sp-RS0uwkDBLcIZRYKg6eLyy0/edit?usp=sharing
+
 ## Library Links
 
 Nick: please make sure we are good with all copyrights bc I am no lawyer
