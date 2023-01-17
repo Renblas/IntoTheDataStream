@@ -8,6 +8,18 @@ var menu__Settings = {
     initialized: false,
 
     init: function () {
+    //Sliders to be finalized 
+    /*
+    slider = creatSlider(175, 150, 150);
+    slider.position(10,10);
+    slider.style('width', '80px');
+
+    slider = creatSlider(0, 255, 100);
+    slider.position(10,10);
+    slider.style('width', '80px');
+    */
+    
+
         this.initialized = true;
 
         this.buttonMain = new Clickable();
@@ -39,3 +51,5 @@ var menu__Settings = {
         this.buttonSettings.draw();
     },
 };
+
+
