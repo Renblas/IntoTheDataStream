@@ -24,7 +24,7 @@ var menu__Main = {
         };
 
         this.buttonSettings = new Clickable();
-        this.buttonSettings.resize(50*canvasSize.x 50*canvasSize.y);
+        this.buttonSettings.resize(50*canvasSize.x, 50*canvasSize.y);
         this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
         this.buttonSettings.color = "#808080"; //Background color of the clickable (hex number as a string)
         this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)

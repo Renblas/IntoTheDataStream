@@ -44,11 +44,13 @@ function setup() {
     createCanvas(windowWidth, (windowWidth / 16) * 9); // creates p5js canvas in 16:9 ratio
 
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
-
     canvasSize = new Vec2(width / 512, height / 288);
+
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
     //canvas.style.cssText = "";
+
+    windowResized();
 
     frameRate(FPS);
     angleMode(DEGREES);
@@ -59,6 +61,15 @@ function setup() {
 /*
  *  Window Resize Logic
  */
+function windowResized() {
+    if ((windowWidth / 16) * 9 <= windowHeight) {
+        resizeCanvas(windowWidth, (windowWidth / 16) * 9);
+    } else {
+        resizeCanvas((windowHeight / 9) * 16, windowHeight);
+    }
+
+    canvasSize.set(width / 512, height / 288);
+}
 
 /*
  *  Draw Function
