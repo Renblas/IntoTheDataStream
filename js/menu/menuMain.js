@@ -4,12 +4,12 @@
  *  By: Caleb
  */
 
-var menu__Main = {
+var menu_Main = {
     initialized: false,
 
     init: function () {
         this.buttonMain = new Clickable();
-        this.buttonMain.resize(100*canvasSize.x, 50*canvasSize.y);
+        this.buttonMain.resize(100 * canvasSize.x, 50 * canvasSize.y);
         this.buttonMain.locate(width / 2 - this.buttonMain.width / 2, height * 0.7 - this.buttonMain.height / 2);
         this.buttonMain.color = "#32CD32"; //Background color of the clickable (hex number as a string)
         this.buttonMain.cornerRadius = 10; //Corner radius of the clickable (float)
@@ -17,14 +17,14 @@ var menu__Main = {
         this.buttonMain.stroke = "#000000"; //Border color of the clickable (hex number as a string)
         this.buttonMain.text = "Start"; //Text of the clickable (string)
         this.buttonMain.textColor = "#000000"; //Color of the text (hex number as a string)
-        this.buttonMain.textSize = 36; //Size of the text (integer)
+        this.buttonMain.textSize = 36 * canvasSize.y; //Size of the text (integer)
         this.buttonMain.onPress = function () {
             menuState = "game";
             loadAssets();
         };
 
         this.buttonSettings = new Clickable();
-        this.buttonSettings.resize(50*canvasSize.x, 50*canvasSize.y);
+        this.buttonSettings.resize(50 * canvasSize.x, 50 * canvasSize.y);
         this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
         this.buttonSettings.color = "#808080"; //Background color of the clickable (hex number as a string)
         this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
@@ -32,7 +32,7 @@ var menu__Main = {
         this.buttonSettings.stroke = "#000000"; //Border color of the clickable (hex number as a string)
         this.buttonSettings.text = "Settings"; //Text of the clickable (string)
         this.buttonSettings.textColor = "#000000"; //Color of the text (hex number as a string)
-        this.buttonSettings.textSize = 22; //Size of the text (integer)
+        this.buttonSettings.textSize = 22 * canvasSize.y; //Size of the text (integer)
         this.buttonSettings.onPress = function () {
             menuState = "settings";
         };
@@ -50,16 +50,25 @@ var menu__Main = {
         rectMode(CORNER);
         rect(0, 0, width, height);
 
-        fill(157,34,53);
+        fill(157, 34, 53);
         rectMode(CENTER);
-        rect(width / 2, height / 2, 300, 64);
+        rect(width / 2, height / 2, 300 * canvasSize.x, 64 * canvasSize.y);
 
         fill(0);
         textAlign(CENTER, CENTER);
-        textSize(48);
+        textSize(48 * canvasSize.y);
         text("Main Menu", width / 2, height / 2);
 
         rectMode(CORNER);
+        this.buttonMain.textSize = 36 * canvasSize.y; //Size of the text (integer)
+        this.buttonMain.resize(100 * canvasSize.x, 50 * canvasSize.y);
+        this.buttonMain.locate(width / 2 - this.buttonMain.width / 2, height * 0.7 - this.buttonMain.height / 2);
         this.buttonMain.draw();
+
+        rectMode(CORNER);
+        this.buttonSettings.textSize = 22 * canvasSize.y; //Size of the text (integer)
+        this.buttonSettings.resize(50 * canvasSize.x, 50 * canvasSize.y);
+        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
+        this.buttonSettings.draw();
     },
 };

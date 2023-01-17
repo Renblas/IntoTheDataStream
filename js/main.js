@@ -80,7 +80,7 @@ function draw() {
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
-        menu__Main.draw();
+        menu_Main.draw();
         return;
     }
 
