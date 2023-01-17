@@ -2,7 +2,7 @@
  *  Player Class
  *  By: Caleb, Givens
  */
-var hit;
+var collidedWall;
 class Player {
     constructor(pos) {
         this.pos = new Vec2(pos.x, pos.y);
@@ -30,7 +30,7 @@ class Player {
         cameraObj.drawImg(this.sprite, this.pos, this.size);
     }
     update() {
-        this.move();
+        this.move(false);
         this.detectColision();
 
         try {
@@ -46,9 +46,14 @@ class Player {
             }
         }
     }
-    move() {
-        this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
-        this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
+    move(reversed) {
+        if (!reversed) {
+            this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
+            this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
+        } else {
+            this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
+            this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
+        }
     }
     fireBullet() {
         var config = JSON.parse(JSON.stringify(this.standardBullet));
@@ -71,13 +76,28 @@ class Player {
                 try {
                     if (world.getTile(b, i).type == "wall") {
                         var tileSize = world.getTile(b, i).size;
-                        hit = collideRectRect(this.pos.x + (this.size.x / 2), this.pos.y + (this.size.y / 2), this.size.x, this.size.y, b  , i , tileSize.x, tileSize.y );
-                        if (hit) {
-                            //if (this.pos.x + 0.25 >= b + 1) { directionLock.left = true; }
-                        }
-                    } else { hit = false }
+                        collidedWall = collideRectRect(this.pos.x - (this.size.x / 2), this.pos.y - (this.size.y / 2), this.size.x, this.size.y, b - (tileSize.x / 2), i - (tileSize.y / 2), tileSize.x, tileSize.y);
 
-                    if (hit) { hitCounter += 1; }
+                        if (collidedWall) {
+                            if (this.pos.x - (this.size.x / 2) < b - (tileSize.x / 2)) {
+                                this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
+                            }
+
+                            if (this.pos.x + (this.size.x) > b + (tileSize.x)) {
+                                this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
+                            }
+
+                            if (this.pos.y - (this.size.y / 2) < b - (tileSize.y / 2)) {
+                                this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
+                            }
+
+                            if (this.pos.y + (this.size.y) > b + (tileSize.y)) {
+                                this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
+                            }
+                        }
+
+                    } else { collidedWall = false; }
+                    if (collidedWall) { hitCounter += 1; }
                     if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
                 } catch (e) { }
             }
