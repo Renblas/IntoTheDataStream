@@ -9,10 +9,10 @@ var menu__Settings = {
 
     init: function () {
         this.initialized = true;
-        this.buttonSettings = new Clickable();
+
+        this.buttonMain = new Clickable();
         this.buttonSettings.resize(50, 50);
         this.buttonSettings.locate(100, 100);
-
         this.buttonSettings.color = "#0000FF"; //Background color of the clickable (hex number as a string)
         this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
         this.buttonSettings.strokeWeight = 2; //Stroke width of the clickable (float)
@@ -21,8 +21,7 @@ var menu__Settings = {
         this.buttonSettings.textColor = "#808080"; //Color of the text (hex number as a string)
         this.buttonSettings.textSize = 12; //Size of the text (integer)
         this.buttonSettings.onPress = function () {
-            menuState = "settings";
-            loadAssets();
+            menuState = "main";
         };
     },
 

@@ -31,7 +31,7 @@ var directionLock = {
     up: false,
     down: false,
     left: false,
-    right: false
+    right: false,
 };
 const GlobalBulletArray = [];
 
@@ -70,12 +70,10 @@ function draw() {
         return;
     }
 
-
     if (menuState == "settings") {
         menu_Settings.draw();
         return;
     }
-
 
     if (!checkIsLoaded() || minLoadingScreenTime > 0) {
         background(255, 200, 200);
@@ -168,10 +166,13 @@ function updateGame() {
 p5.prototype.collideRectRect = function (x, y, w, h, x2, y2, w2, h2) {
     //2d
     //add in a thing to detect rectMode CENTER
-    if (x + w >= x2 &&    // r1 right edge past r2 left
-        x <= x2 + w2 &&    // r1 left edge past r2 right
-        y + h >= y2 &&    // r1 top edge past r2 bottom
-        y <= y2 + h2) {    // r1 bottom edge past r2 top
+    if (
+        x + w >= x2 && // r1 right edge past r2 left
+        x <= x2 + w2 && // r1 left edge past r2 right
+        y + h >= y2 && // r1 top edge past r2 bottom
+        y <= y2 + h2
+    ) {
+        // r1 bottom edge past r2 top
         return true;
     }
     return false;

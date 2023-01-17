@@ -10,10 +10,7 @@ var menu__Main = {
     init: function () {
         this.buttonMain = new Clickable();
         this.buttonMain.resize(100, 50);
-        this.buttonMain.locate(
-            width / 2 - this.buttonMain.width / 2,
-            height * 0.7 - this.buttonMain.height / 2
-        );
+        this.buttonMain.locate(width / 2 - this.buttonMain.width / 2, height * 0.7 - this.buttonMain.height / 2);
         this.buttonMain.color = "#FFFFFF"; //Background color of the clickable (hex number as a string)
         this.buttonMain.cornerRadius = 10; //Corner radius of the clickable (float)
         this.buttonMain.strokeWeight = 2; //Stroke width of the clickable (float)
@@ -24,6 +21,20 @@ var menu__Main = {
         this.buttonMain.onPress = function () {
             menuState = "game";
             loadAssets();
+        };
+
+        this.buttonSettings = new Clickable();
+        this.buttonSettings.resize(100, 50);
+        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.4 - this.buttonMain.height / 2);
+        this.buttonSettings.color = "#FFFFFF"; //Background color of the clickable (hex number as a string)
+        this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
+        this.buttonSettings.strokeWeight = 2; //Stroke width of the clickable (float)
+        this.buttonSettings.stroke = "#000000"; //Border color of the clickable (hex number as a string)
+        this.buttonSettings.text = "Settings"; //Text of the clickable (string)
+        this.buttonSettings.textColor = "#000000"; //Color of the text (hex number as a string)
+        this.buttonSettings.textSize = 18; //Size of the text (integer)
+        this.buttonSettings.onPress = function () {
+            menuState = "settings";
         };
 
         this.initialized = true;
