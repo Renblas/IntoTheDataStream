@@ -2,12 +2,13 @@
  *  Global Variables
  */
 
-var settings = {
+const settings = {
     DEBUG_ENABLED: true,
     FOG_OF_WAR: true,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
+const canvasSize = new Vec2(0, 0);
 
 const FPS = 30; // draw frames per second
 const UPS = 30; // physics updates per second, MULTIPLE OF 30 ONLY!!
@@ -40,7 +41,9 @@ const GlobalBulletArray = [];
  *  - called once after page is loaded, from p5js library
  */
 function setup() {
-    createCanvas(512, 288); // creates p5js canvas in 16:9 ratio
+    createCanvas(windowWidth, windowWidth / 16 * 9); // creates p5js canvas in 16:9 ratio
+    
+    
 
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
     ctx = canvas.getContext("2d");
