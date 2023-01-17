@@ -2,7 +2,6 @@
  *  Global Variables
  */
 
-//Yo wassup
 var settings = {
     DEBUG_ENABLED: true,
     FOG_OF_WAR: true,

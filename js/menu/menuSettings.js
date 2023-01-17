@@ -4,7 +4,7 @@
  *  By: Nick, with menu help from menuMAIN.JS and Caleb
  */
 
-var menu__Main = {
+var menu__Settings = {
     initialized: false,
 
     init: function () {
