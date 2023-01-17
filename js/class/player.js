@@ -14,7 +14,7 @@ class Player {
             img: "player",
             imgPos: [0, 0],
         });
-        this.sprite.imgSize.set(50, 37)
+        this.sprite.imgSize.set(32, 32)
 
         this.standardBullet = {
             speed: 6,

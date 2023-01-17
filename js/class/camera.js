@@ -20,17 +20,20 @@ class Camera {
         if (!img) {
             img = GlobalImageObject["default"];
         }
-        ctx.globalAlpha = (sprite.opacity) ? sprite.opacity : 1;
+        ctx.globalAlpha = sprite.opacity ? sprite.opacity : 1;
+        var vec = this.worldToPixel(pos, size, sprite);
+        var x = vec.x;
+        var y = vec.y;
         ctx.drawImage(
             img,
             sprite.imgPos[0] * 32,
             sprite.imgPos[1] * 32,
             sprite.imgSize.x,
             sprite.imgSize.y,
-            ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16 + sprite.imgOffset.x) * this.zoom,
-            ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16 + sprite.imgOffset.y) * this.zoom,
-            sprite.imgSize.x * size.x * this.zoom,
-            sprite.imgSize.y * size.y * this.zoom
+            x,
+            y,
+            sprite.imgSize.x * size.x * this.zoom * canvasSize.x,
+            sprite.imgSize.y * size.y * this.zoom * canvasSize.y
         );
         ctx.globalAlpha = 1;
     }
@@ -39,8 +42,9 @@ class Camera {
         if (!img) {
             img = GlobalImageObject["default"];
         }
-        var x = ((pos.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 + 16) * this.zoom;
-        var y = ((pos.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 + 16) * this.zoom;
+        var vec = this.worldToPixel(pos, size, sprite);
+        var x = vec.x;
+        var y = vec.y;
         var changeXY = 16 * this.zoom;
         ctx.translate(x + changeXY, y + changeXY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
@@ -62,10 +66,16 @@ class Camera {
         var img = GlobalImageObject[img];
         ctx.drawImage(img, pos.x, pos.y, size.x * 32, size.y * 32);
     }
-    worldToPixel(vec) {
+    worldToPixel(vec, size, sprite) {
         // TODO: fix with scaling
-        var x = ((vec.x - (this.pos.x - 8 / this.zoom)) * 32 + 16) * this.zoom;
-        var y = ((vec.y - (this.pos.y - 4.5 / this.zoom)) * 32 + 16) * this.zoom;
+        var x =
+            ((vec.x - (this.pos.x - 8 / this.zoom) - size.x / 2) * 32 * canvasSize.x +
+                (16 + sprite.imgOffset.x) * canvasSize.x) *
+            this.zoom;
+        var y =
+            ((vec.y - (this.pos.y - 4.5 / this.zoom) - size.y / 2) * 32 * canvasSize.y +
+                (16 + sprite.imgOffset.y) * canvasSize.y) *
+            this.zoom;
         return new Vec2(x, y);
     }
     pixelToWorld(vec) {
