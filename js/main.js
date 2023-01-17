@@ -143,7 +143,7 @@ function drawGame() {
     player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
     GlobalBulletArray.forEach((element) => {
-        //element.draw();
+        element.draw();
     });
 
     player.draw();
