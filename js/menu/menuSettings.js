@@ -42,8 +42,8 @@ var menu_Settings = {
 
         fill(0);
         textAlign(CENTER, CENTER);
-        textSize(12);
-        text("⚙︎", 100, 100);
+        textSize(12 * canvasSize.y);
+        text("⚙︎", 100 * canvasSize.x, 100 * canvasSize.y);
 
         // draw menu
         rectMode(CORNER);
