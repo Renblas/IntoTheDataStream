@@ -47,13 +47,8 @@ class Player {
         }
     }
     move(reversed) {
-        if (!reversed) {
-            this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
-            this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
-        } else {
-            this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
-            this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
-        }
+        this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
+        this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
     }
     fireBullet() {
         var config = JSON.parse(JSON.stringify(this.standardBullet));
@@ -67,10 +62,7 @@ class Player {
         var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;
         var hitCounter = 0;
-        directionLock.up = false;
-        directionLock.down = false;
-        directionLock.left = false;
-        directionLock.right = false;
+
         for (var i = intPos.y - 2; i < intPos.y + 3; i++) {
             for (var b = intPos.x - 2; b < intPos.x + 3; b++) {
                 try {
@@ -79,21 +71,27 @@ class Player {
                         collidedWall = collideRectRect(this.pos.x - (this.size.x / 2), this.pos.y - (this.size.y / 2), this.size.x, this.size.y, b - (tileSize.x / 2), i - (tileSize.y / 2), tileSize.x, tileSize.y);
 
                         if (collidedWall) {
+
                             if (this.pos.x - (this.size.x / 2) < b - (tileSize.x / 2)) {
-                                this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
+                                directionLock.right = true;
+                                this.pos.x -= ((b - (tileSize.x / 2)) - (this.pos.x - (this.size.x / 2))) * this.moveSpeed * deltaTimeFixed;
                             }
 
-                            if (this.pos.x + (this.size.x) > b + (tileSize.x)) {
-                                this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed * -1;
+                            if (this.pos.x + (this.size.x / 2) > b + (tileSize.x / 2)) {
+                                directionLock.left = true;
+                                this.pos.x += ((this.pos.x + (this.size.x / 2)) - (b + (tileSize.x / 2))) * this.moveSpeed * deltaTimeFixed;
                             }
 
-                            if (this.pos.y - (this.size.y / 2) < b - (tileSize.y / 2)) {
-                                this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
+                            if (this.pos.y - (this.size.y / 2) < i - (tileSize.y / 2)) {
+                                directionLock.down = true;
+                                this.pos.y += ((this.pos.y - (this.size.y / 2)) - (i - (tileSize.y / 2))) * this.moveSpeed * deltaTimeFixed;
                             }
 
-                            if (this.pos.y + (this.size.y) > b + (tileSize.y)) {
-                                this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed * -1;
+                            if (this.pos.y + (this.size.y / 2) > i + (tileSize.y / 2)) {
+                                directionLock.up = true;
+                                this.pos.y -= ((i + (tileSize.y) / 2) - (this.pos.y + (this.size.y / 2))) * deltaTimeFixed;
                             }
+
                         }
 
                     } else { collidedWall = false; }
