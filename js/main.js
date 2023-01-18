@@ -2,13 +2,13 @@
  *  Global Variables
  */
 
-//Yo wassup
-var settings = {
+const settings = {
     DEBUG_ENABLED: true,
     FOG_OF_WAR: true,
 };
 var canvas; // canvas that we draw on
 var ctx; // 2d context that belongs to canvas above
+var canvasSize;
 
 const FPS = 30; // draw frames per second
 const UPS = 30; // physics updates per second, MULTIPLE OF 30 ONLY!!
@@ -32,7 +32,7 @@ var directionLock = {
     up: false,
     down: false,
     left: false,
-    right: false
+    right: false,
 };
 const GlobalBulletArray = [];
 
@@ -41,12 +41,16 @@ const GlobalBulletArray = [];
  *  - called once after page is loaded, from p5js library
  */
 function setup() {
-    createCanvas(512, 288); // creates p5js canvas in 16:9 ratio
+    createCanvas(windowWidth, (windowWidth / 16) * 9); // creates p5js canvas in 16:9 ratio
 
     canvas = document.getElementById("defaultCanvas0"); // gets canvas created above
+    canvasSize = new Vec2(width / 512, height / 288);
+
     ctx = canvas.getContext("2d");
     ctx.imageSmoothingEnabled = false;
     //canvas.style.cssText = "";
+
+    windowResized();
 
     frameRate(FPS);
     angleMode(DEGREES);
@@ -57,6 +61,15 @@ function setup() {
 /*
  *  Window Resize Logic
  */
+function windowResized() {
+    if ((windowWidth / 16) * 9 <= windowHeight) {
+        resizeCanvas(windowWidth, (windowWidth / 16) * 9);
+    } else {
+        resizeCanvas((windowHeight / 9) * 16, windowHeight);
+    }
+
+    canvasSize.set(width / 512, height / 288);
+}
 
 /*
  *  Draw Function
@@ -67,16 +80,14 @@ function draw() {
     deltaTimeFixed = deltaTime / 1000;
 
     if (menuState == "main") {
-        menu__Main.draw();
+        menu_Main.draw();
         return;
     }
-
 
     if (menuState == "settings") {
         menu_Settings.draw();
         return;
     }
-
 
     if (!checkIsLoaded() || minLoadingScreenTime > 0) {
         background(255, 200, 200);
@@ -143,7 +154,7 @@ function drawGame() {
     player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
     GlobalBulletArray.forEach((element) => {
-        //element.draw();
+        element.draw();
     });
 
     player.draw();
@@ -169,10 +180,13 @@ function updateGame() {
 p5.prototype.collideRectRect = function (x, y, w, h, x2, y2, w2, h2) {
     //2d
     //add in a thing to detect rectMode CENTER
-    if (x + w >= x2 &&    // r1 right edge past r2 left
-        x <= x2 + w2 &&    // r1 left edge past r2 right
-        y + h >= y2 &&    // r1 top edge past r2 bottom
-        y <= y2 + h2) {    // r1 bottom edge past r2 top
+    if (
+        x + w >= x2 && // r1 right edge past r2 left
+        x <= x2 + w2 && // r1 left edge past r2 right
+        y + h >= y2 && // r1 top edge past r2 bottom
+        y <= y2 + h2
+    ) {
+        // r1 bottom edge past r2 top
         return true;
     }
     return false;

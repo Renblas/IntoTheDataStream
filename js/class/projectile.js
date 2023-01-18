@@ -24,10 +24,13 @@ class Projectile {
         this.damageAreaSize = config.damageAreaSize || 0;
         this.damageArea = config.damageArea || 0;
 
-        this.img = "bullet";
+        this.sprite = new Sprite({
+            img: "bullet",
+            imgPos: [0, 0],
+        });
     }
     draw() {
-        cameraObj.drawImgRotate(this.img, this.pos, this.size, this.rotation);
+        cameraObj.drawImgRotate(this.sprite, this.pos, this.size, this.rotation);
     }
     update() {
         this.pos.x += this.velocity.x * deltaTimeFixed;

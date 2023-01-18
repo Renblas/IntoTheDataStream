@@ -24,11 +24,11 @@ var menu__Pause = {
 
         fill(150, 175, 150, 200);
         rectMode(CENTER)
-        rect(width/2, height/2, 200, 64);
+        rect(width / 2, height / 2, 200 * canvasSize.x, 64 * canvasSize.y);
 
         fill(0);
         textAlign(CENTER, CENTER);
-        textSize(48);
+        textSize(48 * canvasSize.y);
         text("Paused", width / 2, height / 2);
     },
 };

@@ -14,9 +14,9 @@ class Player {
             img: "player",
             imgPos: [0, 0],
         });
-        this.sprite.imgSize.set(50, 37)
+        this.sprite.imgSize.set(32, 32)
 
-        this.standaredBullet = {
+        this.standardBullet = {
             speed: 6,
             size: 0.5,
             damage: 10,
@@ -51,7 +51,7 @@ class Player {
         this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
     }
     fireBullet() {
-        var config = JSON.parse(JSON.stringify(this.standaredBullet));
+        var config = JSON.parse(JSON.stringify(this.standardBullet));
         var coordOfClick = cameraObj.pixelToWorld(new Vec2(mouseX, mouseY));
         config.rotation = -atan2(coordOfClick.y - this.pos.y, coordOfClick.x - this.pos.x);
         config.pos = new Vec2(this.pos.x, this.pos.y);
