@@ -136,7 +136,7 @@ function mouseWheel(e) {
             cameraObj.zoomRaw = cameraObj.minZoom;
         }
 
-        cameraObj.zoom = round(cameraObj.zoomRaw, 2);
+        cameraObj.zoom = round(cameraObj.zoomRaw, 1);
     }
 
     return false;

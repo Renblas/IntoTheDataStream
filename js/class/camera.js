@@ -45,8 +45,9 @@ class Camera {
         var vec = this.worldToPixel(pos, size, sprite);
         var x = vec.x;
         var y = vec.y;
-        var changeXY = 16 * this.zoom;
-        ctx.translate(x + changeXY, y + changeXY);
+        var changeX = (size.x / 2) * canvasSize.x * this.zoom;
+        var changeY = (size.y / 2) * canvasSize.y * this.zoom;
+        ctx.translate(x + changeX, y + changeY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
         ctx.drawImage(
             img,
@@ -54,13 +55,13 @@ class Camera {
             sprite.imgPos[1] * sprite.imgSize.y,
             sprite.imgSize.x,
             sprite.imgSize.y,
-            -changeXY,
-            -changeXY,
-            32 * size.x * this.zoom,
-            32 * size.y * this.zoom
+            0,
+            0,
+            32 * size.x * canvasSize.x * this.zoom,
+            32 * size.y * canvasSize.y * this.zoom
         );
         ctx.rotate(radians(rotation) - Math.PI / 2.0);
-        ctx.translate(-(x + changeXY), -(y + changeXY));
+        ctx.translate(-(x + changeX), -(y + changeY));
     }
     drawImgUI(img, pos, size) {
         var img = GlobalImageObject[img];

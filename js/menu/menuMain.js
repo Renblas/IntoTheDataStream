@@ -68,7 +68,10 @@ var menu_Main = {
         rectMode(CORNER);
         this.buttonSettings.textSize = 22 * canvasSize.y; //Size of the text (integer)
         this.buttonSettings.resize(50 * canvasSize.x, 50 * canvasSize.y);
-        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
+        this.buttonSettings.locate(
+            width / 2 - this.buttonSettings.width / 2,
+            height * 0.35 - this.buttonSettings.height / 2
+        );
         this.buttonSettings.draw();
     },
 };
