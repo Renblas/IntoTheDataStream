@@ -22,16 +22,15 @@ var game_ui = {
 
             textSize(12 * canvasSize.y);
 
-            textAlign(RIGHT);
+            textAlign(RIGHT, TOP);
             text("Player: " + player.pos.toString(), 508 * canvasSize.x, 4 * canvasSize.y);
             text("FPS: " + round(1 / deltaTimeFixed, 1), 508 * canvasSize.x, 20 * canvasSize.y);
             text("x" + round(cameraObj.zoom, 1), 508 * canvasSize.x, 36 * canvasSize.y);
 
             
-            textAlign(LEFT);
-            text("Health: ${player.health}", 4 * canvasSize.x, 4 * canvasSize.y);
-            text("Shield: ${player.shield}", 4 * canvasSize.x, 20 * canvasSize.y);
-            text("Attack Reload: ${player.fireCooldown}s", 4 * canvasSize.x, 36 * canvasSize.y);
+            textAlign(LEFT, TOP);
+            text("Health: " + player.health + " / " + player.maxHealth, 4 * canvasSize.x, 4 * canvasSize.y);
+            text("Shield: " + player.shield, 4 * canvasSize.x, 20 * canvasSize.y);
         }
     },
 };

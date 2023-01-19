@@ -45,8 +45,8 @@ class Camera {
         var vec = this.worldToPixel(pos, size, sprite);
         var x = vec.x;
         var y = vec.y;
-        var changeX = (size.x / 2) * canvasSize.x * this.zoom;
-        var changeY = (size.y / 2) * canvasSize.y * this.zoom;
+        var changeX = ((size.x * 32) / 2) * canvasSize.x * this.zoom;
+        var changeY = ((size.y * 32) / 2) * canvasSize.y * this.zoom;
         ctx.translate(x + changeX, y + changeY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
         ctx.drawImage(
@@ -80,8 +80,8 @@ class Camera {
         return new Vec2(x, y);
     }
     pixelToWorld(vec) {
-        var x = (vec.x / this.zoom - 16) / 32 + (this.pos.x - 8 / this.zoom);
-        var y = (vec.y / this.zoom - 16) / 32 + (this.pos.y - 4.5 / this.zoom);
+        var x = (vec.x / canvasSize.x / 32 - this.pos.x) / this.zoom;
+        var y = (vec.y / canvasSize.y / 32 - this.pos.y) / this.zoom;
         return new Vec2(x, y);
     }
     update() {

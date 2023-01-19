@@ -24,6 +24,9 @@ class Player {
         this.fireCooldown = 0;
         this.fireCooldownMax = 0.25;
 
+        this.health = 100;
+        this.maxHealth = 100;
+
         this.collisionArrayWorld = [];
     }
     draw() {
@@ -53,6 +56,8 @@ class Player {
     fireBullet() {
         var config = JSON.parse(JSON.stringify(this.standardBullet));
         var coordOfClick = cameraObj.pixelToWorld(new Vec2(mouseX, mouseY));
+        print(mouseX);
+        print(mouseY);
         config.rotation = -atan2(coordOfClick.y - this.pos.y, coordOfClick.x - this.pos.x);
         config.pos = new Vec2(this.pos.x, this.pos.y);
         GlobalBulletArray.push(new Projectile(config));
