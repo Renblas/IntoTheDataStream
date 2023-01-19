@@ -62,7 +62,4 @@ function loadAssets() {
     }
 }
 
-// checks if assets are loaded
-function checkIsLoaded() {
-    return loadedCounter == GlobalLoadArray.length;
-}
+
