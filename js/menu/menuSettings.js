@@ -9,15 +9,14 @@ var menu_Settings = {
 
     init: function () {
         //Sliders to be finalized
-        /*
-    slider = creatSlider(175, 150, 150);
+    slider = createSlider(175, 150, 150);
     slider.position(10,10);
     slider.style('width', '80px');
 
-    slider = creatSlider(0, 255, 100);
+    slider = createSlider(0, 255, 100);
     slider.position(10,10);
     slider.style('width', '80px');
-    */
+    
 
         this.initialized = true;
 
