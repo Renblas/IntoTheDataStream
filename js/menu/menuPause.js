@@ -23,6 +23,7 @@ var menu__Pause = {
         this.buttonReset.textSize = 22 * canvasSize.y; //Size of the text (integer)
         this.buttonReset.onPress = function () {
             menuState = "main";
+            inGame = false;
         }
 
         this.initialized = true;
