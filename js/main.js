@@ -136,8 +136,8 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-    gameIsPaused = false;
 
+    gameIsPaused = false;
 
     world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
