@@ -55,8 +55,8 @@ class Camera {
             sprite.imgPos[1] * sprite.imgSize.y,
             sprite.imgSize.x,
             sprite.imgSize.y,
-            0,
-            0,
+            -changeX,
+            -changeY,
             32 * size.x * canvasSize.x * this.zoom,
             32 * size.y * canvasSize.y * this.zoom
         );
@@ -80,8 +80,8 @@ class Camera {
         return new Vec2(x, y);
     }
     pixelToWorld(vec) {
-        var x = (vec.x / canvasSize.x / 32 - this.pos.x) / this.zoom;
-        var y = (vec.y / canvasSize.y / 32 - this.pos.y) / this.zoom;
+        var x = (vec.x / canvasSize.x / 32 - 8 + this.pos.x - 0.5) / this.zoom;
+        var y = (vec.y / canvasSize.y / 32 - 4.5 + this.pos.y - 0.5) / this.zoom;
         return new Vec2(x, y);
     }
     update() {
