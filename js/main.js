@@ -18,7 +18,8 @@ var menuState = "main";
 var inGame = false;
 var gameIsPaused = false;
 
-var minLoadingScreenTime = 0.25;
+const minLoadingTime = 1;
+var loadingTime = 0;
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
@@ -86,17 +87,6 @@ function draw() {
 
     if (menuState == "settings") {
         menu_Settings.draw();
-        return;
-    }
-
-    if (!checkIsLoaded() || minLoadingScreenTime > 0) {
-        background(255, 200, 200);
-        textAlign(LEFT, TOP);
-        textSize(16);
-        text("loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets", 10, 40);
-        // TODO Loading Screen
-
-        minLoadingScreenTime -= deltaTime / 1000;
         return;
     }
 
