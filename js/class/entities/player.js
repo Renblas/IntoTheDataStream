@@ -2,18 +2,11 @@
  *  Player Class
  *  By: Caleb, Givens
  */
-var collidedWall;
-class Player {
+class Player extends Entity{
     constructor(pos) {
-        this.pos = new Vec2(pos.x, pos.y);
-        this.size = new Vec2(0.5, 0.5);
-        this.angle = 0;
-        this.moveSpeed = 3;
+        super(pos);
 
-        this.sprite = new Sprite({
-            img: "player",
-            imgPos: [0, 0],
-        });
+        this.sprite.img = "player";
         this.sprite.imgSize.set(32, 32)
 
         this.standardBullet = {
@@ -27,13 +20,10 @@ class Player {
         this.health = 100;
         this.maxHealth = 100;
 
-        this.collisionArrayWorld = [];
-    }
-    draw() {
-        cameraObj.drawImg(this.sprite, this.pos, this.size);
+        this.moveVec = inputManager.playerMoveVec;
     }
     update() {
-        this.move(false);
+        this.move();
         this.detectColision();
 
         try {
@@ -46,63 +36,6 @@ class Player {
             if (mouseIsPressed) {
                 this.fireBullet();
                 this.fireCooldown -= this.fireCooldownMax;
-            }
-        }
-    }
-    move(reversed) {
-        this.pos.x += inputManager.playerMoveVec.x * this.moveSpeed * deltaTimeFixed;
-        this.pos.y += inputManager.playerMoveVec.y * this.moveSpeed * deltaTimeFixed;
-    }
-    fireBullet() {
-        var config = JSON.parse(JSON.stringify(this.standardBullet));
-        var coordOfClick = cameraObj.pixelToWorld(new Vec2(mouseX, mouseY));
-        print(mouseX);
-        print(mouseY);
-        config.rotation = -atan2(coordOfClick.y - this.pos.y, coordOfClick.x - this.pos.x);
-        config.pos = new Vec2(this.pos.x, this.pos.y);
-        GlobalBulletArray.push(new Projectile(config));
-    }
-    detectColision() {
-        //this is all for wall collisions
-        var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
-        var hit = false;
-        var hitCounter = 0;
-
-        for (var i = intPos.y - 2; i < intPos.y + 3; i++) {
-            for (var b = intPos.x - 2; b < intPos.x + 3; b++) {
-                try {
-                    if (world.getTile(b, i).type == "wall") {
-                        var tileSize = world.getTile(b, i).size;
-                        collidedWall = collideRectRect(this.pos.x - (this.size.x / 2), this.pos.y - (this.size.y / 2), this.size.x, this.size.y, b - (tileSize.x / 2), i - (tileSize.y / 2), tileSize.x, tileSize.y);
-
-                        if (collidedWall) {
-
-                            if (this.pos.x - (this.size.x / 2) < b - (tileSize.x / 2)) {
-                                directionLock.right = true;
-                                this.pos.x -= ((b - (tileSize.x / 2)) - (this.pos.x - (this.size.x / 2))) * this.moveSpeed * deltaTimeFixed;
-                            }
-
-                            if (this.pos.x + (this.size.x / 2) > b + (tileSize.x / 2)) {
-                                directionLock.left = true;
-                                this.pos.x += ((this.pos.x + (this.size.x / 2)) - (b + (tileSize.x / 2))) * this.moveSpeed * deltaTimeFixed;
-                            }
-
-                            if (this.pos.y - (this.size.y / 2) < i - (tileSize.y / 2)) {
-                                directionLock.down = true;
-                                this.pos.y += ((this.pos.y - (this.size.y / 2)) - (i - (tileSize.y / 2))) * this.moveSpeed * deltaTimeFixed;
-                            }
-
-                            if (this.pos.y + (this.size.y / 2) > i + (tileSize.y / 2)) {
-                                directionLock.up = true;
-                                this.pos.y -= ((i + (tileSize.y) / 2) - (this.pos.y + (this.size.y / 2))) * deltaTimeFixed;
-                            }
-
-                        }
-
-                    } else { collidedWall = false; }
-                    if (collidedWall) { hitCounter += 1; }
-                    if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
-                } catch (e) { }
             }
         }
     }

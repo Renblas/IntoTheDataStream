@@ -35,7 +35,8 @@ var directionLock = {
     left: false,
     right: false,
 };
-const GlobalBulletArray = [];
+
+const GlobalEntityArray = [];
 
 /*
  *  Setup Function
@@ -131,6 +132,7 @@ function initNewGame(map) {
 
     world = new World({ map: map_test1 });
     player = new Player(world.map.startingPlayerPos);
+    GlobalEntityArray.push(player);
     cameraObj = new Camera();
 
     world.init();
@@ -146,11 +148,9 @@ function drawGame() {
     world.draw();
     player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
-    GlobalBulletArray.forEach((element) => {
+    GlobalEntityArray.forEach((element) => {
         element.draw();
     });
-
-    player.draw();
 
     game_ui.draw();
 }
@@ -161,9 +161,8 @@ function drawGame() {
  */
 function updateGame() {
     inputManager.update();
-    player.update();
 
-    GlobalBulletArray.forEach((element) => {
+    GlobalEntityArray.forEach((element) => {
         element.update();
     });
 
