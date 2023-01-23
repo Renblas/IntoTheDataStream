@@ -7,12 +7,15 @@ const GlobalLoadArray = [
     // put file paths of all items to be loaded here
     "lib/p5.collide2d.js",
 
+    "js/inputManager.js",
+
     "js/class/camera.js",
     "js/class/sprite.js",
-    "js/class/gameobject.js",
-    "js/class/player.js",
-    "js/class/world.js",
-    "js/class/tile.js",
+    "js/class/entities/entity.js",
+    "js/class/entities/player.js",
+    "js/class/entities/enemy.js",
+    "js/class/world/world.js",
+    "js/class/world/tile.js",
     "js/class/projectile.js",
 
     "js/menu/menuPause.js",
@@ -29,7 +32,7 @@ const GlobalLoadArray = [
     "img/tiles/door.png",
 
     "js/maps/map_testMap1.js",
-    "js/maps/map_miniTest.js"
+    "js/maps/map_miniTest.js",
 ];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
