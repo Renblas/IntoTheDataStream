@@ -67,6 +67,12 @@ class Camera {
         var img = GlobalImageObject[img];
         ctx.drawImage(img, pos.x, pos.y, size.x * 32, size.y * 32);
     }
+    posx_UI(x) {
+        return x * canvasSize.x;
+    }
+    posy_UI(y) {
+        return y * canvasSize.y;
+    }
     worldToPixel(vec, size, sprite) {
         // TODO: fix with scaling
         var x =
