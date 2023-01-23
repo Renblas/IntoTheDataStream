@@ -7,8 +7,6 @@ const GlobalLoadArray = [
     // put file paths of all items to be loaded here
     "lib/p5.collide2d.js",
 
-    "js/inputManager.js",
-
     "js/class/camera.js",
     "js/class/sprite.js",
     "js/class/entities/entity.js",
