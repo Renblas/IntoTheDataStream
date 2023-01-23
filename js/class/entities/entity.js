@@ -33,7 +33,7 @@ class Entity {
     }
     update() {
         this.move();
-        this.detectColision();
+        this.detectCollision();
 
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
@@ -59,7 +59,7 @@ class Entity {
         config.pos = new Vec2(this.pos.x, this.pos.y);
         GlobalEntityArray.push(new Projectile(config));
     }
-    detectColision() {
+    detectCollision() {
         //this is all for wall collisions
         var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;
