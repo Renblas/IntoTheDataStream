@@ -4,8 +4,8 @@
  *  By: Caleb
  */
 class Enemy extends Entity {
-    constructor(pos) {
-        super(pos);
+    constructor(config) {
+        super(config);
         this.type = "enemy";
 
         this.sprite.img = "enemy";

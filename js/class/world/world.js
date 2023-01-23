@@ -92,9 +92,11 @@ class World {
 
                     case "e":
                         this.array[i][j] = new Floor(new Vec2(j, i), "floor");
-                        GlobalEntityArray.push(new Enemy({
-                            pos: new Vec2(i, j)
-                        }))
+                        GlobalEntityArray.push(
+                            new Enemy({
+                                pos: new Vec2(j, i),
+                            })
+                        );
                         break;
 
                     case ".":

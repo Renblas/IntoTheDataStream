@@ -127,11 +127,10 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
-
     gameIsPaused = false;
 
     world = new World({ map: map_test1 });
-    player = new Player(world.map.startingPlayerPos);
+    player = new Player({ pos: world.map.startingPlayerPos });
     GlobalEntityArray.push(player);
     cameraObj = new Camera();
 

@@ -3,16 +3,18 @@
  *  By: Caleb, Givens
  */
 class Player extends Entity {
-    constructor(pos) {
-        super(pos);
+    constructor(config) {
+        super(config);
 
         this.sprite.img = "player";
+
+        this.type = "player";
 
         this.moveVec = inputManager.playerMoveVec;
     }
     update() {
         this.move();
-        this.detectColision();
+        this.detectCollision();
 
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
