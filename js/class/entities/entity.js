@@ -1,6 +1,6 @@
 class Entity {
     constructor(config) {
-        this.pos = config.pos;
+        this.pos = new Vec2(config.pos.x, config.pos.y);
         this.size = new Vec2(0.5, 0.5);
         this.angle = 0;
         this.moveSpeed = 3;
