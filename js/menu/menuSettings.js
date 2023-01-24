@@ -49,7 +49,7 @@ var menu_Settings = {
         this.buttonMain.textColor = "#808080"; //Color of the text (hex number as a string)
         this.buttonMain.textSize = 18 * canvasSize.y; //Size of the text (integer)
         this.buttonMain.onPress = function () {
-            this.close();
+            menu_Settings.close();
             menu_Main.open();
         };
     },
@@ -61,7 +61,7 @@ var menu_Settings = {
         fill(0);
         textAlign(CENTER, CENTER);
         textSize(12 * canvasSize.y);
-        text(" ", 100 * canvasSize.x, 100 * canvasSize.y);
+        text("", 100 * canvasSize.x, 100 * canvasSize.y);
 
         // draw menu
         rectMode(CORNER);
@@ -72,16 +72,25 @@ var menu_Settings = {
     },
 
     open: function () {
+        if (!this.initialized) this.init();
         // enable html objects
-        this.slider_One.style("display", " ");
-
+        this.slider_One.style("display", "");
+        this.slider_Two.style("display", "");
+        this.slider_Three.style("display", "");
+        this.slider_Four.style("display", "");
+        this.slider_Five.style("display", "");
+        this.slider_Six.style("display", "");
         menuState = "settings";
         
     },
 
     close: function () {
         // disable html objects
-    this.slider_One.style("display", "none");
-
+        this.slider_One.style("display", "none");
+        this.slider_Two.style("display", "none");
+        this.slider_Three.style("display", "none");
+        this.slider_Four.style("display", "none");
+        this.slider_Five.style("display", "none");
+        this.slider_Six.style("display", "none");
     }
 };
