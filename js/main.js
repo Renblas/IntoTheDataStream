@@ -36,7 +36,7 @@ var directionLock = {
     right: false,
 };
 
-const GlobalEntityArray = [];
+var GlobalEntityArray = [];
 
 /*
  *  Setup Function
@@ -127,7 +127,9 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
+    //Reset Game Stuff
     gameIsPaused = false;
+    GlobalEntityArray = [];
 
     world = new World({ map: map_test1 });
     player = new Player({ pos: world.map.startingPlayerPos });
