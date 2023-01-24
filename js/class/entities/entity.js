@@ -59,7 +59,7 @@ class Entity {
         config.pos = new Vec2(this.pos.x, this.pos.y);
         GlobalEntityArray.push(new Projectile(config));
     }
-    detectCollision() {
+    detectCollision() { 
         //this is all for wall collisions
         var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;

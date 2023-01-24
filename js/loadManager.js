@@ -12,6 +12,7 @@ const GlobalLoadArray = [
     "js/class/entities/entity.js",
     "js/class/entities/player.js",
     "js/class/entities/enemy.js",
+    "js/class/entities/enemyAI.js",
     "js/class/world/world.js",
     "js/class/world/tile.js",
     "js/class/projectile.js",
