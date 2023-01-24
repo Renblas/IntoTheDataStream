@@ -61,4 +61,16 @@ var menu__Pause = {
     );
     this.buttonReset.draw();
   },
+ open: function () {
+        // enable html objects
+
+        menuState = "pause";
+        
+    },
+
+    close: function () {
+        // disable html objects
+
+    }
+
 };

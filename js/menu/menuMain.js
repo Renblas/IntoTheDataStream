@@ -90,4 +90,16 @@ var menu_Main = {
         );
         this.buttonSettings.draw();
     },
+ open: function () {
+        // enable html objects
+
+        menuState = "main";
+        
+    },
+
+    close: function () {
+        // disable html objects
+
+    }
+
 };
