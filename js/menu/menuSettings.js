@@ -9,15 +9,31 @@ var menu_Settings = {
 
     init: function () {
         //Sliders to be finalized
-        /*
-    slider = creatSlider(175, 150, 150);
-    slider.position(10,10);
-    slider.style('width', '80px');
 
-    slider = creatSlider(0, 255, 100);
-    slider.position(10,10);
-    slider.style('width', '80px');
-    */
+    this.slider_one = createSlider(22, 100, 7);
+    slider.position(550,100);
+    slider.style("width", "160px");
+
+    this.slider_two = createSlider(22, 100, 7);
+    slider.position(550,200);
+    slider.style('width', '160px');
+
+    this.slider_two = createSlider(22, 100, 7);
+    slider.position(550,300);
+    slider.style('width', '160px');
+
+    this.slider_three = createSlider(22, 100, 7);
+    slider.position(550, 400);
+    slider.style("width", "160px");
+
+    this.slider_four = createSlider(22, 100, 7);
+    slider.position(550, 500);
+    slider.style("width", "160px");
+
+    this.slider_five = createSlider(22.4, 100, 7.8);
+    slider.position(550, 600);
+    slider.style("width", "160px");
+    
 
         this.initialized = true;
 

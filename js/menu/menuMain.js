@@ -19,14 +19,15 @@ var menu_Main = {
         this.buttonMain.textColor = "#000000"; //Color of the text (hex number as a string)
         this.buttonMain.textSize = 36 * canvasSize.y; //Size of the text (integer)
         this.buttonMain.onPress = function () {
-            menuState = "game";
-            loadAssets();
+            if (checkIsLoaded()) {
+                menuState = "game";
+            }
         };
 
         this.buttonSettings = new Clickable();
-        this.buttonSettings.resize(50 * canvasSize.x, 50 * canvasSize.y);
-        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
-        this.buttonSettings.color = "#808080"; //Background color of the clickable (hex number as a string)
+        this.buttonSettings.resize(150 * canvasSize.x, 50 * canvasSize.y);
+        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.3 - this.buttonMain.height / 2);
+        this.buttonSettings.color = "#36454F"; //Background color of the clickable (hex number as a string)
         this.buttonSettings.cornerRadius = 10; //Corner radius of the clickable (float)
         this.buttonSettings.strokeWeight = 2; //Stroke width of the clickable (float)
         this.buttonSettings.stroke = "#000000"; //Border color of the clickable (hex number as a string)
@@ -34,8 +35,12 @@ var menu_Main = {
         this.buttonSettings.textColor = "#000000"; //Color of the text (hex number as a string)
         this.buttonSettings.textSize = 22 * canvasSize.y; //Size of the text (integer)
         this.buttonSettings.onPress = function () {
-            menuState = "settings";
+            if (checkIsLoaded()) {
+                menuState = "settings";
+            }
         };
+
+        loadAssets();
 
         this.initialized = true;
     },
@@ -46,11 +51,22 @@ var menu_Main = {
 
         // draw menu
 
-        fill(175, 150, 150);
+        fill(0, 0, 0);
         rectMode(CORNER);
         rect(0, 0, width, height);
 
-        fill(157, 34, 53);
+        fill(255, 255, 255);
+        textAlign(CENTER, CENTER);
+        textSize(12 * canvasSize.y);
+        rectMode(CENTER);
+        if (!checkIsLoaded() || loadingTime < minLoadingTime) {
+            text("Loading... " + loadedCounter + " / " + GlobalLoadArray.length, width / 2, 260 * canvasSize.y);
+        } else {
+            text("Assets Loaded", width / 2, height * 0.9);
+        }
+        loadingTime += deltaTimeFixed;
+
+        fill(39, 118, 234);
         rectMode(CENTER);
         rect(width / 2, height / 2, 300 * canvasSize.x, 64 * canvasSize.y);
 
@@ -67,8 +83,11 @@ var menu_Main = {
 
         rectMode(CORNER);
         this.buttonSettings.textSize = 22 * canvasSize.y; //Size of the text (integer)
-        this.buttonSettings.resize(50 * canvasSize.x, 50 * canvasSize.y);
-        this.buttonSettings.locate(width / 2 - this.buttonMain.width / 2, height * 0.35 - this.buttonMain.height / 2);
+        this.buttonSettings.resize(100 * canvasSize.x, 50 * canvasSize.y);
+        this.buttonSettings.locate(
+            width / 2 - this.buttonSettings.width / 2,
+            height * 0.3 - this.buttonSettings.height / 2
+        );
         this.buttonSettings.draw();
     },
 };

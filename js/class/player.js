@@ -59,7 +59,7 @@ class Player {
     }
     detectColision() {
         //this is all for wall collisions
-        var intPos = new Vec2(Math.round(this.pos.x), Math.round(this.pos.y));
+        var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;
         var hitCounter = 0;
 
@@ -71,49 +71,30 @@ class Player {
                         collidedWall = collideRectRect(this.pos.x - (this.size.x / 2), this.pos.y - (this.size.y / 2), this.size.x, this.size.y, b - (tileSize.x / 2), i - (tileSize.y / 2), tileSize.x, tileSize.y);
 
                         if (collidedWall) {
-                            try {
-                                if (this.pos.x - (this.size.x / 2) < b - (tileSize.x / 2)) {
-                                    directionLock.right = true;
-                                    this.pos.x -= ((b - (tileSize.x / 2)) - (this.pos.x - (this.size.x / 2))) * this.moveSpeed * deltaTimeFixed;
-                                }
 
-                                if (this.pos.x + (this.size.x / 2) > b + (tileSize.x / 2)) {
-                                    directionLock.left = true;
-                                    this.pos.x += ((this.pos.x + (this.size.x / 2)) - (b + (tileSize.x / 2))) * this.moveSpeed * deltaTimeFixed;
-                                }
+                            if (this.pos.x - (this.size.x / 2) < b - (tileSize.x / 2)) {
+                                directionLock.right = true;
+                                this.pos.x -= ((b - (tileSize.x / 2)) - (this.pos.x - (this.size.x / 2))) * this.moveSpeed * deltaTimeFixed;
+                            }
 
-                                if (this.pos.y - (this.size.y / 2) < i - (tileSize.y / 2)) {
-                                    directionLock.down = true;
-                                    this.pos.y += ((this.pos.y - (this.size.y / 2)) - (i - (tileSize.y / 2))) * this.moveSpeed * deltaTimeFixed;
-                                }
+                            if (this.pos.x + (this.size.x / 2) > b + (tileSize.x / 2)) {
+                                directionLock.left = true;
+                                this.pos.x += ((this.pos.x + (this.size.x / 2)) - (b + (tileSize.x / 2))) * this.moveSpeed * deltaTimeFixed;
+                            }
 
-                                if (this.pos.y + (this.size.y / 2) > i + (tileSize.y / 2)) {
-                                    directionLock.up = true;
-                                    this.pos.y -= ((i + (tileSize.y) / 2) - (this.pos.y + (this.size.y / 2))) * this.moveSpeed * deltaTimeFixed;
-                                }
-                            } catch (e) { }
+                            if (this.pos.y - (this.size.y / 2) < i - (tileSize.y / 2)) {
+                                directionLock.down = true;
+                                this.pos.y += ((this.pos.y - (this.size.y / 2)) - (i - (tileSize.y / 2))) * this.moveSpeed * deltaTimeFixed;
+                            }
+
+                            if (this.pos.y + (this.size.y / 2) > i + (tileSize.y / 2)) {
+                                directionLock.up = true;
+                                this.pos.y -= ((i + (tileSize.y) / 2) - (this.pos.y + (this.size.y / 2))) * deltaTimeFixed;
+                            }
 
                         }
 
-                    } else {
-                        if (b >= intPos.x - 1 && b <= intPos.x + 1 && i >= intPos.y - 1 && i <= intPos.y + 1) {
-                            console.log(intPos.x + " , " + intPos.y + "   ,   " + b + " , " + i);
-                            if (this.pos.x < b && intPos.y == i) {
-                                directionLock.right = false;
-                            }
-                            if (this.pos.x > b && intPos.y == i) {
-                                directionLock.left = false;
-                            }
-                            if (intPos.x == b && this.pos.y > i) {
-                                directionLock.down = false;
-
-                            }
-                            if (intPos.x == b && this.pos.y < i) {
-                                directionLock.up = false;
-                            }
-                        }
-                        collidedWall = false;
-                    }
+                    } else { collidedWall = false; }
                     if (collidedWall) { hitCounter += 1; }
                     if (hitCounter > 0) { this.sprite.img = "enemy"; } else { this.sprite.img = "player"; }
                 } catch (e) { }

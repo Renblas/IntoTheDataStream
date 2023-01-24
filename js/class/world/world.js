@@ -82,16 +82,21 @@ class World {
                         this.array[i][j] = new Floor(new Vec2(j, i), "floor");
                         break;
 
-                    case "k":
-                        this.array[i][j] = new Floor(new Vec2(j, i), "koransGrave");
-                        break;
-
                     case "w":
                         this.array[i][j] = new Wall(new Vec2(j, i));
                         break;
 
                     case "d":
                         this.array[i][j] = new Door(new Vec2(j, i));
+                        break;
+
+                    case "e":
+                        this.array[i][j] = new Floor(new Vec2(j, i), "floor");
+                        GlobalEntityArray.push(
+                            new Enemy({
+                                pos: new Vec2(j, i),
+                            })
+                        );
                         break;
 
                     case ".":

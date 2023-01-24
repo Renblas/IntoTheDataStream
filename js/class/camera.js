@@ -45,8 +45,9 @@ class Camera {
         var vec = this.worldToPixel(pos, size, sprite);
         var x = vec.x;
         var y = vec.y;
-        var changeXY = 16 * this.zoom;
-        ctx.translate(x + changeXY, y + changeXY);
+        var changeX = ((size.x * 32) / 2) * canvasSize.x * this.zoom;
+        var changeY = ((size.y * 32) / 2) * canvasSize.y * this.zoom;
+        ctx.translate(x + changeX, y + changeY);
         ctx.rotate(-radians(rotation) + Math.PI / 2.0);
         ctx.drawImage(
             img,
@@ -54,17 +55,23 @@ class Camera {
             sprite.imgPos[1] * sprite.imgSize.y,
             sprite.imgSize.x,
             sprite.imgSize.y,
-            -changeXY,
-            -changeXY,
-            32 * size.x * this.zoom,
-            32 * size.y * this.zoom
+            -changeX,
+            -changeY,
+            32 * size.x * canvasSize.x * this.zoom,
+            32 * size.y * canvasSize.y * this.zoom
         );
         ctx.rotate(radians(rotation) - Math.PI / 2.0);
-        ctx.translate(-(x + changeXY), -(y + changeXY));
+        ctx.translate(-(x + changeX), -(y + changeY));
     }
     drawImgUI(img, pos, size) {
         var img = GlobalImageObject[img];
         ctx.drawImage(img, pos.x, pos.y, size.x * 32, size.y * 32);
+    }
+    posx_UI(x) {
+        return x * canvasSize.x;
+    }
+    posy_UI(y) {
+        return y * canvasSize.y;
     }
     worldToPixel(vec, size, sprite) {
         // TODO: fix with scaling
@@ -79,8 +86,8 @@ class Camera {
         return new Vec2(x, y);
     }
     pixelToWorld(vec) {
-        var x = (vec.x / this.zoom - 16) / 32 + (this.pos.x - 8 / this.zoom);
-        var y = (vec.y / this.zoom - 16) / 32 + (this.pos.y - 4.5 / this.zoom);
+        var x = (vec.x / canvasSize.x / 32 - 8 + this.pos.x - 0.5) / this.zoom;
+        var y = (vec.y / canvasSize.y / 32 - 4.5 + this.pos.y - 0.5) / this.zoom;
         return new Vec2(x, y);
     }
     update() {

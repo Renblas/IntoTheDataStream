@@ -18,7 +18,8 @@ var menuState = "main";
 var inGame = false;
 var gameIsPaused = false;
 
-var minLoadingScreenTime = 0.25;
+const minLoadingTime = 1;
+var loadingTime = 0;
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
 
@@ -34,7 +35,8 @@ var directionLock = {
     left: false,
     right: false,
 };
-const GlobalBulletArray = [];
+
+const GlobalEntityArray = [];
 
 /*
  *  Setup Function
@@ -89,17 +91,6 @@ function draw() {
         return;
     }
 
-    if (!checkIsLoaded() || minLoadingScreenTime > 0) {
-        background(255, 200, 200);
-        textAlign(LEFT, TOP);
-        textSize(16);
-        text("loaded " + loadedCounter + " / " + GlobalLoadArray.length + " assets", 10, 40);
-        // TODO Loading Screen
-
-        minLoadingScreenTime -= deltaTime / 1000;
-        return;
-    }
-
     if (menuState == "game") {
         // init new game if not already in one
         if (!inGame) {
@@ -136,8 +127,11 @@ function draw() {
  *  - start new game
  */
 function initNewGame(map) {
+    gameIsPaused = false;
+
     world = new World({ map: map_test1 });
-    player = new Player(world.map.startingPlayerPos);
+    player = new Player({ pos: world.map.startingPlayerPos });
+    GlobalEntityArray.push(player);
     cameraObj = new Camera();
 
     world.init();
@@ -153,11 +147,9 @@ function drawGame() {
     world.draw();
     player.mapSize = new Vec2(world.sizeX, world.sizeY);
 
-    GlobalBulletArray.forEach((element) => {
+    GlobalEntityArray.forEach((element) => {
         element.draw();
     });
-
-    player.draw();
 
     game_ui.draw();
 }
@@ -168,9 +160,8 @@ function drawGame() {
  */
 function updateGame() {
     inputManager.update();
-    player.update();
 
-    GlobalBulletArray.forEach((element) => {
+    GlobalEntityArray.forEach((element) => {
         element.update();
     });
 

@@ -42,6 +42,6 @@ class Projectile {
         }
     }
     delete() {
-        GlobalBulletArray.splice(GlobalBulletArray.indexOf(this), 1);
+        GlobalEntityArray.splice(GlobalEntityArray.indexOf(this), 1);
     }
 }
