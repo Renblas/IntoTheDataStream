@@ -6,8 +6,6 @@ class Player extends Entity {
     constructor(config) {
         super(config);
 
-        this.sprite.img = "player";
-
         this.type = "player";
 
         this.moveVec = inputManager.playerMoveVec;

@@ -4,6 +4,7 @@ class Entity {
         this.size = new Vec2(0.5, 0.5);
         this.angle = 0;
         this.moveSpeed = 3;
+        this.direction = "down";
 
         this.type = "entity";
 
@@ -29,6 +30,16 @@ class Entity {
         this.moveVec = new Vec2(0, 0);
     }
     draw() {
+        if (this.moveVec.mag() >= 0.5) {
+            angle = this.moveVec.dir();
+
+            if (angle <= 45 && angle > -45) this.direction = "right";
+            if (angle <= 45 && angle > -45) this.direction = "up";
+            if (angle <= 45 && angle > -45) this.direction = "left";
+            if (angle <= 45 && angle > -45) this.direction = "down";
+        }
+
+        this.sprite.update(this.direction);
         cameraObj.drawImg(this.sprite, this.pos, this.size);
     }
     update() {
@@ -59,7 +70,7 @@ class Entity {
         config.pos = new Vec2(this.pos.x, this.pos.y);
         GlobalEntityArray.push(new Projectile(config));
     }
-    detectCollision() { 
+    detectCollision() {
         //this is all for wall collisions
         var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
         var hit = false;

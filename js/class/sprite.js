@@ -16,9 +16,7 @@ class Sprite {
         this.animationTime = 100;
         this.animationTimeCurr = 0;
     }
-    update() {
-
-    }
+    update() {}
 }
 
 /*
@@ -74,6 +72,7 @@ function checkNeighborTileStrings(objString, toTestString) {
  *  By: Caleb
  */
 
+// Tiles
 const spriteConfig_Wall = {
     leftUpCornerTip: [[6, 2], "w w w w w w w f"],
     leftDownCornerTip: [[6, 0], "w w w w w f w w"],
@@ -127,6 +126,32 @@ const spriteConfig_DoorFloor = {
     horizontal: [[0, 2], "w a f a w a f a"],
 };
 
+// Entity Sprites
 const spriteConfig_Enemy = {
-    
-} 
+    down1: [0, 0],
+    down2: [1, 0],
+    down3: [2, 0],
+    down4: [3, 0],
+
+    right1: [4, 0],
+    right2: [5, 0],
+    right3: [6, 0],
+    right4: [7, 0],
+
+    up1: [8, 0],
+    up2: [9, 0],
+    up3: [10, 0],
+    up4: [11, 0],
+
+    left1: [12, 0],
+    left2: [13, 0],
+    left3: [14, 0],
+    left4: [15, 0],
+
+    animation: {
+        down: [down1, down2, down3, down4],
+        left: [left1, left2, left3, left3],
+        up: [up1, up2, up3, up4],
+        right: [right1, right2, right3, right4],
+    },
+};

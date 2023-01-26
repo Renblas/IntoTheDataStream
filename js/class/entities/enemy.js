@@ -9,5 +9,6 @@ class Enemy extends Entity {
         this.type = "enemy";
 
         this.sprite.img = "enemy";
+        this.sprite.imgConfig = spriteConfig_Enemy;
     }
 }
