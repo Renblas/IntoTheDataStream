@@ -9,6 +9,15 @@ class Sprite {
         this.imgPos = config.imgPos || [0, 0];
         this.imgSize = config.imgSize || new Vec2(32, 32);
         this.imgOffset = config.imgOffset || new Vec2(0, 0);
+
+        this.imgConfig = config.imgConfig;
+
+        this.animation = this.imgConfig.animation;
+        this.animationTime = 100;
+        this.animationTimeCurr = 0;
+    }
+    update() {
+
     }
 }
 
@@ -65,7 +74,7 @@ function checkNeighborTileStrings(objString, toTestString) {
  *  By: Caleb
  */
 
-var spriteConfig_Wall = {
+const spriteConfig_Wall = {
     leftUpCornerTip: [[6, 2], "w w w w w w w f"],
     leftDownCornerTip: [[6, 0], "w w w w w f w w"],
     rightUpCornerTip: [[4, 2], "w f w w w w w w"],
@@ -91,7 +100,7 @@ var spriteConfig_Wall = {
     downWall: [[2, 2], "w a w a f a w a"],
 };
 
-var spriteConfig_Floor = {
+const spriteConfig_Floor = {
     center: [[2, 1], "f a f a f a f a"],
 
     leftUpCorner: [[1, 0], "w a f a f a w a"],
@@ -108,12 +117,16 @@ var spriteConfig_Floor = {
     downWall: [[2, 2], "f a f a w a f a"],
 };
 
-var spriteConfig_Door = {
+const spriteConfig_Door = {
     verticalUnlocked: [[1, 0], "f a w a f a w a"],
     horizontalUnlocked: [[1, 1], "w a f a w a f a"],
 };
 
-var spriteConfig_DoorFloor = {
+const spriteConfig_DoorFloor = {
     vertical: [[0, 1], "f a w a f a w a"],
     horizontal: [[0, 2], "w a f a w a f a"],
 };
+
+const spriteConfig_Enemy = {
+    
+} 
