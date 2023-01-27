@@ -4,13 +4,13 @@
  *  By: Caleb
  */
 class Tile {
-    constructor(pos) {
-        this.pos = pos;
+    constructor(config) {
+        this.pos = config.pos;
         this.size = new Vec2(1, 1);
         this.sprite = new Sprite({
-            img: "default",
-            imgPos: [0, 0],
-            imgConfig: null,
+            img: config.img,
+            imgPos: config.imgPos,
+            imgConfig: config.imgConfig,
         });
         this.type = "Tile";
         this.neighborTiles = {};
@@ -86,10 +86,13 @@ class Tile {
  */
 class Floor extends Tile {
     constructor(pos) {
-        super(pos);
+        var config = {
+            pos: pos,
+            imgConfig: spriteConfig_Floor,
+            img: "floor",
+        };
+        super(config);
 
-        this.sprite.img = "floor";
-        this.sprite.imgConfig = spriteConfig_Floor;
         this.sprite.char = "f";
 
         this.type = "floor";
@@ -117,7 +120,12 @@ class Floor extends Tile {
  */
 class Wall extends Tile {
     constructor(pos) {
-        super(pos);
+        var config = {
+            pos: pos,
+            imgConfig: spriteConfig_Wall,
+            img: "wall",
+        };
+        super(config);
 
         this.sprite.img = "wall";
         this.sprite.imgConfig = spriteConfig_Wall;
@@ -194,7 +202,12 @@ class Wall extends Tile {
  */
 class Door extends Tile {
     constructor(pos) {
-        super(pos);
+        var config = {
+            pos: pos,
+            imgConfig: spriteConfig_Door,
+            img: "door",
+        };
+        super(config);
 
         this.sprite.img = "door";
         this.sprite.imgPos = [1, 0];

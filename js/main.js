@@ -132,7 +132,9 @@ function initNewGame(map) {
     GlobalEntityArray = [];
 
     world = new World({ map: map_test1 });
-    player = new Player({ pos: world.map.startingPlayerPos });
+    player = new Player({
+        pos: world.map.startingPlayerPos,
+    });
     GlobalEntityArray.push(player);
     cameraObj = new Camera();
 

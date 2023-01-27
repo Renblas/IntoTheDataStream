@@ -95,6 +95,10 @@ class World {
                         GlobalEntityArray.push(
                             new Enemy({
                                 pos: new Vec2(j, i),
+                                sprite: {
+                                    img: "enemy",
+                                    imgConfig: spriteConfig_Enemy,
+                                },
                             })
                         );
                         break;

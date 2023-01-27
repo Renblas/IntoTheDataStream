@@ -4,9 +4,11 @@
  */
 class Player extends Entity {
     constructor(config) {
+        config.sprite = {
+            img: "player",
+            imgConfig: spriteConfig_Enemy,
+        };
         super(config);
-
-        this.sprite.img = "player";
 
         this.type = "player";
 
