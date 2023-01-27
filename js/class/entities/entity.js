@@ -30,16 +30,16 @@ class Entity {
         this.moveVec = new Vec2(0, 0);
     }
     draw() {
-        if (this.moveVec.mag() >= 0.5) {
+       /* if (this.moveVec.mag() >= 0.5) {
             angle = this.moveVec.dir();
 
             if (angle <= 45 && angle > -45) this.direction = "right";
-            if (angle <= 45 && angle > -45) this.direction = "up";
-            if (angle <= 45 && angle > -45) this.direction = "left";
-            if (angle <= 45 && angle > -45) this.direction = "down";
+            if (angle <= 135 && angle > 45) this.direction = "up";
+            if (angle <= -135 || angle > 135) this.direction = "left";
+            if (angle <= -45 && angle > -135) this.direction = "down";
         }
 
-        this.sprite.update(this.direction);
+        this.sprite.update(this.direction);*/
         cameraObj.drawImg(this.sprite, this.pos, this.size);
     }
     update() {

@@ -13,10 +13,33 @@ class Sprite {
         this.imgConfig = config.imgConfig;
 
         this.animation = this.imgConfig.animation;
-        this.animationTime = 100;
-        this.animationTimeCurr = 0;
+        this.animation.time = 100;
+        this.animation.timeCurr = 0;
+        this.animation.frameCount = 0;
     }
-    update() {}
+    update(state) {
+
+        if (this.img != "enemy") return;
+
+        if (this.animation.state != state) {
+            this.animation.state = state;
+
+            this.animation.frameCount = 0;
+            this.animation.timeCurr = 0;
+        }
+
+        this.animation.currentState = this.animation[this.animation.state];
+        this.imgPos = this.animation.currentState[this.animation.frameCount];
+
+        this.animation.timeCurr += deltaTimeFixed;
+        if (this.animation.timeCurr >= this.animation.time) {
+            this.animation.frameCount += 1;
+            if (this.animation.frameCount >= this.animation.currentState.length) {
+                this.animation.frameCount = 0;
+            }
+            this.animation.timeCurr -= this.animation.time;
+        }
+    }
 }
 
 /*
