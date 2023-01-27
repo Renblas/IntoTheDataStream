@@ -5,6 +5,10 @@
  */
 class Enemy extends Entity {
     constructor(config) {
+        config.sprite = {
+            img: "enemy",
+            imgConfig: spriteConfig_Enemy,
+        };
         super(config);
         this.type = "enemy";
 

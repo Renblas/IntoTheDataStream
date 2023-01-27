@@ -12,14 +12,17 @@ class Sprite {
 
         this.imgConfig = config.imgConfig;
 
-        this.animation = this.imgConfig.animation;
-        this.animation.time = 100;
-        this.animation.timeCurr = 0;
-        this.animation.frameCount = 0;
+        this.isAnimatable = config.isAnimatable ? config.isAnimatable : false;
+
+        if (this.isAnimatable) {
+            this.animation = this.imgConfig.animation;
+            this.animation.time = 100;
+            this.animation.timeCurr = 0;
+            this.animation.frameCount = 0;
+        }
     }
     update(state) {
-
-        if (this.img != "enemy") return;
+        if (!this.isAnimatable) return;
 
         if (this.animation.state != state) {
             this.animation.state = state;
@@ -170,11 +173,10 @@ const spriteConfig_Enemy = {
     left2: [13, 0],
     left3: [14, 0],
     left4: [15, 0],
-
-    animation: {
-        down: [down1, down2, down3, down4],
-        left: [left1, left2, left3, left3],
-        up: [up1, up2, up3, up4],
-        right: [right1, right2, right3, right4],
-    },
+};
+spriteConfig_Enemy.animation = {
+    down: [spriteConfig_Enemy.down1, spriteConfig_Enemy.down2, spriteConfig_Enemy.down3, spriteConfig_Enemy.down4],
+    left: [spriteConfig_Enemy.left1, spriteConfig_Enemy.left2, spriteConfig_Enemy.left3, spriteConfig_Enemy.left3],
+    up: [spriteConfig_Enemy.up1, spriteConfig_Enemy.up2, spriteConfig_Enemy.up3, spriteConfig_Enemy.up4],
+    right: [spriteConfig_Enemy.right1, spriteConfig_Enemy.right2, spriteConfig_Enemy.right3, spriteConfig_Enemy.right4],
 };

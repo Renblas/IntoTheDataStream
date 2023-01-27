@@ -9,9 +9,7 @@ const GlobalLoadArray = [
 
     "js/class/camera.js",
     "js/class/sprite.js",
-    "js/class/entities/entity.js",
-    "js/class/entities/player.js",
-    "js/class/entities/enemy.js",
+   // "js/class/entities/entity.js",
     "js/class/entities/enemyAI.js",
     "js/class/world/world.js",
     "js/class/world/tile.js",
@@ -32,6 +30,9 @@ const GlobalLoadArray = [
 
     "js/maps/map_testMap1.js",
     "js/maps/map_miniTest.js",
+
+    "js/class/entities/player.js",
+    "js/class/entities/enemy.js",
 ];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
