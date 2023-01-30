@@ -10,7 +10,7 @@ var menu_Settings = {
     init: function () {
         //Sliders to be finalized
 
-    
+    /*
     this.slider_One = createSlider(22, 100, 7);
     this.slider_One.position(550,100);
     this.slider_One.style("width", "160px");
@@ -34,8 +34,19 @@ var menu_Settings = {
     this.slider_Six = createSlider(22.4, 100, 7.8);
     this.slider_Six.position(550, 600);
     this.slider_Six.style("width", "160px");
-    
-    
+    */
+
+    <div class="slider">
+      <div class="slide" id="slide-1"></div>
+
+      <div class="slide" id="slide-2"></div>
+
+      <div class="slide" id="slide-3"></div>
+
+      <div class="slide" id="slide-4"></div>
+
+      <div class="slide" id="slide-5"></div>
+    </div>;
         this.initialized = true;
 
         this.buttonMain= new Clickable();
