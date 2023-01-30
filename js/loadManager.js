@@ -9,7 +9,10 @@ const GlobalLoadArray = [
 
     "js/class/camera.js",
     "js/class/sprite.js",
+    "js/collision.js",
     "js/class/entities/entity.js",
+    "js/class/entities/player.js",
+    "js/class/entities/enemy.js",
     "js/class/entities/enemyAI.js",
     "js/class/world/world.js",
     "js/class/world/tile.js",
@@ -30,19 +33,15 @@ const GlobalLoadArray = [
 
     "js/maps/map_testMap1.js",
     "js/maps/map_miniTest.js",
-
-    "js/class/entities/player.js",
-    "js/class/entities/enemy.js",
 ];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
 
 // call once, starts loading process for listed assets
 function loadAssets() {
-
-	if (checkIsLoaded()) {
-		return;
-	}
+    if (checkIsLoaded()) {
+        return;
+    }
 
     var filePath = GlobalLoadArray[loadedCounter]; // full file path
 
@@ -56,7 +55,7 @@ function loadAssets() {
         var jsFile = document.createElement("script");
         jsFile.onload = function () {
             loadedCounter += 1;
-			loadAssets();
+            loadAssets();
         };
         jsFile.src = filePath;
         document.getElementsByTagName("body")[0].appendChild(jsFile);
@@ -64,7 +63,7 @@ function loadAssets() {
         GlobalImageObject[fileName] = new Image();
         GlobalImageObject[fileName].onload = function () {
             loadedCounter += 1;
-			loadAssets();
+            loadAssets();
         };
         GlobalImageObject[fileName].src = filePath;
     }
