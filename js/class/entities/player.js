@@ -13,6 +13,11 @@ class Player extends Entity {
         this.type = "player";
 
         this.moveVec = inputManager.playerMoveVec;
+        this.collision = new Collider({
+            shape: "rect",
+            size: this.size,
+            parent: this
+        });
     }
     update() {
         this.move();
@@ -20,7 +25,7 @@ class Player extends Entity {
 
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
-        } catch (e) {}
+        } catch (e) { }
 
         if (this.fireCooldown < this.fireCooldownMax) {
             this.fireCooldown += deltaTimeFixed;
