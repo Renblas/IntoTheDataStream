@@ -7,6 +7,8 @@ Outline Link:
 https://docs.google.com/document/d/1zmEYtWJVfm0cv1ztK-Sp-RS0uwkDBLcIZRYKg6eLyy0/edit?usp=sharing
 
 ## Library Links
+Link to p5 docs used as test code:
+https://p5js.org/reference/
 
 Nick: please make sure we are good with all copyrights bc I am no lawyer
 

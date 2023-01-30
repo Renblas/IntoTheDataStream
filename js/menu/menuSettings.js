@@ -10,7 +10,7 @@ var menu_Settings = {
     init: function () {
         //Sliders to be finalized
 
-    
+        /*
     this.slider_One = createSlider(22, 100, 7);
     this.slider_One.position(550,100);
     this.slider_One.style("width", "160px");
@@ -34,11 +34,11 @@ var menu_Settings = {
     this.slider_Six = createSlider(22.4, 100, 7.8);
     this.slider_Six.position(550, 600);
     this.slider_Six.style("width", "160px");
-    
-    
+    */
+
         this.initialized = true;
 
-        this.buttonMain= new Clickable();
+        this.buttonMain = new Clickable();
         this.buttonMain.resize(50 * canvasSize.x, 50 * canvasSize.y);
         this.buttonMain.locate(100 * canvasSize.x, 100 * canvasSize.y);
         this.buttonMain.color = "#0000FF"; //Background color of the clickable (hex number as a string)
@@ -81,7 +81,6 @@ var menu_Settings = {
         this.slider_Five.style("display", "");
         this.slider_Six.style("display", "");
         menuState = "settings";
-        
     },
 
     close: function () {
@@ -92,5 +91,5 @@ var menu_Settings = {
         this.slider_Four.style("display", "none");
         this.slider_Five.style("display", "none");
         this.slider_Six.style("display", "none");
-    }
+    },
 };
