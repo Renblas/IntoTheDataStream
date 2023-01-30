@@ -10,8 +10,6 @@ const GlobalLoadArray = [
     "js/class/camera.js",
     "js/class/sprite.js",
     "js/class/entities/entity.js",
-    "js/class/entities/player.js",
-    "js/class/entities/enemy.js",
     "js/class/entities/enemyAI.js",
     "js/class/world/world.js",
     "js/class/world/tile.js",
@@ -32,35 +30,43 @@ const GlobalLoadArray = [
 
     "js/maps/map_testMap1.js",
     "js/maps/map_miniTest.js",
+
+    "js/class/entities/player.js",
+    "js/class/entities/enemy.js",
 ];
 
 var loadedCounter = 0; // number of loaded items, if game fully loaded should be equal to GlobalLoadArray.length
 
 // call once, starts loading process for listed assets
 function loadAssets() {
-    for (var i = 0; i < GlobalLoadArray.length; i++) {
-        var filePath = GlobalLoadArray[i]; // full file path
 
-        var tempArray = split(filePath, "/"); // separate string by backslash
-        tempArray = split(tempArray[tempArray.length - 1], "."); // separates into name and extension
+	if (checkIsLoaded()) {
+		return;
+	}
 
-        var fileExtension = tempArray[tempArray.length - 1]; // just file extension "jpg", "png", "js" etc
-        var fileName = tempArray[0]; // just name of file
+    var filePath = GlobalLoadArray[loadedCounter]; // full file path
 
-        if (fileExtension === "js") {
-            var jsFile = document.createElement("script");
-            jsFile.onload = function () {
-                loadedCounter += 1;
-            };
-            jsFile.src = filePath;
-            document.getElementsByTagName("body")[0].appendChild(jsFile);
-        } else if (fileExtension === "png" || fileExtension === "jpg") {
-            GlobalImageObject[fileName] = new Image();
-            GlobalImageObject[fileName].onload = function () {
-                loadedCounter += 1;
-            };
-            GlobalImageObject[fileName].src = filePath;
-        }
+    var tempArray = split(filePath, "/"); // separate string by backslash
+    tempArray = split(tempArray[tempArray.length - 1], "."); // separates into name and extension
+
+    var fileExtension = tempArray[tempArray.length - 1]; // just file extension "jpg", "png", "js" etc
+    var fileName = tempArray[0]; // just name of file
+
+    if (fileExtension === "js") {
+        var jsFile = document.createElement("script");
+        jsFile.onload = function () {
+            loadedCounter += 1;
+			loadAssets();
+        };
+        jsFile.src = filePath;
+        document.getElementsByTagName("body")[0].appendChild(jsFile);
+    } else if (fileExtension === "png" || fileExtension === "jpg") {
+        GlobalImageObject[fileName] = new Image();
+        GlobalImageObject[fileName].onload = function () {
+            loadedCounter += 1;
+			loadAssets();
+        };
+        GlobalImageObject[fileName].src = filePath;
     }
 }
 

@@ -12,12 +12,36 @@ class Sprite {
 
         this.imgConfig = config.imgConfig;
 
-        this.animation = this.imgConfig.animation;
-        this.animationTime = 100;
-        this.animationTimeCurr = 0;
-    }
-    update() {
+        this.isAnimatable = config.isAnimatable ? config.isAnimatable : false;
 
+        if (this.isAnimatable) {
+            this.animation = this.imgConfig.animation;
+            this.animation.time = 100;
+            this.animation.timeCurr = 0;
+            this.animation.frameCount = 0;
+        }
+    }
+    update(state) {
+        if (!this.isAnimatable) return;
+
+        if (this.animation.state != state) {
+            this.animation.state = state;
+
+            this.animation.frameCount = 0;
+            this.animation.timeCurr = 0;
+        }
+
+        this.animation.currentState = this.animation[this.animation.state];
+        this.imgPos = this.animation.currentState[this.animation.frameCount];
+
+        this.animation.timeCurr += deltaTimeFixed;
+        if (this.animation.timeCurr >= this.animation.time) {
+            this.animation.frameCount += 1;
+            if (this.animation.frameCount >= this.animation.currentState.length) {
+                this.animation.frameCount = 0;
+            }
+            this.animation.timeCurr -= this.animation.time;
+        }
     }
 }
 
@@ -74,6 +98,7 @@ function checkNeighborTileStrings(objString, toTestString) {
  *  By: Caleb
  */
 
+// Tiles
 const spriteConfig_Wall = {
     leftUpCornerTip: [[6, 2], "w w w w w w w f"],
     leftDownCornerTip: [[6, 0], "w w w w w f w w"],
@@ -127,6 +152,31 @@ const spriteConfig_DoorFloor = {
     horizontal: [[0, 2], "w a f a w a f a"],
 };
 
+// Entity Sprites
 const spriteConfig_Enemy = {
-    
-} 
+    down1: [0, 0],
+    down2: [1, 0],
+    down3: [2, 0],
+    down4: [3, 0],
+
+    right1: [4, 0],
+    right2: [5, 0],
+    right3: [6, 0],
+    right4: [7, 0],
+
+    up1: [8, 0],
+    up2: [9, 0],
+    up3: [10, 0],
+    up4: [11, 0],
+
+    left1: [12, 0],
+    left2: [13, 0],
+    left3: [14, 0],
+    left4: [15, 0],
+};
+spriteConfig_Enemy.animation = {
+    down: [spriteConfig_Enemy.down1, spriteConfig_Enemy.down2, spriteConfig_Enemy.down3, spriteConfig_Enemy.down4],
+    left: [spriteConfig_Enemy.left1, spriteConfig_Enemy.left2, spriteConfig_Enemy.left3, spriteConfig_Enemy.left3],
+    up: [spriteConfig_Enemy.up1, spriteConfig_Enemy.up2, spriteConfig_Enemy.up3, spriteConfig_Enemy.up4],
+    right: [spriteConfig_Enemy.right1, spriteConfig_Enemy.right2, spriteConfig_Enemy.right3, spriteConfig_Enemy.right4],
+};
