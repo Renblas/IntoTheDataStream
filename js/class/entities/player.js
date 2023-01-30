@@ -26,8 +26,8 @@ class Player extends Entity {
         }
     }
     update() {
-        this.move();
-        checkCollisions();
+		this.move();
+		
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
         } catch (e) { }

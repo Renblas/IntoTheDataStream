@@ -41,7 +41,6 @@ class Entity {
     }
     update() {
         this.move();
-        this.detectCollision();
 
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();

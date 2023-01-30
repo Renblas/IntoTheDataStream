@@ -23,14 +23,19 @@ class World {
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
         var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
+        minX = minX < 0 ? 0 : minX;
+        maxX = maxX > this.sizeX - 1 ? this.sizeX - 1 : maxX;
+        minY = minY < 0 ? 0 : minY;
+        maxY = maxY > this.sizeY - 1 ? this.sizeY - 1 : maxY;
+
         for (let i = minY; i < maxY; i++) {
-            try {
-                for (let j = minX; j < maxX; j++) {
-                    try {
-                        this.array[i][j].draw();
-                    } catch (e) {}
+            for (let j = minX; j < maxX; j++) {
+                try {
+                    this.array[i][j].draw();
+                } catch (e) {
+                    print(e);
                 }
-            } catch (e) {}
+            }
         }
     }
     update() {
@@ -39,25 +44,30 @@ class World {
         var minY = floor(cameraObj.pos.y - 4.5 / cameraObj.zoom);
         var maxY = ceil(cameraObj.pos.y + 4.5 / cameraObj.zoom + 1);
 
+        minX = minX < 0 ? 0 : minX;
+        maxX = maxX > this.sizeX - 1 ? this.sizeX - 1 : maxX;
+        minY = minY < 0 ? 0 : minY;
+        maxY = maxY > this.sizeY - 1 ? this.sizeY - 1 : maxY;
+
         for (let i = minY; i < maxY; i++) {
-            try {
-                for (let j = minX; j < maxX; j++) {
-                    try {
-                        this.array[i][j].update();
-                    } catch (e) {}
+            for (let j = minX; j < maxX; j++) {
+                try {
+                    this.array[i][j].update();
+                } catch (e) {
+                    print(e);
                 }
-            } catch (e) {}
+            }
         }
     }
     init() {
         for (let i = 0; i < this.array.length; i++) {
-            try {
-                for (let j = 0; j < this.array[i].length; j++) {
-                    try {
-                        this.array[i][j].init();
-                    } catch (e) {}
+            for (let j = 0; j < this.array[i].length; j++) {
+                try {
+                    this.array[i][j].init();
+                } catch (e) {
+                    print(e);
                 }
-            } catch (e) {}
+            }
         }
     }
     getTile(x, y) {
@@ -101,9 +111,6 @@ class World {
                                 },
                             })
                         );
-                        break;
-
-                    case ".":
                         break;
 
                     default:
