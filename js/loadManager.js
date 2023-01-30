@@ -9,7 +9,7 @@ const GlobalLoadArray = [
 
     "js/class/camera.js",
     "js/class/sprite.js",
-    "js/collision.js",
+    "js/class/collision.js",
     "js/class/entities/entity.js",
     "js/class/entities/player.js",
     "js/class/entities/enemy.js",
