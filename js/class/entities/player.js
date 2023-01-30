@@ -18,11 +18,16 @@ class Player extends Entity {
             size: this.size,
             parent: this
         });
+        this.rememberWallCollision = {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+        }
     }
     update() {
         this.move();
-        this.detectCollision();
-
+        checkCollisions();
         try {
             world.getTile(round(this.pos.x), round(this.pos.y)).revealSelf();
         } catch (e) { }
@@ -35,5 +40,20 @@ class Player extends Entity {
                 this.fireCooldown -= this.fireCooldownMax;
             }
         }
+    }
+
+    checkCollisions() {
+        //wall
+        var intPos = new Vec2(Math.floor(this.pos.x), Math.floor(this.pos.y));
+        for (var i = intPos.y - 2; i < intPos.y + 3; i++) {
+            for (var b = intPos.x - 2; b < intPos.x + 3; b++) {
+                try {
+                    if (world.getTile(b, i).type == "wall") {
+                        this.collision.detectCollision(world.getTile(b, i), true);
+                    }
+                } catch (e) { }
+            }
+        }
+
     }
 }
