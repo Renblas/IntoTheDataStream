@@ -18,7 +18,7 @@ var menuState = "main";
 var inGame = false;
 var gameIsPaused = false;
 
-const minLoadingTime = 1;
+const minLoadingTime = 0;
 var loadingTime = 0;
 
 const GlobalImageObject = {}; // all loaded image objects are stored here onload
